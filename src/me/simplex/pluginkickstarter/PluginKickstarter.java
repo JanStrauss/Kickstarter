@@ -18,10 +18,10 @@ public class PluginKickstarter {
 
 	public PluginKickstarter() {
 		lookAndFeel();
-		GUI = new GUI_Main_Window(this);
 		data = new DataStorage();
 		builder = new FileBuilder(this);
 		listener_data = new ListenerData();
+		GUI = new GUI_Main_Window(this);
 		//test();
 	}
 	

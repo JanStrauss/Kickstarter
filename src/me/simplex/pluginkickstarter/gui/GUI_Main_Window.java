@@ -52,7 +52,7 @@ public class GUI_Main_Window extends JFrame {
 	public GUI_Main_Window(PluginKickstarter pluginSeed) {
 		this.main = pluginSeed;
 		this.pnGeneral = new GUI_PnGeneralInformation();
-		this.pnPlugin = new GUI_PnPluginInformation();
+		this.pnPlugin = new GUI_PnPluginInformation(this);
 		status = Selected.Step1;
 		initialize();
 	}
@@ -279,5 +279,9 @@ public class GUI_Main_Window extends JFrame {
 			btLastStep.setVisible(false);
 		}
 		return btLastStep;
+	}
+	
+	public PluginKickstarter getMain() {
+		return main;
 	}
 }

@@ -1,16 +1,19 @@
 package me.simplex.pluginkickstarter.gui.util;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import me.simplex.pluginkickstarter.data.ListenerContainer;
+
 public class EventTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private HashMap<Integer, Boolean> data;
+	private ArrayList<ListenerContainer> container;
+	private int rows;
 	
-	public EventTableModel() {
-		data = new HashMap<Integer, Boolean>();
-		data.put(0, true);
+	public EventTableModel(ArrayList<ListenerContainer> listener) {
+		rows = listener.size();
+		container = listener;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -24,13 +27,12 @@ public class EventTableModel extends AbstractTableModel {
 	}
 
 	public int getRowCount() {
-		return 3;
+		return rows;
 	}
 
 	public int getColumnCount() {
 		return 3;
 	}
-	
 	
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -42,18 +44,17 @@ public class EventTableModel extends AbstractTableModel {
 
 	public Object getValueAt(int row, int col) {
 		if (col == 0)
-			return data.get(row);
+			return container.get(row).isSelected();
 		else if (col == 1)
-			return "onPlayerInteract";
+			return "  "+container.get(row).getName();
 		else
-			return "Fired when a player interacts with a block";
+			return "  "+container.get(row).getDesc();
 	}
 	
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		System.out.println("setVal");
 		super.setValueAt(aValue, rowIndex, columnIndex);
-		data.put(rowIndex, !((Boolean)data.get(rowIndex)));
+		container.get(rowIndex).setSelected(!container.get(rowIndex).isSelected());
 	}
 	
 	@Override
@@ -65,5 +66,4 @@ public class EventTableModel extends AbstractTableModel {
 		default: return "derp";
 		}
 	}
-	
 }
