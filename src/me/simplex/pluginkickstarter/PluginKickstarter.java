@@ -22,6 +22,7 @@ public class PluginKickstarter {
 		builder = new FileBuilder(this);
 		listener_data = new ListenerData();
 		GUI = new GUI_Main_Window(this);
+		
 		//test();
 	}
 	
@@ -64,16 +65,10 @@ public class PluginKickstarter {
 		System.out.println(builder.build_Plugin_Content());
 	}
 
-	/**
-	 * @return the version
-	 */
 	public String getVersion() {
 		return VERSION;
 	}
 
-	/**
-	 * @return the listener_data
-	 */
 	public ListenerData getListener_data() {
 		return listener_data;
 	}
