@@ -1,0 +1,37 @@
+/*
+ * $pluginname - by $author
+ * $website
+ *
+ * powered by PluginKickstarter
+ */
+ 
+ $package
+ 
+ import org.bukkit.plugin.java.JavaPlugin;
+ $imports
+ 
+ public class $classname extends JavaPlugin{
+ 	$variables
+ 	
+ 	@Override
+ 	public void onEnable(){
+ 		$init
+ 		
+ 		$register_events
+ 		
+ 		$register_commands
+ 		
+ 		$start_tasks
+ 	}
+ 	
+ 	@Override
+ 	public void onDisable(){
+ 		$disable
+ 	}
+ 	
+ 	$setupPermissions
+ 	
+ 	$configChecks
+ 	
+ 	$getterAndSetter
+ }

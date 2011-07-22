@@ -1,0 +1,21 @@
+/*
+ * $pluginname - by $author
+ * $website
+ *
+ * powered by PluginKickstarter
+ */
+
+$package
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+public class $classname implements CommandExecutor {
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {
+		$onCommand
+		return false;
+	}
+}

@@ -1,0 +1,8 @@
+name: $pluginname
+main: $mainclass
+version: $version
+website: $website
+author: $author
+description: >
+             $description
+$commands

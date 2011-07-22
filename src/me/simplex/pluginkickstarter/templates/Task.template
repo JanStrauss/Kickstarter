@@ -1,0 +1,18 @@
+/*
+ * $pluginname - by $author
+ * $website
+ *
+ * powered by PluginKickstarter
+ */
+ 
+ $package
+ 
+ $imports
+ 
+ public class $classname extends Runnable{
+ 	
+ 	@Override
+ 	public void run(){
+ 		$run
+ 	}
+ }
