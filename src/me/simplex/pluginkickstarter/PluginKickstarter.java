@@ -14,7 +14,7 @@ public class PluginKickstarter {
 	private DataStorage data;
 	private FileBuilder builder;
 	private ListenerData listener_data;
-	private final String VERSION = "0.0.1";
+	private final String VERSION = "0.0.1 PREALPHA";
 
 	public PluginKickstarter() {
 		lookAndFeel();
