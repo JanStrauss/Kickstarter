@@ -2,7 +2,6 @@ package me.simplex.pluginkickstarter.gui.util;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
@@ -13,8 +12,6 @@ public class TableCheckboxRenderer extends JCheckBox implements TableCellRendere
 
 	public TableCheckboxRenderer() {
 		super();
-		Container zomg = this.getParent();//.setLayout(new FlowLayout(FlowLayout.CENTER));
-		System.out.println(zomg);
 	}
 
 	@Override

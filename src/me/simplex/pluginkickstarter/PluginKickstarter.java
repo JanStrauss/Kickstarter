@@ -6,7 +6,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import me.simplex.pluginkickstarter.gui.GUI_Main_Window;
-import me.simplex.pluginkickstarter.storage.CommandStorage;
+import me.simplex.pluginkickstarter.storage.CommandContainer;
 import me.simplex.pluginkickstarter.storage.ListenerData;
 
 public class PluginKickstarter {
@@ -61,7 +61,7 @@ public class PluginKickstarter {
 		ArrayList<String> aliases = new ArrayList<String>();
 		aliases.add("derp");
 		aliases.add("herp");
-		data.getCommands().add(new CommandStorage("hurrdurr", aliases , "does supercool stuff uknow lol", "just type dad thing in lolyk","",false));
+		data.getCommands().add(new CommandContainer("hurrdurr", aliases , "does supercool stuff uknow lol", "just type dad thing in lolyk","",false));
 		System.out.println(builder.build_Plugin_Content());
 	}
 

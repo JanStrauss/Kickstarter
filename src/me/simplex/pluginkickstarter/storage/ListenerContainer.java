@@ -36,7 +36,7 @@ public class ListenerContainer {
 	}
 	
 	public void setSelected(boolean selected) {
-		System.out.println(name+" set to: "+selected);
+		//System.out.println(name+" set to: "+selected);
 		this.selected = selected;
 	}
 
@@ -49,7 +49,7 @@ public class ListenerContainer {
 	}
 
 	public void setPriority(PriorityType priority) {
-		System.out.println("priority set to: "+priority);
+		//System.out.println("priority set to: "+priority);
 		this.priority = priority;
 	}
 	

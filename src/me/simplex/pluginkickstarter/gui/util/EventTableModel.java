@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import me.simplex.pluginkickstarter.gui.GUI_Main_Window;
 import me.simplex.pluginkickstarter.storage.ListenerContainer;
 import me.simplex.pluginkickstarter.util.PriorityType;
 
@@ -11,10 +12,12 @@ public class EventTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<ListenerContainer> container;
 	private int rows;
+	private GUI_Main_Window gui;
 	
-	public EventTableModel(ArrayList<ListenerContainer> listener) {
+	public EventTableModel(ArrayList<ListenerContainer> listener, GUI_Main_Window gui) {
 		rows = listener.size();
 		container = listener;
+		this.gui = gui;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -66,6 +69,7 @@ public class EventTableModel extends AbstractTableModel {
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		if (columnIndex == 0) {
 			container.get(rowIndex).setSelected(!container.get(rowIndex).isSelected());
+			gui.getMain().getData().toggleListener(container.get(rowIndex));
 		}
 		else {
 			PriorityType prio = ((PriorityType)aValue);

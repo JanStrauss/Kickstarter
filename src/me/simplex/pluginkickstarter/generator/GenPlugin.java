@@ -1,7 +1,7 @@
 package me.simplex.pluginkickstarter.generator;
 
 import me.simplex.pluginkickstarter.PluginKickstarter;
-import me.simplex.pluginkickstarter.storage.CommandStorage;
+import me.simplex.pluginkickstarter.storage.CommandContainer;
 
 public class GenPlugin extends Generator {
 
@@ -36,7 +36,7 @@ public class GenPlugin extends Generator {
 	public String buildCommands(){
 		if (main.getData().getCommands().size() > 0) {
 			String ret="commands:\n";
-			for (CommandStorage cmd : main.getData().getCommands()) {
+			for (CommandContainer cmd : main.getData().getCommands()) {
 				ret=ret+cmd.buildPluginfileEntry();
 			}
 			return ret; //TODO

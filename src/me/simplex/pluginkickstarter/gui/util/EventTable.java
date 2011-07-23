@@ -14,7 +14,7 @@ public class EventTable extends JTable {
 	public EventTable(ListenerType type, GUI_Main_Window gui) {
 		super();
 		this.GUI = gui;
-		this.setModel(new EventTableModel(GUI.getMain().getListenerData().getDataByType(type)));		
+		this.setModel(new EventTableModel(GUI.getMain().getListenerData().getDataByType(type),GUI));		
 		
 		this.getTableHeader().setReorderingAllowed(false);
 		this.getTableHeader().setResizingAllowed(false);

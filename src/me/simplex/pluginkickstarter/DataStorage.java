@@ -2,7 +2,8 @@ package me.simplex.pluginkickstarter;
 
 import java.util.ArrayList;
 
-import me.simplex.pluginkickstarter.storage.CommandStorage;
+import me.simplex.pluginkickstarter.storage.CommandContainer;
+import me.simplex.pluginkickstarter.storage.ListenerContainer;
 import me.simplex.pluginkickstarter.storage.TaskStorage;
 
 public class DataStorage {
@@ -16,11 +17,33 @@ public class DataStorage {
 	private boolean singleCommandExecuter;
 	
 	private ArrayList<TaskStorage> tasks;
-	private ArrayList<CommandStorage> commands;
+	private ArrayList<CommandContainer> commands;
+	private ArrayList<ListenerContainer> listener;
 	
 	public DataStorage() {
 		this.tasks = new ArrayList<TaskStorage>();
-		this.commands = new ArrayList<CommandStorage>();
+		this.commands = new ArrayList<CommandContainer>();
+		this.listener = new ArrayList<ListenerContainer>();
+	}
+	
+	public CommandContainer getCmdContainerByName(String name){
+		for (CommandContainer cmd : commands) {
+			if (cmd.getCommand().equals(name)) {
+				return cmd;
+			}
+		}
+		return null;
+	}
+	
+
+	public void toggleListener(ListenerContainer listenerContainer) {
+		if (listener.contains(listenerContainer)) {
+			listener.remove(listenerContainer);
+		}
+		else {
+			listener.add(listenerContainer);
+		}
+		
 	}
 	
 	public String getPluginname() {
@@ -102,14 +125,29 @@ public class DataStorage {
 	/**
 	 * @param commands the commands to set
 	 */
-	public void setCommands(ArrayList<CommandStorage> commands) {
+	public void setCommands(ArrayList<CommandContainer> commands) {
 		this.commands = commands;
 	}
 
 	/**
 	 * @return the commands
 	 */
-	public ArrayList<CommandStorage> getCommands() {
+	public ArrayList<CommandContainer> getCommands() {
 		return commands;
 	}
+
+	/**
+	 * @param listener the listener to set
+	 */
+	public void setListener(ArrayList<ListenerContainer> listener) {
+		this.listener = listener;
+	}
+
+	/**
+	 * @return the listener
+	 */
+	public ArrayList<ListenerContainer> getListener() {
+		return listener;
+	}
+
 }

@@ -10,12 +10,16 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -37,9 +41,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import me.simplex.pluginkickstarter.gui.util.EventTable;
-import me.simplex.pluginkickstarter.storage.CommandStorage;
+import me.simplex.pluginkickstarter.storage.CommandContainer;
 import me.simplex.pluginkickstarter.util.ListenerType;
-import javax.swing.JCheckBox;
 
 public class GUI_PnPluginInformation extends JPanel {
 	private GUI_Main_Window GUI;
@@ -108,6 +111,8 @@ public class GUI_PnPluginInformation extends JPanel {
 	private DefaultListModel list_data;
 	private JCheckBox cbPlayerOnly;
 	private JButton btEdit;
+	
+	private boolean editIsOn = false;
 		
 	public GUI_PnPluginInformation(GUI_Main_Window GUI) {
 		this.GUI = GUI;
@@ -380,6 +385,15 @@ public class GUI_PnPluginInformation extends JPanel {
 		if (listCommands == null) {
 			list_data = new DefaultListModel();
 			listCommands = new JList(list_data);
+			listCommands.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					if (listCommands.locationToIndex(arg0.getPoint()) == -1) {
+						listCommands.setSelectedValue(null, false);
+					}
+
+				}
+			});
 			listCommands.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listCommands.addListSelectionListener(new ListSelectionListener() {
 				@Override
@@ -441,12 +455,14 @@ public class GUI_PnPluginInformation extends JPanel {
 			btNewCommand = new JButton("New");
 			btNewCommand.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					list_data.addElement("New Command");
-					getListCommands().setSelectedValue("New Commandname", true);
+					CommandContainer newCommand = new CommandContainer("New Commandname");
+					list_data.addElement(newCommand);
+					getListCommands().setSelectedValue(newCommand, true);
 					getTfCmd_Name().requestFocus();
 					setEditEnabled(true,false);
 					getBtNewCommand().setEnabled(false);
 					getListCommands().setEnabled(false);
+					editIsOn = true;
 				}
 			});
 		}
@@ -466,8 +482,14 @@ public class GUI_PnPluginInformation extends JPanel {
 			btRemoveCommand = new JButton("Remove");
 			btRemoveCommand.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					int input = JOptionPane.showConfirmDialog(GUI, "Delete this command?", "Confirm command delete", JOptionPane.OK_CANCEL_OPTION);
+					if (input != 0) {
+						return;
+					}
+					
 				}
 			});
+			
 			btRemoveCommand.setEnabled(false);
 		}
 		return btRemoveCommand;
@@ -590,25 +612,31 @@ public class GUI_PnPluginInformation extends JPanel {
 				@Override
 				public void removeUpdate(DocumentEvent arg0) {
 					System.out.println(tfCmd_Name.getText());
-					list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
-					getListCommands().repaint();
-					checkBtnOkEnable();
+					if (editIsOn) {
+						list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
+						getListCommands().repaint();
+						checkBtnOkEnable();
+					}
 				}
 				
 				@Override
 				public void insertUpdate(DocumentEvent arg0) {
-					System.out.println(tfCmd_Name.getText());
-					list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
-					getListCommands().repaint();
-					checkBtnOkEnable();
+					if (editIsOn) {
+						System.out.println(tfCmd_Name.getText());
+						list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
+						getListCommands().repaint();
+						checkBtnOkEnable();
+					}
 				}
 				
 				@Override
 				public void changedUpdate(DocumentEvent arg0) {
-					System.out.println(tfCmd_Name.getText());
-					list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
-					getListCommands().repaint();
-					checkBtnOkEnable();
+					if (editIsOn) {
+						System.out.println(tfCmd_Name.getText());
+						list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
+						getListCommands().repaint();
+						checkBtnOkEnable();
+					}
 				}
 			});
 			tfCmd_Name.setColumns(10);
@@ -690,11 +718,12 @@ public class GUI_PnPluginInformation extends JPanel {
 			btSaveCommand.setEnabled(false);
 			btSaveCommand.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					editIsOn = false;
 					ArrayList<String> aliases = new ArrayList<String>();
 					for (String string : tfAliases.getText().split(",")) {
 						aliases.add(string);
 					}
-					GUI.getMain().getData().getCommands().add(new CommandStorage(tfCmd_Name.getText(), aliases, taDescription.getText(), tfUsage.getText(), tfPermission.getText(), cbPlayerOnly.isSelected()));
+					GUI.getMain().getData().getCommands().add(new CommandContainer(tfCmd_Name.getText(), aliases, taDescription.getText(), tfUsage.getText(), tfPermission.getText(), cbPlayerOnly.isSelected()));
 					
 					getTfAliases().setText("");
 					getTfCmd_Name().setText("");
@@ -758,6 +787,7 @@ public class GUI_PnPluginInformation extends JPanel {
 			btEdit = new JButton("Edit");
 			btEdit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					editIsOn = true;
 				}
 			});
 			btEdit.setEnabled(false);
