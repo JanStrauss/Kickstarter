@@ -7,25 +7,16 @@ public class CommandStorage {
 	private ArrayList<String> aliases;
 	private String description;
 	private String usage;
+	private String permission;
+	private boolean PlayerOnly;
 	
-	public CommandStorage(String command, ArrayList<String> aliases,String description, String usage) {
+	public CommandStorage(String command, ArrayList<String> aliases,String description, String usage, String permission, boolean PlayerOnly) {
 		this.command = command;
 		this.aliases = aliases;
 		this.description = description;
 		this.usage = usage;
-	}
-	
-	public String getCommand() {
-		return command;
-	}
-	public ArrayList<String> getAliases() {
-		return aliases;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public String getUsage() {
-		return usage;
+		this.permission = permission;
+		this.PlayerOnly = PlayerOnly;
 	}
 	
 	public String buildPluginfileEntry(){
@@ -51,5 +42,56 @@ public class CommandStorage {
 		else {
 			return "";
 		}
+	}
+	
+	public String getCommand() {
+		return command;
+	}
+	public ArrayList<String> getAliases() {
+		return aliases;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public String getUsage() {
+		return usage;
+	}
+	
+	public boolean isPlayerOnly() {
+		return PlayerOnly;
+	}
+
+	public void setPlayerOnly(boolean playerOnly) {
+		PlayerOnly = playerOnly;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
+	public void setAliases(ArrayList<String> aliases) {
+		this.aliases = aliases;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setUsage(String usage) {
+		this.usage = usage;
+	}
+
+	/**
+	 * @param permission the permission to set
+	 */
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+
+	/**
+	 * @return the permission
+	 */
+	public String getPermission() {
+		return permission;
 	}
 }

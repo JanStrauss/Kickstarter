@@ -1,15 +1,45 @@
 package me.simplex.pluginkickstarter.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 import me.simplex.pluginkickstarter.gui.util.EventTable;
+import me.simplex.pluginkickstarter.storage.CommandStorage;
 import me.simplex.pluginkickstarter.util.ListenerType;
+import javax.swing.JCheckBox;
 
 public class GUI_PnPluginInformation extends JPanel {
 	private GUI_Main_Window GUI;
@@ -47,8 +77,37 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JScrollPane spInventory;
 	private JScrollPane spVehicle;
 	private JScrollPane spServer;
+	
 	private JLabel lblSelectTheEvents;
 	private JPanel pnTasks;
+	private JSplitPane splitCommands;
+	private JScrollPane spCommands;
+	private JList listCommands;
+	private JPanel pnRight;
+	private JPanel pnLeft;
+	private JPanel pnCommandLabel;
+	private JPanel pnButtonsCmd;
+	private JButton btNewCommand;
+	private JButton btRemoveCommand;
+	private JLabel lblItsSimpleWe;
+	private JPanel pnCommandEdit;
+	private JLabel lblCommandname;
+	private JTextField tfCmd_Name;
+	private JLabel lblAliases;
+	private JTextField tfAliases;
+	private JLabel lblDiscription;
+	private JScrollPane spDesc;
+	private JTextField tfUsage;
+	private JLabel lblUsage;
+	private JLabel lblPermissions;
+	private JTextField tfPermission;
+	private JPanel panel;
+	private JButton btSaveCommand;
+	private JTextArea taDescription;
+	
+	private DefaultListModel list_data;
+	private JCheckBox cbPlayerOnly;
+	private JButton btEdit;
 		
 	public GUI_PnPluginInformation(GUI_Main_Window GUI) {
 		this.GUI = GUI;
@@ -84,6 +143,9 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JPanel getPnCommands() {
 		if (pnCommands == null) {
 			pnCommands = new JPanel();
+			pnCommands.setLayout(new BorderLayout(0, 0));
+			pnCommands.add(getSplitCommands());
+			pnCommands.add(getPnCommandLabel(), BorderLayout.NORTH);
 		}
 		return pnCommands;
 	}
@@ -298,4 +360,409 @@ public class GUI_PnPluginInformation extends JPanel {
 		}
 		return pnTasks;
 	}
+	private JSplitPane getSplitCommands() {
+		if (splitCommands == null) {
+			splitCommands = new JSplitPane();
+			splitCommands.setRightComponent(getPnRight());
+			splitCommands.setLeftComponent(getPnLeft());
+			splitCommands.setContinuousLayout(true);
+		}
+		return splitCommands;
+	}
+	private JScrollPane getSpCommands() {
+		if (spCommands == null) {
+			spCommands = new JScrollPane();
+			spCommands.setViewportView(getListCommands());
+		}
+		return spCommands;
+	}
+	private JList getListCommands() {
+		if (listCommands == null) {
+			list_data = new DefaultListModel();
+			listCommands = new JList(list_data);
+			listCommands.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			listCommands.addListSelectionListener(new ListSelectionListener() {
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					if (listCommands.getSelectedValue() != null) {
+						getBtEdit().setEnabled(true);
+						getBtRemoveCommand().setEnabled(true);
+					}
+					else {
+						getBtEdit().setEnabled(false);
+						getBtRemoveCommand().setEnabled(false);
+					}
+					
+				}
+			});
+		}
+		return listCommands;
+	}
+	private JPanel getPnRight() {
+		if (pnRight == null) {
+			pnRight = new JPanel();
+			pnRight.setBorder(new EmptyBorder(5, 5, 5, 5));
+			pnRight.setLayout(new BorderLayout(0, 0));
+			pnRight.add(getPnCommandEdit(), BorderLayout.CENTER);
+		}
+		return pnRight;
+	}
+	private JPanel getPnLeft() {
+		if (pnLeft == null) {
+			pnLeft = new JPanel();
+			pnLeft.setLayout(new BorderLayout(0, 0));
+			pnLeft.setPreferredSize(new Dimension(120, 0));
+			pnLeft.add(getSpCommands());
+			pnLeft.add(getPnButtonsCmd(), BorderLayout.SOUTH);
+		}
+		return pnLeft;
+	}
+	private JPanel getPnCommandLabel() {
+		if (pnCommandLabel == null) {
+			pnCommandLabel = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) pnCommandLabel.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			pnCommandLabel.add(getLblItsSimpleWe());
+		}
+		return pnCommandLabel;
+	}
+	private JPanel getPnButtonsCmd() {
+		if (pnButtonsCmd == null) {
+			pnButtonsCmd = new JPanel();
+			pnButtonsCmd.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			pnButtonsCmd.add(getBtNewCommand());
+			pnButtonsCmd.add(getBtEdit());
+			pnButtonsCmd.add(getBtRemoveCommand());
+		}
+		return pnButtonsCmd;
+	}
+	private JButton getBtNewCommand() {
+		if (btNewCommand == null) {
+			btNewCommand = new JButton("New");
+			btNewCommand.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					list_data.addElement("New Command");
+					getListCommands().setSelectedValue("New Commandname", true);
+					getTfCmd_Name().requestFocus();
+					setEditEnabled(true,false);
+					getBtNewCommand().setEnabled(false);
+					getListCommands().setEnabled(false);
+				}
+			});
+		}
+		return btNewCommand;
+	}
+	
+	private void setEditEnabled(boolean general, boolean ok){
+		for (Component comp : getPnCommandEdit().getComponents()) {
+			comp.setEnabled(general);
+		}
+		getTaDescription().setEnabled(general);
+		getBtSaveCommand().setEnabled(ok);
+	}
+	
+	private JButton getBtRemoveCommand() {
+		if (btRemoveCommand == null) {
+			btRemoveCommand = new JButton("Remove");
+			btRemoveCommand.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
+			btRemoveCommand.setEnabled(false);
+		}
+		return btRemoveCommand;
+	}
+	private JLabel getLblItsSimpleWe() {
+		if (lblItsSimpleWe == null) {
+			lblItsSimpleWe = new JLabel("It's simple. We kill the batman");
+		}
+		return lblItsSimpleWe;
+	}
+	private JPanel getPnCommandEdit() {
+		if (pnCommandEdit == null) {
+			pnCommandEdit = new JPanel();
+			pnCommandEdit.setBorder(new CompoundBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Edit command", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), new EmptyBorder(5, 5, 0, 5)));
+			GridBagLayout gbl_pnCommandEdit = new GridBagLayout();
+			gbl_pnCommandEdit.columnWidths = new int[]{0, 0, 0};
+			gbl_pnCommandEdit.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+			gbl_pnCommandEdit.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+			gbl_pnCommandEdit.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+			pnCommandEdit.setLayout(gbl_pnCommandEdit);
+			GridBagConstraints gbc_lblCommandname = new GridBagConstraints();
+			gbc_lblCommandname.insets = new Insets(0, 0, 5, 5);
+			gbc_lblCommandname.anchor = GridBagConstraints.EAST;
+			gbc_lblCommandname.gridx = 0;
+			gbc_lblCommandname.gridy = 0;
+			pnCommandEdit.add(getLblCommandname(), gbc_lblCommandname);
+			GridBagConstraints gbc_tfCmd_Name = new GridBagConstraints();
+			gbc_tfCmd_Name.insets = new Insets(0, 0, 5, 0);
+			gbc_tfCmd_Name.fill = GridBagConstraints.HORIZONTAL;
+			gbc_tfCmd_Name.gridx = 1;
+			gbc_tfCmd_Name.gridy = 0;
+			pnCommandEdit.add(getTfCmd_Name(), gbc_tfCmd_Name);
+			GridBagConstraints gbc_lblAliases = new GridBagConstraints();
+			gbc_lblAliases.anchor = GridBagConstraints.WEST;
+			gbc_lblAliases.insets = new Insets(0, 0, 5, 5);
+			gbc_lblAliases.gridx = 0;
+			gbc_lblAliases.gridy = 1;
+			pnCommandEdit.add(getLblAliases(), gbc_lblAliases);
+			GridBagConstraints gbc_tfAliases = new GridBagConstraints();
+			gbc_tfAliases.insets = new Insets(0, 0, 5, 0);
+			gbc_tfAliases.fill = GridBagConstraints.HORIZONTAL;
+			gbc_tfAliases.gridx = 1;
+			gbc_tfAliases.gridy = 1;
+			pnCommandEdit.add(getTfAliases(), gbc_tfAliases);
+			GridBagConstraints gbc_lblDiscription = new GridBagConstraints();
+			gbc_lblDiscription.anchor = GridBagConstraints.NORTHWEST;
+			gbc_lblDiscription.insets = new Insets(0, 0, 5, 5);
+			gbc_lblDiscription.gridx = 0;
+			gbc_lblDiscription.gridy = 2;
+			pnCommandEdit.add(getLblDiscription(), gbc_lblDiscription);
+			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+			gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+			gbc_scrollPane.fill = GridBagConstraints.BOTH;
+			gbc_scrollPane.gridx = 1;
+			gbc_scrollPane.gridy = 2;
+			pnCommandEdit.add(getSpDesc(), gbc_scrollPane);
+			GridBagConstraints gbc_lblUsage = new GridBagConstraints();
+			gbc_lblUsage.insets = new Insets(0, 0, 5, 5);
+			gbc_lblUsage.anchor = GridBagConstraints.WEST;
+			gbc_lblUsage.gridx = 0;
+			gbc_lblUsage.gridy = 3;
+			pnCommandEdit.add(getLblUsage(), gbc_lblUsage);
+			GridBagConstraints gbc_tfUsage = new GridBagConstraints();
+			gbc_tfUsage.insets = new Insets(0, 0, 5, 0);
+			gbc_tfUsage.fill = GridBagConstraints.HORIZONTAL;
+			gbc_tfUsage.gridx = 1;
+			gbc_tfUsage.gridy = 3;
+			pnCommandEdit.add(getTfUsage(), gbc_tfUsage);
+			GridBagConstraints gbc_lblPermissions = new GridBagConstraints();
+			gbc_lblPermissions.anchor = GridBagConstraints.WEST;
+			gbc_lblPermissions.insets = new Insets(0, 0, 5, 5);
+			gbc_lblPermissions.gridx = 0;
+			gbc_lblPermissions.gridy = 4;
+			pnCommandEdit.add(getLblPermissions(), gbc_lblPermissions);
+			GridBagConstraints gbc_tfPermission = new GridBagConstraints();
+			gbc_tfPermission.insets = new Insets(0, 0, 5, 0);
+			gbc_tfPermission.fill = GridBagConstraints.HORIZONTAL;
+			gbc_tfPermission.gridx = 1;
+			gbc_tfPermission.gridy = 4;
+			pnCommandEdit.add(getTfPermission(), gbc_tfPermission);
+			GridBagConstraints gbc_cbPlayerOnly = new GridBagConstraints();
+			gbc_cbPlayerOnly.anchor = GridBagConstraints.WEST;
+			gbc_cbPlayerOnly.insets = new Insets(0, 0, 5, 0);
+			gbc_cbPlayerOnly.gridx = 1;
+			gbc_cbPlayerOnly.gridy = 5;
+			pnCommandEdit.add(getCbPlayerOnly(), gbc_cbPlayerOnly);
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.gridwidth = 2;
+			gbc_panel.fill = GridBagConstraints.BOTH;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 6;
+			pnCommandEdit.add(getPanel(), gbc_panel);
+		}
+		return pnCommandEdit;
+	}
+	private JLabel getLblCommandname() {
+		if (lblCommandname == null) {
+			lblCommandname = new JLabel("Commandname:");
+			lblCommandname.setEnabled(false);
+			lblCommandname.setLabelFor(getTfCmd_Name());
+		}
+		return lblCommandname;
+	}
+	private JTextField getTfCmd_Name() {
+		if (tfCmd_Name == null) {
+			tfCmd_Name = new JTextField();
+			tfCmd_Name.setEnabled(false);
+			tfCmd_Name.setDocument(new PlainDocument(){
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+					str = str.replace(" ", "_");
+					super.insertString(offs, str, a);
+				}
+			});
+			
+			tfCmd_Name.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent arg0) {
+					System.out.println(tfCmd_Name.getText());
+					list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
+					getListCommands().repaint();
+					checkBtnOkEnable();
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent arg0) {
+					System.out.println(tfCmd_Name.getText());
+					list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
+					getListCommands().repaint();
+					checkBtnOkEnable();
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent arg0) {
+					System.out.println(tfCmd_Name.getText());
+					list_data.setElementAt(tfCmd_Name.getText(), list_data.size()-1);
+					getListCommands().repaint();
+					checkBtnOkEnable();
+				}
+			});
+			tfCmd_Name.setColumns(10);
+		}
+		return tfCmd_Name;
+	}
+	private JLabel getLblAliases() {
+		if (lblAliases == null) {
+			lblAliases = new JLabel("Aliases:");
+			lblAliases.setEnabled(false);
+		}
+		return lblAliases;
+	}
+	private JTextField getTfAliases() {
+		if (tfAliases == null) {
+			tfAliases = new JTextField();
+			tfAliases.setEnabled(false);
+			tfAliases.setColumns(10);
+		}
+		return tfAliases;
+	}
+	private JLabel getLblDiscription() {
+		if (lblDiscription == null) {
+			lblDiscription = new JLabel("Description:");
+			lblDiscription.setEnabled(false);
+		}
+		return lblDiscription;
+	}
+	private JScrollPane getSpDesc() {
+		if (spDesc == null) {
+			spDesc = new JScrollPane();
+			spDesc.setViewportView(getTaDescription());
+		}
+		return spDesc;
+	}
+	private JTextField getTfUsage() {
+		if (tfUsage == null) {
+			tfUsage = new JTextField();
+			tfUsage.setText("/<command> ");
+			tfUsage.setEnabled(false);
+			tfUsage.setColumns(10);
+		}
+		return tfUsage;
+	}
+	private JLabel getLblUsage() {
+		if (lblUsage == null) {
+			lblUsage = new JLabel("Usage:");
+			lblUsage.setEnabled(false);
+		}
+		return lblUsage;
+	}
+	private JLabel getLblPermissions() {
+		if (lblPermissions == null) {
+			lblPermissions = new JLabel("Permission:");
+			lblPermissions.setEnabled(false);
+		}
+		return lblPermissions;
+	}
+	private JTextField getTfPermission() {
+		if (tfPermission == null) {
+			tfPermission = new JTextField();
+			tfPermission.setEnabled(false);
+			tfPermission.setColumns(10);
+		}
+		return tfPermission;
+	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setBorder(new CompoundBorder(new MatteBorder(1, 0, 0, 0, new Color(221, 221, 221)), new EmptyBorder(3, 0, 0, 0)));
+			panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+			panel.add(getBtSaveCommand());
+		}
+		return panel;
+	}
+	private JButton getBtSaveCommand() {
+		if (btSaveCommand == null) {
+			btSaveCommand = new JButton("OK");
+			btSaveCommand.setEnabled(false);
+			btSaveCommand.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ArrayList<String> aliases = new ArrayList<String>();
+					for (String string : tfAliases.getText().split(",")) {
+						aliases.add(string);
+					}
+					GUI.getMain().getData().getCommands().add(new CommandStorage(tfCmd_Name.getText(), aliases, taDescription.getText(), tfUsage.getText(), tfPermission.getText(), cbPlayerOnly.isSelected()));
+					
+					getTfAliases().setText("");
+					getTfCmd_Name().setText("");
+					getTfPermission().setText("");
+					getTfUsage().setText("");
+					getTaDescription().setText("");
+					getCbPlayerOnly().setEnabled(true);
+					
+					setEditEnabled(false, false);
+					getBtNewCommand().setEnabled(true);
+					getListCommands().setEnabled(true);
+				}
+			});
+		}
+		return btSaveCommand;
+	}
+	private JTextArea getTaDescription() {
+		if (taDescription == null) {
+			taDescription = new JTextArea();
+			taDescription.setEnabled(false);
+			taDescription.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					checkBtnOkEnable();
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					checkBtnOkEnable();
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					checkBtnOkEnable();
+				}
+			});
+			taDescription.setLineWrap(true);
+		}
+		return taDescription;
+	}
+	
+	private void checkBtnOkEnable(){
+		if (getTfCmd_Name().getText().length() > 0 && getTaDescription().getText().trim().length() > 0) {
+			getBtSaveCommand().setEnabled(true);
+		}
+		else {
+			getBtSaveCommand().setEnabled(false);
+		}
+	}
+	private JCheckBox getCbPlayerOnly() {
+		if (cbPlayerOnly == null) {
+			cbPlayerOnly = new JCheckBox("Player only");
+			cbPlayerOnly.setSelected(true);
+			cbPlayerOnly.setEnabled(false);
+		}
+		return cbPlayerOnly;
+	}
+	private JButton getBtEdit() {
+		if (btEdit == null) {
+			btEdit = new JButton("Edit");
+			btEdit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
+			btEdit.setEnabled(false);
+		}
+		return btEdit;
+	}
 }
+
