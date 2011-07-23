@@ -3,24 +3,17 @@ package me.simplex.pluginkickstarter.storage;
 import java.util.ArrayList;
 
 public class CommandContainer {
-	private String command;
+	private String command="";
 	private ArrayList<String> aliases;
-	private String description;
-	private String usage;
-	private String permission;
+	private String description="";
+	private String usage="/<command> ";
+	private String permission="";
 	private boolean PlayerOnly;
 	
-	public CommandContainer(String command, ArrayList<String> aliases,String description, String usage, String permission, boolean PlayerOnly) {
-		this.command = command;
-		this.aliases = aliases;
-		this.description = description;
-		this.usage = usage;
-		this.permission = permission;
-		this.PlayerOnly = PlayerOnly;
-	}
-	
 	public CommandContainer(String command){
-		super();
+		this.command = command;
+		this.PlayerOnly = true;
+		this.aliases = new ArrayList<String>();
 	}
 	
 	public String buildPluginfileEntry(){

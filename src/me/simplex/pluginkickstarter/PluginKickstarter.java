@@ -61,7 +61,7 @@ public class PluginKickstarter {
 		ArrayList<String> aliases = new ArrayList<String>();
 		aliases.add("derp");
 		aliases.add("herp");
-		data.getCommands().add(new CommandContainer("hurrdurr", aliases , "does supercool stuff uknow lol", "just type dad thing in lolyk","",false));
+		data.getCommands().add(new CommandContainer("hurrdurr"));
 		System.out.println(builder.build_Plugin_Content());
 	}
 
