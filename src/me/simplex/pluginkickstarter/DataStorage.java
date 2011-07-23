@@ -3,7 +3,6 @@ package me.simplex.pluginkickstarter;
 import java.util.ArrayList;
 
 import me.simplex.pluginkickstarter.storage.CommandStorage;
-import me.simplex.pluginkickstarter.storage.ListenerStorage;
 import me.simplex.pluginkickstarter.storage.TaskStorage;
 
 public class DataStorage {
@@ -16,12 +15,10 @@ public class DataStorage {
 	private boolean usePermissions;
 	private boolean singleCommandExecuter;
 	
-	private ArrayList<ListenerStorage> listener;
 	private ArrayList<TaskStorage> tasks;
 	private ArrayList<CommandStorage> commands;
 	
 	public DataStorage() {
-		this.listener =  new ArrayList<ListenerStorage>();
 		this.tasks = new ArrayList<TaskStorage>();
 		this.commands = new ArrayList<CommandStorage>();
 	}
@@ -72,10 +69,6 @@ public class DataStorage {
 	
 	public void setUsePermissions(boolean usePermissions) {
 		this.usePermissions = usePermissions;
-	}
-
-	public ArrayList<ListenerStorage> getListener() {
-		return listener;
 	}
 
 	/**

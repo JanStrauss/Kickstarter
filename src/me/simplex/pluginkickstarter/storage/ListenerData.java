@@ -1,4 +1,4 @@
-package me.simplex.pluginkickstarter.data;
+package me.simplex.pluginkickstarter.storage;
 
 import java.util.ArrayList;
 
@@ -144,7 +144,7 @@ public class ListenerData {
 		listener_Server.add(new ListenerContainer("Type.SERVER_COMMAND", "onServerCommand", "ServerCommandEvent", "Called when a server command is used"));
 	}
 	
-	public ArrayList<ListenerContainer> getListenerData(ListenerType type){
+	public ArrayList<ListenerContainer> getDataByType(ListenerType type){
 		switch (type) {
 		case Block:		return listener_Block;
 		case Entity:	return listener_Entity;

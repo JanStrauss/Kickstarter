@@ -1,4 +1,6 @@
-package me.simplex.pluginkickstarter.data;
+package me.simplex.pluginkickstarter.storage;
+
+import me.simplex.pluginkickstarter.util.PriorityType;
 
 public class ListenerContainer {
 	private String type;
@@ -6,6 +8,7 @@ public class ListenerContainer {
 	private String event;
 	private String desc;
 	private boolean selected;
+	private PriorityType priority;
 	
 	public ListenerContainer(String type, String name, String event, String desc) {
 		this.type = type;
@@ -13,6 +16,7 @@ public class ListenerContainer {
 		this.event = event;
 		this.desc = desc;
 		this.selected = false;
+		this.priority = PriorityType.Normal;
 	}
 
 	public String getType() {
@@ -38,6 +42,15 @@ public class ListenerContainer {
 
 	public boolean isSelected() {
 		return selected;
+	}
+	
+	public PriorityType getPriority() {
+		return priority;
+	}
+
+	public void setPriority(PriorityType priority) {
+		System.out.println("priority set to: "+priority);
+		this.priority = priority;
 	}
 	
 	

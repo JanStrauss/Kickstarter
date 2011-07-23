@@ -73,7 +73,6 @@ public class GUI_Main_Window extends JFrame {
 		this.validate();
 	}
 	
-
 	private JMenuBar getMenuBar_Main() {
 		if (lb_2 == null) {
 			lb_2 = new JMenuBar();
@@ -162,13 +161,15 @@ public class GUI_Main_Window extends JFrame {
 		if (pnHeaderContainer == null) {
 			pnHeaderContainer = new JPanel();
 			pnHeaderContainer.setBackground(Color.GREEN);
-			pnHeaderContainer.setMinimumSize(new Dimension(800, 130));
+			pnHeaderContainer.setMinimumSize(new Dimension(800, 85));
 			pnHeaderContainer.setPreferredSize(pnHeaderContainer.getMinimumSize());
 			pnHeaderContainer.setLayout(new BorderLayout(0, 0));
 			pnHeaderContainer.add(getPnHeader(), BorderLayout.CENTER);
+			
 		}
 		return pnHeaderContainer;
 	}
+	
 	private JPanel getPnContent() {
 		if (pnContent == null) {
 			pnContent = new JPanel();
@@ -177,11 +178,13 @@ public class GUI_Main_Window extends JFrame {
 		}
 		return pnContent;
 	}
+	
 	private JPanel getPnHeader() {
 		if (pnHeader == null) {
 			pnHeader = new JPanel();
 			pnHeader.setLayout(new BorderLayout(0, 0));
 			pnHeader.add(getLabel(), BorderLayout.CENTER);
+			//pnHeader.setBackground(Color.GREEN);
 		}
 		return pnHeader;
 	}
@@ -190,6 +193,7 @@ public class GUI_Main_Window extends JFrame {
 		if (label == null) {
 			label = new JLabel("New label");
 			label.setIcon(new ImageIcon(GUI_Main_Window.class.getResource("/me/simplex/pluginkickstarter/gui/images/header.png")));
+			//label.setOpaque(true);
 		}
 		return label;
 	}

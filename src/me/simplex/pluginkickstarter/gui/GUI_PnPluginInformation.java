@@ -1,15 +1,15 @@
 package me.simplex.pluginkickstarter.gui;
 
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
 
-import me.simplex.pluginkickstarter.gui.util.EventTableModel;
-import me.simplex.pluginkickstarter.util.ListenerType;
-
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.border.EmptyBorder;
+
+import me.simplex.pluginkickstarter.gui.util.EventTable;
+import me.simplex.pluginkickstarter.util.ListenerType;
 
 public class GUI_PnPluginInformation extends JPanel {
 	private GUI_Main_Window GUI;
@@ -30,14 +30,14 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JPanel pnVehicleEvents;
 	private JPanel pnServerEvents;
 	
-	private JTable tblBlockEvents;
-	private JTable tblEntityEvents;
-	private JTable tblInventoryEvents;
-	private JTable tblPlayerEvents;
-	private JTable tblServerEvents;
-	private JTable tblVehicleEvents;
-	private JTable tblWeatherEvents;
-	private JTable tblWorldEvents;
+	private EventTable tblBlockEvents;
+	private EventTable tblEntityEvents;
+	private EventTable tblInventoryEvents;
+	private EventTable tblPlayerEvents;
+	private EventTable tblServerEvents;
+	private EventTable tblVehicleEvents;
+	private EventTable tblWeatherEvents;
+	private EventTable tblWorldEvents;
 	
 	private JScrollPane spBlock;
 	private JScrollPane spPlayer;
@@ -47,14 +47,15 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JScrollPane spInventory;
 	private JScrollPane spVehicle;
 	private JScrollPane spServer;
-
-	
+	private JLabel lblSelectTheEvents;
+	private JPanel pnTasks;
+		
 	public GUI_PnPluginInformation(GUI_Main_Window GUI) {
 		this.GUI = GUI;
 		initialize();
 	}
 	private void initialize() {
-		this.setSize(800, 333);
+		this.setSize(800, 372);
 		setLayout(null);
 		this.setEnabled(true);
 		add(getTpPluginData());
@@ -62,18 +63,20 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JTabbedPane getTpPluginData() {
 		if (tpPluginData == null) {
 			tpPluginData = new JTabbedPane(JTabbedPane.TOP);
-			tpPluginData.setBounds(10, 11, 760, 299);
+			tpPluginData.setBounds(10, 11, 780, 349);
 			tpPluginData.addTab("Events", null, getPnEvents(), null);
 			tpPluginData.addTab("Commands", null, getPnCommands(), null);
 			tpPluginData.addTab("Configuration", null, getPnConfiguration(), null);
-			
+			tpPluginData.addTab("Tasks", null, getPnTasks(), null);
 		}
 		return tpPluginData;
 	}
+	
 	private JPanel getPnEvents() {
 		if (pnEvents == null) {
 			pnEvents = new JPanel();
 			pnEvents.setLayout(new BorderLayout(0, 0));
+			pnEvents.add(getLblSelectTheEvents(), BorderLayout.NORTH);
 			pnEvents.add(getTpEvents());
 		}
 		return pnEvents;
@@ -154,162 +157,58 @@ public class GUI_PnPluginInformation extends JPanel {
 		}
 		return pnInventoryEvents;
 	}
-	private JTable getTblBlockEvents() {
+	private EventTable getTblBlockEvents() {
 		if (tblBlockEvents == null) {
-			tblBlockEvents = new JTable();
-			tblBlockEvents.setModel(new EventTableModel(GUI.getMain().getListener_data().getListenerData(ListenerType.Block)));		
-			
-			tblBlockEvents.getTableHeader().setReorderingAllowed(false);
-			tblBlockEvents.getTableHeader().setResizingAllowed(false);
-			
-			tblBlockEvents.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-			tblBlockEvents.getColumnModel().getColumn(0).setMinWidth(30);
-			tblBlockEvents.getColumnModel().getColumn(0).setMaxWidth(30);
-			
-			tblBlockEvents.getColumnModel().getColumn(1).setMinWidth(150);
-			tblBlockEvents.getColumnModel().getColumn(1).setMaxWidth(150);
-			
+			tblBlockEvents = new EventTable(ListenerType.Block, GUI);
 		}
 		return tblBlockEvents;
 	}
 	
-	private JTable getTblEntityEvents() {
+	private EventTable getTblEntityEvents() {
 		if (tblEntityEvents == null) {
-			tblEntityEvents = new JTable();
-			tblEntityEvents.setModel(new EventTableModel(GUI.getMain().getListener_data().getListenerData(ListenerType.Entity)));		
-			
-			tblEntityEvents.getTableHeader().setReorderingAllowed(false);
-			tblEntityEvents.getTableHeader().setResizingAllowed(false);
-			
-			tblEntityEvents.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-			tblEntityEvents.getColumnModel().getColumn(0).setMinWidth(30);
-			tblEntityEvents.getColumnModel().getColumn(0).setMaxWidth(30);
-			
-			tblEntityEvents.getColumnModel().getColumn(1).setMinWidth(150);
-			tblEntityEvents.getColumnModel().getColumn(1).setMaxWidth(150);
-			
+			tblEntityEvents = new EventTable(ListenerType.Entity, GUI);
 		}
 		return tblEntityEvents;
 	}
 	
-	private JTable getTblInventoryEvents() {
+	private EventTable getTblInventoryEvents() {
 		if (tblInventoryEvents == null) {
-			tblInventoryEvents = new JTable();
-			tblInventoryEvents.setModel(new EventTableModel(GUI.getMain().getListener_data().getListenerData(ListenerType.Inventory)));		
-			
-			tblInventoryEvents.getTableHeader().setReorderingAllowed(false);
-			tblInventoryEvents.getTableHeader().setResizingAllowed(false);
-			
-			tblInventoryEvents.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-			tblInventoryEvents.getColumnModel().getColumn(0).setMinWidth(30);
-			tblInventoryEvents.getColumnModel().getColumn(0).setMaxWidth(30);
-			
-			tblInventoryEvents.getColumnModel().getColumn(1).setMinWidth(150);
-			tblInventoryEvents.getColumnModel().getColumn(1).setMaxWidth(150);
-			
+			tblInventoryEvents = new EventTable(ListenerType.Inventory, GUI);
 		}
 		return tblInventoryEvents;
 	}
 	
-	private JTable getTblWeatherEvents() {
+	private EventTable getTblWeatherEvents() {
 		if (tblWeatherEvents == null) {
-			tblWeatherEvents = new JTable();
-			tblWeatherEvents.setModel(new EventTableModel(GUI.getMain().getListener_data().getListenerData(ListenerType.Weather)));		
-			
-			tblWeatherEvents.getTableHeader().setReorderingAllowed(false);
-			tblWeatherEvents.getTableHeader().setResizingAllowed(false);
-			
-			tblWeatherEvents.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-			tblWeatherEvents.getColumnModel().getColumn(0).setMinWidth(30);
-			tblWeatherEvents.getColumnModel().getColumn(0).setMaxWidth(30);
-			
-			tblWeatherEvents.getColumnModel().getColumn(1).setMinWidth(150);
-			tblWeatherEvents.getColumnModel().getColumn(1).setMaxWidth(150);
-			
+			tblWeatherEvents = new EventTable(ListenerType.Weather, GUI);
 		}
 		return tblWeatherEvents;
 	}
 	
-	private JTable getTblWorldEvents() {
+	private EventTable getTblWorldEvents() {
 		if (tblWorldEvents == null) {
-			tblWorldEvents = new JTable();
-			tblWorldEvents.setModel(new EventTableModel(GUI.getMain().getListener_data().getListenerData(ListenerType.World)));		
-			
-			tblWorldEvents.getTableHeader().setReorderingAllowed(false);
-			tblWorldEvents.getTableHeader().setResizingAllowed(false);
-			
-			tblWorldEvents.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-			tblWorldEvents.getColumnModel().getColumn(0).setMinWidth(30);
-			tblWorldEvents.getColumnModel().getColumn(0).setMaxWidth(30);
-			
-			tblWorldEvents.getColumnModel().getColumn(1).setMinWidth(150);
-			tblWorldEvents.getColumnModel().getColumn(1).setMaxWidth(150);
-			
+			tblWorldEvents = new EventTable(ListenerType.World, GUI);
 		}
 		return tblWorldEvents;
 	}
 	
-	private JTable getTblServerEvents() {
+	private EventTable getTblServerEvents() {
 		if (tblServerEvents == null) {
-			tblServerEvents = new JTable();
-			tblServerEvents.setModel(new EventTableModel(GUI.getMain().getListener_data().getListenerData(ListenerType.Server)));		
-			
-			tblServerEvents.getTableHeader().setReorderingAllowed(false);
-			tblServerEvents.getTableHeader().setResizingAllowed(false);
-			
-			tblServerEvents.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-			tblServerEvents.getColumnModel().getColumn(0).setMinWidth(30);
-			tblServerEvents.getColumnModel().getColumn(0).setMaxWidth(30);
-			
-			tblServerEvents.getColumnModel().getColumn(1).setMinWidth(150);
-			tblServerEvents.getColumnModel().getColumn(1).setMaxWidth(150);
-			
+			tblServerEvents = new EventTable(ListenerType.Server, GUI);
 		}
 		return tblServerEvents;
 	}
 	
-	private JTable getTblVehicleEvents() {
+	private EventTable getTblVehicleEvents() {
 		if (tblVehicleEvents == null) {
-			tblVehicleEvents = new JTable();
-			tblVehicleEvents.setModel(new EventTableModel(GUI.getMain().getListener_data().getListenerData(ListenerType.Vehicle)));		
-			
-			tblVehicleEvents.getTableHeader().setReorderingAllowed(false);
-			tblVehicleEvents.getTableHeader().setResizingAllowed(false);
-			
-			tblVehicleEvents.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-			tblVehicleEvents.getColumnModel().getColumn(0).setMinWidth(30);
-			tblVehicleEvents.getColumnModel().getColumn(0).setMaxWidth(30);
-			
-			tblVehicleEvents.getColumnModel().getColumn(1).setMinWidth(150);
-			tblVehicleEvents.getColumnModel().getColumn(1).setMaxWidth(150);
-			
+			tblVehicleEvents = new EventTable(ListenerType.Vehicle, GUI);
 		}
 		return tblVehicleEvents;
 	}
 	
-	private JTable getTblPlayerEvents() {
+	private EventTable getTblPlayerEvents() {
 		if (tblPlayerEvents == null) {
-			tblPlayerEvents = new JTable();
-			tblPlayerEvents.setModel(new EventTableModel(GUI.getMain().getListener_data().getListenerData(ListenerType.Player)));		
-			
-			tblPlayerEvents.getTableHeader().setReorderingAllowed(false);
-			tblPlayerEvents.getTableHeader().setResizingAllowed(false);
-			
-			tblPlayerEvents.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
-			tblPlayerEvents.getColumnModel().getColumn(0).setMinWidth(30);
-			tblPlayerEvents.getColumnModel().getColumn(0).setMaxWidth(30);
-			
-			tblPlayerEvents.getColumnModel().getColumn(1).setMinWidth(150);
-			tblPlayerEvents.getColumnModel().getColumn(1).setMaxWidth(150);
-			
+			tblPlayerEvents = new EventTable(ListenerType.Player, GUI);
 		}
 		return tblPlayerEvents;
 	}
@@ -385,5 +284,18 @@ public class GUI_PnPluginInformation extends JPanel {
 			spServer.setViewportView(getTblServerEvents());
 		}
 		return spServer;
+	}
+	private JLabel getLblSelectTheEvents() {
+		if (lblSelectTheEvents == null) {
+			lblSelectTheEvents = new JLabel("Select the events you want to listen to.");
+			lblSelectTheEvents.setBorder(new EmptyBorder(5, 5, 5, 0));
+		}
+		return lblSelectTheEvents;
+	}
+	private JPanel getPnTasks() {
+		if (pnTasks == null) {
+			pnTasks = new JPanel();
+		}
+		return pnTasks;
 	}
 }

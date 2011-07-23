@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import me.simplex.pluginkickstarter.data.ListenerData;
 import me.simplex.pluginkickstarter.gui.GUI_Main_Window;
 import me.simplex.pluginkickstarter.storage.CommandStorage;
+import me.simplex.pluginkickstarter.storage.ListenerData;
 
 public class PluginKickstarter {
 	private GUI_Main_Window GUI;
@@ -69,7 +69,7 @@ public class PluginKickstarter {
 		return VERSION;
 	}
 
-	public ListenerData getListener_data() {
+	public ListenerData getListenerData() {
 		return listener_data;
 	}
 }

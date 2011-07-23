@@ -21,16 +21,15 @@ public class TaskStorage {
 	}
 	
 	public String buildRegisterString(){
-		String ret="";
 		switch (type) {
-			case AsyncTask: 			ret = "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+taskname+"(this))";break;
-			case AsyncDelayedTask: 		ret = "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+taskname+"(this),"+offset+")";break;
-			case AsyncRepeatingTask: 	ret = "this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new "+taskname+"(this)), "+offset+", "+delay+");";break;
-			case SyncTask:				ret = "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+taskname+"(this))";break;
-			case SyncDeplayedTask:		ret = "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+taskname+"(this),"+offset+")";break;
-			case SyncRepeatingTask: 	ret = "this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new "+taskname+"(this)), "+offset+", "+delay+");";break;
+			case AsyncTask: 			return "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+taskname+"(this))";
+			case AsyncDelayedTask: 		return "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+taskname+"(this),"+offset+")";
+			case AsyncRepeatingTask: 	return "this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new "+taskname+"(this)), "+offset+", "+delay+");";
+			case SyncTask:				return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+taskname+"(this))";
+			case SyncDeplayedTask:		return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+taskname+"(this),"+offset+")";
+			case SyncRepeatingTask: 	return "this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new "+taskname+"(this)), "+offset+", "+delay+");";
+			default: return null;
 		}
-		return ret;
 	}
 	
 	public String buildImportString(){
