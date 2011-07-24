@@ -23,10 +23,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.NumberFormatter;
+import javax.swing.text.PlainDocument;
 
+import me.simplex.pluginkickstarter.gui.util.GraphicsPanel;
 import me.simplex.pluginkickstarter.storage.TaskContainer;
 import me.simplex.pluginkickstarter.util.TaskType;
+import javax.swing.border.MatteBorder;
 
 public class GUI_TaskEditor extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -41,7 +48,7 @@ public class GUI_TaskEditor extends JDialog {
 	private JFormattedTextField tfDelay;
 	private JFormattedTextField tfOffset;
 	private JCheckBox chckbxRegisterInOnenable;
-	private JPanel pnBtns;
+	private GraphicsPanel pnBtns;
 	private JButton btnSave;
 	private JButton btnCancel;
 	
@@ -210,9 +217,48 @@ public class GUI_TaskEditor extends JDialog {
 		if (tfTaskname == null) {
 			tfTaskname = new JTextField();
 			tfTaskname.setColumns(10);
+			tfTaskname.setDocument(new PlainDocument(){
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void insertString(int offs, String str, AttributeSet a)throws BadLocationException {
+					str=str.replace(" ", "");
+					super.insertString(offs, str, a);
+				}
+			});
+			tfTaskname.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+			});
 		}
 		return tfTaskname;
 	}
+	
+	private void checkUnlockOk(){
+		if (getTfTaskname().getText().length() > 0 && getTfDelay().getText().length() > 0 && getTfOffset().getText().length() > 0) {
+			getBtnSave().setEnabled(true);
+		}
+		else {
+			getBtnSave().setEnabled(false);
+		}
+	}
+	
 	private JLabel getLblOffset() {
 		if (lblOffset == null) {
 			lblOffset = new JLabel("Offset (in seconds):");
@@ -241,14 +287,15 @@ public class GUI_TaskEditor extends JDialog {
 	}
 	private JCheckBox getChckbxRegisterInOnenable() {
 		if (chckbxRegisterInOnenable == null) {
-			chckbxRegisterInOnenable = new JCheckBox("Register in onEnable()");
+			chckbxRegisterInOnenable = new JCheckBox("Start in onEnable()");
 		}
 		return chckbxRegisterInOnenable;
 	}
-	private JPanel getPnBtns() {
+	private GraphicsPanel getPnBtns() {
 		if (pnBtns == null) {
-			pnBtns = new JPanel();
-			pnBtns.setBackground(Color.WHITE);
+			pnBtns = new GraphicsPanel(false, "/me/simplex/pluginkickstarter/gui/images/bg_sel.png");
+			pnBtns.setBorder(new MatteBorder(3, 0, 0, 0, (Color) Color.DARK_GRAY));
+			pnBtns.setBackground(new Color(105, 105, 105));
 			FlowLayout fl_pnBtns = (FlowLayout) pnBtns.getLayout();
 			fl_pnBtns.setAlignment(FlowLayout.RIGHT);
 			pnBtns.add(getBtnSave());
@@ -259,6 +306,7 @@ public class GUI_TaskEditor extends JDialog {
 	private JButton getBtnSave() {
 		if (btnSave == null) {
 			btnSave = new JButton("Save");
+			btnSave.setEnabled(false);
 			btnSave.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
