@@ -143,14 +143,13 @@ public class GUI_Main_Window extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						URI uri;
-						uri = new URI("http://github.com/s1mpl3x/Buildr");
+						uri = new URI("http://www.github.com/s1mpl3x/Kickstarter");
 						Desktop.getDesktop().browse(uri);
 					} catch (URISyntaxException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-
 				}
 			});
 			menuitem_github.setIcon(new ImageIcon(GUI_Main_Window.class.getResource("/me/simplex/pluginkickstarter/gui/images/icon_github.png")));
