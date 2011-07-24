@@ -2,10 +2,10 @@
  * $pluginname - by $author
  * $website
  *
- * powered by PluginKickstarter
+ * powered by Kickstarter
  */
  
- $package
+ package $package
  
  import org.bukkit.plugin.java.JavaPlugin;
  $imports
@@ -21,7 +21,7 @@
  		
  		$register_commands
  		
- 		$start_tasks
+ 		$schedule_tasks
  	}
  	
  	@Override

@@ -16,9 +16,16 @@ import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 public class GUI_PnGeneralInformation extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private GUI_Main_Window GUI;
+	
 	private JTextField tfPluginname;
 	private JTextField tfAuthor;
 	private JLabel lblPluginname;
@@ -42,7 +49,8 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JLabel lbSoftdepends;
 	private JTextField tfSoftdepends;
 	
-	public GUI_PnGeneralInformation() {
+	public GUI_PnGeneralInformation(GUI_Main_Window gui) {
+		this.GUI = gui;
 		initialize();
 	}
 	private void initialize() {
@@ -56,17 +64,83 @@ public class GUI_PnGeneralInformation extends JPanel {
 		if (tfPluginname == null) {
 			tfPluginname = new JTextField();
 			tfPluginname.setColumns(10);
+			tfPluginname.setDocument(new PlainDocument(){
+				private static final long serialVersionUID = 1L;
+				@Override
+				public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+					str = str.replace(",", "");
+					str = str.replace(" ", "");
+					str = str.replace(".", "");
+					super.insertString(offs, str, a);
+				}
+			});
+			tfPluginname.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					checkData();
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					checkData();
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					checkData();
+				}
+				
+			});
 		}
 		return tfPluginname;
 	}
 	private JTextField getTfAuthor() {
 		if (tfAuthor == null) {
 			tfAuthor = new JTextField();
-			tfAuthor.setText(System.getProperty("user.name"));
 			tfAuthor.setColumns(10);
+			tfAuthor.setDocument(new PlainDocument(){
+				private static final long serialVersionUID = 1L;
+				@Override
+				public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+					str = str.replace(",", "");
+					str = str.replace(" ", "");
+					str = str.replace(".", "");
+					super.insertString(offs, str, a);
+				}
+			});
+			tfAuthor.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					checkData();
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					checkData();
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					checkData();
+				}
+				
+			});
+			tfAuthor.setText(System.getProperty("user.name"));
 		}
 		return tfAuthor;
 	}
+	
+	private void checkData(){
+		if (getTfAuthor().getText().trim().length() > 0 && getTfPluginname().getText().trim().length() > 0) {
+			GUI.getBtNextStep().setEnabled(true);
+		}
+		else {
+			GUI.getBtNextStep().setEnabled(false);
+		}
+	}
+	
 	private JLabel getLblPluginname() {
 		if (lblPluginname == null) {
 			lblPluginname = new JLabel("Pluginname:");

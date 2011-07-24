@@ -62,7 +62,21 @@ public class PluginKickstarter {
 		aliases.add("derp");
 		aliases.add("herp");
 		data.getCommands().add(new CommandContainer("hurrdurr"));
-		System.out.println(builder.build_Plugin_Content());
+		System.out.println(builder.build_Plugin_File());
+	}
+	
+	public void startBuild(){
+		// plugin.yml
+		data.getBuildFiles().add(builder.build_Plugin_File());
+		
+		// commandExecutor(s)
+		
+		// listener(s)
+		
+		// tasks
+		
+		//<Pluginname>.java
+		data.getBuildFiles().add(builder.build_MainClass_File());
 	}
 
 	public String getVersion() {

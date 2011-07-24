@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import me.simplex.pluginkickstarter.generator.GenCommand;
 import me.simplex.pluginkickstarter.generator.GenPlugin;
 import me.simplex.pluginkickstarter.generator.GenMainClass;
+import me.simplex.pluginkickstarter.storage.CommandContainer;
+import me.simplex.pluginkickstarter.storage.FileContainer;
 import me.simplex.pluginkickstarter.util.TemplateType;
 
 public class FileBuilder {
@@ -43,36 +46,65 @@ public class FileBuilder {
 		return file;
 	}
 	
-	public String build_MainClass_Content(){
+	public FileContainer build_MainClass_File(){
 		GenMainClass gen = new GenMainClass(main);
-		String file = loadTemplateFile(TemplateType.MainClass);
-
-		file = file.replace("$package", 			gen.buildPackage(TemplateType.MainClass));
-		file = file.replace("$imports", 			gen.buildImports());
-		file = file.replace("$classname", 			gen.buildClassname());
-		file = file.replace("$variables", 			gen.buildVariables());
-		file = file.replace("$init", 				gen.buildInit());
-		file = file.replace("$register_events", 	gen.buildRegister_Events());
-		file = file.replace("$register_commands", 	gen.buildRegister_Commands());
-		file = file.replace("$start_tasks", 		gen.buildStart_Tasks());
-		file = file.replace("$disable", 			gen.buildDisable());
-		file = file.replace("$setupPermissions", 	gen.buildSetupPermissions());
-		file = file.replace("$configChecks", 		gen.buildConfigChecks());
-		file = file.replace("$GetterAndSetter", 	gen.buildGetterAndSetter());
-		return file;
+		String content = loadTemplateFile(TemplateType.MainClass);
+		
+		content = content.replace("$author", 				gen.buildAuthor());
+		content = content.replace("$website", 				gen.buildWebsite());
+		content = content.replace("$pluginname", 			gen.buildPluginName());
+		content = content.replace("$package", 				gen.buildPackage(TemplateType.MainClass));
+		content = content.replace("$imports", 				gen.buildImports());
+		content = content.replace("$classname", 			gen.buildClassname());
+		content = content.replace("$variables", 			gen.buildVariables());
+		content = content.replace("$init", 					gen.buildInit());
+		content = content.replace("$register_events", 		gen.buildRegister_Events());
+		content = content.replace("$register_commands", 	gen.buildRegister_Commands());
+		content = content.replace("$schedule_tasks", 		gen.buildSchedule_Tasks());
+		content = content.replace("$disable", 				gen.buildDisable());
+		content = content.replace("$setupPermissions", 		gen.buildSetupPermissions());
+		content = content.replace("$configChecks", 			gen.buildConfigChecks());
+		content = content.replace("$GetterAndSetter", 		gen.buildGetterAndSetter());
+		
+		return new FileContainer(main.getData().getPluginname()+".java", gen.buildFilepath(TemplateType.MainClass), content);
 	}
 	
-	public String build_Plugin_Content(){
+	public FileContainer build_Plugin_File(){
 		GenPlugin gen = new GenPlugin(main);
-		String file = loadTemplateFile(TemplateType.Plugin);
+		String content = loadTemplateFile(TemplateType.Plugin);
 		
-		file = file.replace("$pluginname", 			gen.buildPluginName());
-		file = file.replace("$mainclass", 			gen.buildMainClass());
-		file = file.replace("$version", 			gen.buildVersion());
-		file = file.replace("$author", 				gen.buildAuthor());
-		file = file.replace("$website", 			gen.buildWebsite());
-		file = file.replace("$description", 		gen.buildDescription());
-		file = file.replace("$commands", 			gen.buildCommands());
-		return file;
+		content = content.replace("$pluginname", 			gen.buildPluginName());
+		content = content.replace("$mainclass", 			gen.buildMainClass());
+		content = content.replace("$version", 				gen.buildVersion());
+		content = content.replace("$author", 				gen.buildAuthor());
+		content = content.replace("$website", 				gen.buildWebsite());
+		content = content.replace("$description", 			gen.buildDescription());
+		content = content.replace("$commands", 				gen.buildCommands());
+		
+		return new FileContainer("plugin.yml", "", content);
+	}
+	
+	public FileContainer build_Task_File(){
+		return null;
+	}
+	
+	public FileContainer build_Command_File(CommandContainer c){
+		GenCommand gen = new GenCommand(main, c);
+		String content = loadTemplateFile(TemplateType.Command);
+		
+		content = content.replace("$author", 				gen.buildAuthor());
+		content = content.replace("$website", 				gen.buildWebsite());
+		content = content.replace("$pluginname", 			gen.buildPluginName());
+		content = content.replace("$playeronly", 			gen.buildPlayerOnly());
+		content = content.replace("$mainclassimport", 		gen.buildMainClassImport());
+		content = content.replace("$mainclasstype", 		gen.buildMainClassType());
+		content = content.replace("$package", 				gen.buildPackage(TemplateType.Command));
+		content = content.replace("$playerimport", 			gen.buildPlayerImport());
+		
+		return null;
+	}
+	
+	public FileContainer build_Listener_File(){
+		return null;
 	}
 }

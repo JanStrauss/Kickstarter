@@ -1,6 +1,7 @@
 package me.simplex.pluginkickstarter.storage;
 
 import me.simplex.pluginkickstarter.util.PriorityType;
+import me.simplex.pluginkickstarter.util.TemplateType;
 
 public class ListenerContainer {
 	private String type;
@@ -9,8 +10,10 @@ public class ListenerContainer {
 	private String desc;
 	private boolean selected;
 	private PriorityType priority;
-	
-	public ListenerContainer(String type, String name, String event, String desc) {
+	private TemplateType file;
+
+	public ListenerContainer(TemplateType file, String type, String name, String event, String desc) {
+		this.file = file;
 		this.type = type;
 		this.name = name;
 		this.event = event;
@@ -53,6 +56,9 @@ public class ListenerContainer {
 		this.priority = priority;
 	}
 	
+	public TemplateType getFile() {
+		return file;
+	}
 	
 }
 

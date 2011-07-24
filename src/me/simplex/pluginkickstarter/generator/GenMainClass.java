@@ -1,7 +1,7 @@
 package me.simplex.pluginkickstarter.generator;
 
 import me.simplex.pluginkickstarter.PluginKickstarter;
-import me.simplex.pluginkickstarter.storage.TaskStorage;
+import me.simplex.pluginkickstarter.storage.TaskContainer;
 
 public class GenMainClass extends Generator {
 
@@ -25,9 +25,9 @@ public class GenMainClass extends Generator {
 		return ""; //TODO
 	}
 	
-	public String buildStart_Tasks(){
+	public String buildSchedule_Tasks(){
 		String ret="";
-		for (TaskStorage task : main.getData().getTasks()) {
+		for (TaskContainer task : main.getData().getTasks()) {
 			if (task.isRegisterAtOnEnable()) {
 				ret=ret+task.buildRegisterString()+"\n";
 			}
@@ -39,7 +39,7 @@ public class GenMainClass extends Generator {
 		String ret="";
 		
 		//Task Imports
-		for (TaskStorage task : main.getData().getTasks()) {
+		for (TaskContainer task : main.getData().getTasks()) {
 			if (task.isRegisterAtOnEnable()) {
 				ret=ret+task.buildImportString()+"\n";
 			}

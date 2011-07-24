@@ -7,7 +7,6 @@ public class CommandContainer {
 	private ArrayList<String> aliases;
 	private String description="";
 	private String usage="/<command> ";
-	private String permission="";
 	private boolean PlayerOnly;
 	
 	public CommandContainer(String command){
@@ -76,19 +75,5 @@ public class CommandContainer {
 
 	public void setUsage(String usage) {
 		this.usage = usage;
-	}
-
-	/**
-	 * @param permission the permission to set
-	 */
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
-
-	/**
-	 * @return the permission
-	 */
-	public String getPermission() {
-		return permission;
 	}
 }

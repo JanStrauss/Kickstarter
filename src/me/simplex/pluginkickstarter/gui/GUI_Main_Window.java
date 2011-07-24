@@ -51,7 +51,7 @@ public class GUI_Main_Window extends JFrame {
 	
 	public GUI_Main_Window(PluginKickstarter pluginSeed) {
 		this.main = pluginSeed;
-		this.pnGeneral = new GUI_PnGeneralInformation();
+		this.pnGeneral = new GUI_PnGeneralInformation(this);
 		this.pnPlugin = new GUI_PnPluginInformation(this);
 		status = Selected.Step1;
 		initialize();
@@ -210,9 +210,10 @@ public class GUI_Main_Window extends JFrame {
 		return pnFooter;
 	}
 	
-	private JButton getBtNextStep() {
+	public JButton getBtNextStep() {
 		if (btNextStep == null) {
 			btNextStep = new JButton("Continue");
+			btNextStep.setEnabled(false);
 			btNextStep.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					switch (status) {

@@ -9,24 +9,12 @@ public class GenPlugin extends Generator {
 		super(main);
 	}
 	
-	public String buildPluginName(){
-		return main.getData().getPluginname();
-	}
-	
 	public String buildMainClass(){
 		return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+"."+main.getData().getPluginname();
 	}
 	
 	public String buildVersion(){
 		return main.getData().getVersion();
-	}
-	
-	public String buildAuthor(){
-		return main.getData().getAuthor();
-	}
-	
-	public String buildWebsite(){
-		return main.getData().getWebsite();
 	}
 	
 	public String buildDescription(){

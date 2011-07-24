@@ -3,8 +3,9 @@ package me.simplex.pluginkickstarter;
 import java.util.ArrayList;
 
 import me.simplex.pluginkickstarter.storage.CommandContainer;
+import me.simplex.pluginkickstarter.storage.FileContainer;
 import me.simplex.pluginkickstarter.storage.ListenerContainer;
-import me.simplex.pluginkickstarter.storage.TaskStorage;
+import me.simplex.pluginkickstarter.storage.TaskContainer;
 
 public class DataStorage {
 	private String pluginname;
@@ -16,14 +17,17 @@ public class DataStorage {
 	private boolean usePermissions;
 	private boolean singleCommandExecuter;
 	
-	private ArrayList<TaskStorage> tasks;
+	private ArrayList<TaskContainer> tasks;
 	private ArrayList<CommandContainer> commands;
 	private ArrayList<ListenerContainer> listener;
 	
+	private ArrayList<FileContainer> buildFiles;
+	
 	public DataStorage() {
-		this.tasks = new ArrayList<TaskStorage>();
+		this.tasks = new ArrayList<TaskContainer>();
 		this.commands = new ArrayList<CommandContainer>();
 		this.listener = new ArrayList<ListenerContainer>();
+		this.buildFiles = new ArrayList<FileContainer>();
 	}
 	
 	public CommandContainer getCmdContainerByName(String name){
@@ -111,14 +115,14 @@ public class DataStorage {
 	/**
 	 * @param tasks the tasks to set
 	 */
-	public void setTasks(ArrayList<TaskStorage> tasks) {
+	public void setTasks(ArrayList<TaskContainer> tasks) {
 		this.tasks = tasks;
 	}
 
 	/**
 	 * @return the tasks
 	 */
-	public ArrayList<TaskStorage> getTasks() {
+	public ArrayList<TaskContainer> getTasks() {
 		return tasks;
 	}
 
@@ -148,6 +152,12 @@ public class DataStorage {
 	 */
 	public ArrayList<ListenerContainer> getListener() {
 		return listener;
+	}
+	/**
+	 * @return the buildFiles
+	 */
+	public ArrayList<FileContainer> getBuildFiles() {
+		return buildFiles;
 	}
 
 }

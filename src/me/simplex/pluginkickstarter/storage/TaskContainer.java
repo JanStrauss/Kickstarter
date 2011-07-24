@@ -3,7 +3,7 @@ package me.simplex.pluginkickstarter.storage;
 import me.simplex.pluginkickstarter.DataStorage;
 import me.simplex.pluginkickstarter.util.TaskType;
 
-public class TaskStorage {
+public class TaskContainer {
 	private DataStorage storage;
 	private String taskname;
 	private TaskType type;
@@ -11,7 +11,7 @@ public class TaskStorage {
 	private long delay;
 	private boolean registerAtOnEnable;
 	
-	public TaskStorage(String taskname, TaskType type, long offset, long delay,boolean registerAtOnEnable, DataStorage storage) {
+	public TaskContainer(String taskname, TaskType type, long offset, long delay,boolean registerAtOnEnable, DataStorage storage) {
 		this.storage = storage;
 		this.taskname = taskname;
 		this.type = type;

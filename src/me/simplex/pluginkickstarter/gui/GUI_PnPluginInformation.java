@@ -103,8 +103,6 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JScrollPane spDesc;
 	private JTextField tfUsage;
 	private JLabel lblUsage;
-	private JLabel lblPermissions;
-	private JTextField tfPermission;
 	private JPanel panel;
 	private JButton btSaveCommand;
 	private JTextArea taDescription;
@@ -407,7 +405,6 @@ public class GUI_PnPluginInformation extends JPanel {
 							getTfAliases().setText(aliases);
 							getTaDescription().setText(c.getDescription());
 							getTfUsage().setText(c.getUsage());
-							getTfPermission().setText(c.getPermission());
 							getCbPlayerOnly().setSelected(c.isPlayerOnly());
 						}
 					}
@@ -503,7 +500,6 @@ public class GUI_PnPluginInformation extends JPanel {
 					
 					getTfAliases().setText("");
 					getTfCmd_Name().setText("");
-					getTfPermission().setText("");
 					getTfUsage().setText("");
 					getTaDescription().setText("");
 					getCbPlayerOnly().setSelected(true);
@@ -578,29 +574,18 @@ public class GUI_PnPluginInformation extends JPanel {
 			gbc_tfUsage.gridx = 1;
 			gbc_tfUsage.gridy = 3;
 			pnCommandEdit.add(getTfUsage(), gbc_tfUsage);
-			GridBagConstraints gbc_lblPermissions = new GridBagConstraints();
-			gbc_lblPermissions.anchor = GridBagConstraints.WEST;
-			gbc_lblPermissions.insets = new Insets(0, 0, 5, 5);
-			gbc_lblPermissions.gridx = 0;
-			gbc_lblPermissions.gridy = 4;
-			pnCommandEdit.add(getLblPermissions(), gbc_lblPermissions);
-			GridBagConstraints gbc_tfPermission = new GridBagConstraints();
-			gbc_tfPermission.insets = new Insets(0, 0, 5, 0);
-			gbc_tfPermission.fill = GridBagConstraints.HORIZONTAL;
-			gbc_tfPermission.gridx = 1;
-			gbc_tfPermission.gridy = 4;
-			pnCommandEdit.add(getTfPermission(), gbc_tfPermission);
 			GridBagConstraints gbc_cbPlayerOnly = new GridBagConstraints();
 			gbc_cbPlayerOnly.anchor = GridBagConstraints.WEST;
 			gbc_cbPlayerOnly.insets = new Insets(0, 0, 5, 0);
 			gbc_cbPlayerOnly.gridx = 1;
-			gbc_cbPlayerOnly.gridy = 5;
+			gbc_cbPlayerOnly.gridy = 4;
 			pnCommandEdit.add(getCbPlayerOnly(), gbc_cbPlayerOnly);
 			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.gridwidth = 2;
 			gbc_panel.fill = GridBagConstraints.BOTH;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 6;
+			gbc_panel.gridx = 1;
+			gbc_panel.gridy = 5;
 			pnCommandEdit.add(getPanel(), gbc_panel);
 		}
 		return pnCommandEdit;
@@ -721,21 +706,6 @@ public class GUI_PnPluginInformation extends JPanel {
 		}
 		return lblUsage;
 	}
-	private JLabel getLblPermissions() {
-		if (lblPermissions == null) {
-			lblPermissions = new JLabel("Permission:");
-			lblPermissions.setEnabled(false);
-		}
-		return lblPermissions;
-	}
-	private JTextField getTfPermission() {
-		if (tfPermission == null) {
-			tfPermission = new JTextField();
-			tfPermission.setEnabled(false);
-			tfPermission.setColumns(10);
-		}
-		return tfPermission;
-	}
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
@@ -762,7 +732,6 @@ public class GUI_PnPluginInformation extends JPanel {
 					c.setCommand(tfCmd_Name.getText());
 					c.setDescription(taDescription.getText());
 					c.setAliases(aliases);
-					c.setPermission(tfPermission.getText());
 					c.setPlayerOnly(cbPlayerOnly.isSelected());
 					c.setUsage(tfUsage.getText());
 					
@@ -859,7 +828,6 @@ public class GUI_PnPluginInformation extends JPanel {
 						getListCommands().clearSelection();
 						getTfAliases().setText("");
 						getTfCmd_Name().setText("");
-						getTfPermission().setText("");
 						getTfUsage().setText("");
 						getTaDescription().setText("");
 						getCbPlayerOnly().setSelected(true);

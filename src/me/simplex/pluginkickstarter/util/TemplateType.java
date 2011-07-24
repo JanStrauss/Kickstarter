@@ -10,6 +10,7 @@ public enum TemplateType {
 	WeatherListener,
 	VehicleListener,
 	InventoryListener,
+	ServerListener,
 	Command,
 	Task,
 	Configuration;
