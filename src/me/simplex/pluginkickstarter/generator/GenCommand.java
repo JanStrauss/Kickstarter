@@ -12,10 +12,8 @@ public class GenCommand extends Generator {
 	}
 	
 	public String buildClassname(){
-		return StringToClassName(c.getCommand());
+		return "CommandExecutor_"+StringToClassName(c.getCommand());
 	}
-	
-
 	
 	public String buildPlayerOnly(){
 		if (c.isPlayerOnly()) {
@@ -34,5 +32,13 @@ public class GenCommand extends Generator {
 			return "import org.bukkit.entity.Player;\n";
 		}
 		return "";
+	}
+
+	public String buildCommand() {
+		return c.getCommand().toLowerCase();
+	}
+
+	public String buildFileName() {
+		return buildClassname()+".java";
 	}
 }

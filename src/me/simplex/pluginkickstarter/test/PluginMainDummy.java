@@ -20,7 +20,7 @@ public class PluginMainDummy extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		//this.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, task, delay, period);
-		getCommand("test").setExecutor(new Commandexe());
+		getCommand("test").setExecutor(new Commandexe(this));
 		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT, null, Priority.Normal, this);
 		
 	}

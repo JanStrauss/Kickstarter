@@ -160,4 +160,13 @@ public class DataStorage {
 		return buildFiles;
 	}
 
+	public void removeNullListener() {
+		for (ListenerContainer container : listener) {
+			if (container == null) {
+				listener.remove(container);
+			}
+		}
+		
+	}
+
 }

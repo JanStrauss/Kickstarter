@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 public class Commandexe implements CommandExecutor {
 	private PluginMainDummy plugin;
 	
-	public Commandexe() {
-		
+	public Commandexe(PluginMainDummy plugin) {
+		this.plugin = plugin;
 	}
 
 	@Override

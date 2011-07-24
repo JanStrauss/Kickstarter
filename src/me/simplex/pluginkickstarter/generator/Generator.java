@@ -29,18 +29,9 @@ public class Generator {
 			return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".commands;";
 		}
 		else if(template.equals(TemplateType.Task)) {
-			
 			return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".tasks;";
 		}
-		else if(template.equals(TemplateType.PlayerListener) 	||
-				template.equals(TemplateType.BlockListener)		||
-				template.equals(TemplateType.InventoryListener)	||
-				template.equals(TemplateType.VehicleListener)	||
-				template.equals(TemplateType.ServerListener)	||
-				template.equals(TemplateType.WeatherListener)	||
-				template.equals(TemplateType.WorldListener)		||
-				template.equals(TemplateType.EntityListener)) {
-			
+		else if(template.equals(TemplateType.Listener)){
 			return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".listeners;";
 		}
 		else {

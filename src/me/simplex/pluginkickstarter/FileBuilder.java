@@ -13,6 +13,8 @@ import me.simplex.pluginkickstarter.generator.GenPlugin;
 import me.simplex.pluginkickstarter.generator.GenMainClass;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
 import me.simplex.pluginkickstarter.storage.FileContainer;
+import me.simplex.pluginkickstarter.storage.ListenerContainer;
+import me.simplex.pluginkickstarter.util.ListenerType;
 import me.simplex.pluginkickstarter.util.TemplateType;
 
 public class FileBuilder {
@@ -100,11 +102,28 @@ public class FileBuilder {
 		content = content.replace("$mainclasstype", 		gen.buildMainClassType());
 		content = content.replace("$package", 				gen.buildPackage(TemplateType.Command));
 		content = content.replace("$playerimport", 			gen.buildPlayerImport());
+		content = content.replace("$classname", 			gen.buildClassname());
+		content = content.replace("$command", 				gen.buildCommand());
 		
-		return null;
+		return new FileContainer(gen.buildFileName(), gen.buildFilepath(TemplateType.Command), content);
 	}
 	
-	public FileContainer build_Listener_File(){
+	public FileContainer build_Listener_File(ListenerType type){
+		int count = 0;
+		for (ListenerContainer con : main.getData().getListener()) {
+			if (con.getType().equals(type)) {
+				count++;
+			}
+		}
+		
+		if (count>0) {
+			return build_Listener_File_rly(type);
+		}
+		return null;
+	}
+
+	private FileContainer build_Listener_File_rly(ListenerType type) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
