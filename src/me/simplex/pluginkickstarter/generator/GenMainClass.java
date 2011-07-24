@@ -80,4 +80,9 @@ public class GenMainClass extends Generator {
 	public String buildGetterAndSetter(){
 		return ""; //TODO
 	}
+
+	@Override
+	public String buildClassname() {
+		return StringToClassName(main.getData().getPluginname());
+	}
 }

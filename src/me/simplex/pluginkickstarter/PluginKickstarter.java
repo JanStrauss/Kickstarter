@@ -7,10 +7,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import me.simplex.pluginkickstarter.gui.GUI_Main_Window;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
-import me.simplex.pluginkickstarter.storage.ListenerContainer;
 import me.simplex.pluginkickstarter.storage.ListenerData;
 import me.simplex.pluginkickstarter.util.ListenerType;
-import me.simplex.pluginkickstarter.util.TemplateType;
 
 public class PluginKickstarter {
 	private GUI_Main_Window GUI;
@@ -80,8 +78,8 @@ public class PluginKickstarter {
 		for (ListenerType type: ListenerType.values()) {
 			data.getBuildFiles().add(builder.build_Listener_File(type));
 		}
-			
-			data.removeNullListener();
+		data.removeNullListener();
+		
 		// tasks
 		
 		//<Pluginname>.java

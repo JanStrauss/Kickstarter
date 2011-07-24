@@ -5,11 +5,15 @@ import java.io.File;
 import me.simplex.pluginkickstarter.PluginKickstarter;
 import me.simplex.pluginkickstarter.util.TemplateType;
 
-public class Generator {
+public abstract class Generator {
 	PluginKickstarter main;
 	
 	public Generator(PluginKickstarter main) {
 		this.main = main;
+	}
+	
+	public String buildFileName() {
+		return buildClassname()+".java";
 	}
 	
 	public String buildAuthor(){
@@ -43,9 +47,7 @@ public class Generator {
 		return "src"+File.separator+buildPackage(template).replace(".", File.separator);
 	}
 		
-	public String buildClassname(){
-		return main.getData().getPluginname();
-	}
+	public abstract String buildClassname();
 	
 	public String buildMainClassImport(){
 		return "import "+buildPackage(TemplateType.MainClass)+"."+buildMainClassType();

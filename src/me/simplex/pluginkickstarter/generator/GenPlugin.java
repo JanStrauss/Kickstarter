@@ -33,4 +33,9 @@ public class GenPlugin extends Generator {
 			return"";
 		}
 	}
+
+	@Override
+	public String buildClassname() {
+		return null;
+	}
 }

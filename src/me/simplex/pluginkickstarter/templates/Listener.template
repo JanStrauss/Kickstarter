@@ -7,26 +7,16 @@
 
 package $package
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-$playerimport
+import org.bukkit.event.entity.$typeListener;
+$listenerimports
 $mainclassimport
 
-public class $classname implements CommandExecutor {
+public class $classname extends EntityListener {
 	private $mainclasstype plugin;
 
 	public $classname($mainclasstype plugin){
 		this.plugin = plugin;
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {
-		if (command.getName().toLowerCase().equals("$command")) {
-			$playeronly
-			//TODO:  Handle command $command
-			return true;
-		}
-		return false;
-	}
+	$listeners
 }

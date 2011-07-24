@@ -3,7 +3,6 @@ package me.simplex.pluginkickstarter.storage;
 import java.util.ArrayList;
 
 import me.simplex.pluginkickstarter.util.ListenerType;
-import me.simplex.pluginkickstarter.util.TemplateType;
 
 public class ListenerData {
 	private ArrayList<ListenerContainer> listener_Block;

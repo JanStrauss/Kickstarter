@@ -10,11 +10,7 @@ public class GenCommand extends Generator {
 		super(main);
 		this.c = c;
 	}
-	
-	public String buildClassname(){
-		return "CommandExecutor_"+StringToClassName(c.getCommand());
-	}
-	
+		
 	public String buildPlayerOnly(){
 		if (c.isPlayerOnly()) {
 			return 	"		if (!(sender instanceof Player)) {\n"+
@@ -38,7 +34,10 @@ public class GenCommand extends Generator {
 		return c.getCommand().toLowerCase();
 	}
 
-	public String buildFileName() {
-		return buildClassname()+".java";
+	@Override
+	public String buildClassname() {
+		return "CommandExecutor_"+StringToClassName(c.getCommand());
 	}
+
+
 }

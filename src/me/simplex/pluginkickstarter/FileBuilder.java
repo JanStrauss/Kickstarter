@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import me.simplex.pluginkickstarter.generator.GenCommand;
+import me.simplex.pluginkickstarter.generator.GenListeners;
 import me.simplex.pluginkickstarter.generator.GenPlugin;
 import me.simplex.pluginkickstarter.generator.GenMainClass;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
@@ -123,7 +124,18 @@ public class FileBuilder {
 	}
 
 	private FileContainer build_Listener_File_rly(ListenerType type) {
-		// TODO Auto-generated method stub
-		return null;
+		GenListeners gen = new GenListeners(main,type);
+		String content = loadTemplateFile(TemplateType.Listener);
+		
+		content = content.replace("$author", 				gen.buildAuthor());
+		content = content.replace("$website", 				gen.buildWebsite());
+		content = content.replace("$pluginname", 			gen.buildPluginName());
+		content = content.replace("$classname", 			gen.buildClassname());
+		content = content.replace("$mainclassimport", 		gen.buildMainClassImport());
+		content = content.replace("$mainclasstype", 		gen.buildMainClassType());
+		content = content.replace("$listenerimports", 		gen.buildImports());
+		content = content.replace("$listeners", 			gen.buildListeners());
+		
+		return new FileContainer(gen.buildFileName(), gen.buildFilepath(TemplateType.Listener), content);
 	}
 }
