@@ -36,7 +36,7 @@ public class EventTable extends JTable {
 		
 		this.getColumnModel().getColumn(3).setMinWidth(65);
 		this.getColumnModel().getColumn(3).setMaxWidth(65);
-		this.getColumnModel().getColumn(3).setCellEditor(new TableComboBoxEditor(PriorityType.Normal.giveTypeAsArray()));
-		this.getColumnModel().getColumn(3).setCellRenderer(new TableComboBoxRenderer(PriorityType.Normal.giveTypeAsArray()));
+		this.getColumnModel().getColumn(3).setCellEditor(new TableComboBoxEditor(PriorityType.values()));
+		this.getColumnModel().getColumn(3).setCellRenderer(new TableComboBoxRenderer(PriorityType.values()));
 	}
 }

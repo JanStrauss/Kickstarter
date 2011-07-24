@@ -1,25 +1,61 @@
 package me.simplex.pluginkickstarter.generator;
 
+import java.util.ArrayList;
+
 import me.simplex.pluginkickstarter.PluginKickstarter;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
+import me.simplex.pluginkickstarter.storage.ListenerContainer;
 import me.simplex.pluginkickstarter.storage.TaskContainer;
+import me.simplex.pluginkickstarter.util.ListenerType;
+import me.simplex.pluginkickstarter.util.TemplateType;
 
 public class GenMainClass extends Generator {
-
+	ArrayList<ListenerType> types_to_handle;
+	
 	public GenMainClass(PluginKickstarter main) {
 		super(main);
+		types_to_handle = new ArrayList<ListenerType>();
+		int count = 0;
+		for (ListenerType type : ListenerType.values()) {
+			for (ListenerContainer con : main.getData().getListener()) {
+				if (con.getType().equals(type)) {
+					count++;
+				}
+			}
+			if (count >0) {
+				types_to_handle.add(type);
+			}
+			count = 0;
+		}
 	}
 	
 	public String buildVariables(){
-		return ""; //TODO
+		String ret ="";
+		
+		// BEGIN Listeners
+		for (ListenerType t : types_to_handle) {
+			ret=ret+"private Listener_"+StringToClassName(t.toString())+" listener"+StringToClassName(t.toString())+";\n";
+		}
+
+		return ret; //TODO
 	}
 	
 	public String buildInit(){
-		return ""; //TODO
+		String ret ="";
+		
+		// BEGIN Listeners
+		for (ListenerType t : types_to_handle) {
+			ret=ret+"listener"+StringToClassName(t.toString())+" = new Listener_"+StringToClassName(t.toString())+"(this);\n";
+		}
+		return ret; //TODO
 	}
 	
 	public String buildRegister_Events(){
-		return ""; //TODO
+		String ret = "";
+		for (ListenerContainer c : main.getData().getListener()) {
+			ret=ret+"getServer().getPluginManager().registerEvent("+c.getType()+", listener"+StringToClassName(c.getFile().toString())+", Priority."+c.getPriority().toString()+", this);\n";
+		}
+		return ret;
 	}
 	
 	public String buildRegister_Commands(){
@@ -62,6 +98,16 @@ public class GenMainClass extends Generator {
 				ret=ret+"import me."+ main.getData().getAuthor()+"."+ main.getData().getPluginname().toLowerCase()+".tasks."+StringToClassName(task.getTaskname())+"";
 			}
 		}
+		
+		//Listener Imports
+		if (types_to_handle.size() > 0) {
+			ret=ret+"import org.bukkit.event.Event.Priority;\n";
+			ret=ret+"import org.bukkit.event.Event.Type;\n";		
+			for (ListenerType t : types_to_handle) {
+				ret=ret+"import "+buildPackage(TemplateType.Listener)+"."+StringToClassName(t.toString())+";\n";
+			}
+		}
+		
 		return ret; //TODO
 	}
 	

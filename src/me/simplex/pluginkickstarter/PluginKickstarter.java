@@ -66,7 +66,8 @@ public class PluginKickstarter {
 		System.out.println(builder.build_Plugin_File());
 	}
 	
-	public void startBuild(){
+	public void buildPlugin(){
+		data.getBuildFiles().clear();
 		// plugin.yml
 		data.getBuildFiles().add(builder.build_Plugin_File());
 		

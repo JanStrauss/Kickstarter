@@ -57,5 +57,7 @@ public abstract class Generator {
 		return StringToClassName(main.getData().getPluginname());
 	}
 	
-	protected static String StringToClassName(String g){return g.toLowerCase().substring(0, 1).toUpperCase()+g.substring(1);}
+	protected static String StringToClassName(String g){
+		return g.toLowerCase().substring(0, 1).toUpperCase()+g.substring(1);
+	}
 }
