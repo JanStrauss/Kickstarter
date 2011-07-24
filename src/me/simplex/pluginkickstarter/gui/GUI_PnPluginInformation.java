@@ -42,7 +42,9 @@ import javax.swing.text.PlainDocument;
 
 import me.simplex.pluginkickstarter.gui.util.CommandListCellRenderer;
 import me.simplex.pluginkickstarter.gui.util.EventTable;
+import me.simplex.pluginkickstarter.gui.util.TaskListCellRenderer;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
+import me.simplex.pluginkickstarter.storage.TaskContainer;
 import me.simplex.pluginkickstarter.util.ListenerType;
 
 public class GUI_PnPluginInformation extends JPanel {
@@ -106,14 +108,23 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JPanel panel;
 	private JButton btSaveCommand;
 	private JTextArea taDescription;
-	
-	private DefaultListModel list_data;
+	private DefaultListModel command_list_data;
+	private DefaultListModel task_list_data;
 	private JCheckBox cbPlayerOnly;
 	private JButton btEdit;
-	
-	private boolean editIsOn = false;
-	private boolean editHasStarted = false;
 	private JPanel pnScroll;
+	private JScrollPane spTasks;
+	private JPanel pnTasksBtns;
+	private JButton btNewTask;
+	private JButton btEditTask;
+	private JButton btRemoveTask;
+	private JPanel pnTasksLabel;
+	private JLabel lbTask;
+	private JPanel pnTasksScroll;
+	private JList listTasks;
+	
+	private boolean command_editIsOn = false;
+	private boolean command_editHasStarted = false;
 		
 	public GUI_PnPluginInformation(GUI_Main_Window GUI) {
 		this.GUI = GUI;
@@ -363,6 +374,10 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JPanel getPnTasks() {
 		if (pnTasks == null) {
 			pnTasks = new JPanel();
+			pnTasks.setLayout(new BorderLayout(0, 0));
+			pnTasks.add(getSpTasks(), BorderLayout.CENTER);
+			pnTasks.add(getPnTasksBtns(), BorderLayout.EAST);
+			pnTasks.add(getPnTasksLabel(), BorderLayout.NORTH);
 		}
 		return pnTasks;
 	}
@@ -384,15 +399,15 @@ public class GUI_PnPluginInformation extends JPanel {
 	}
 	private JList getListCommands() {
 		if (listCommands == null) {
-			list_data = new DefaultListModel();
-			listCommands = new JList(list_data);
+			command_list_data = new DefaultListModel();
+			listCommands = new JList(command_list_data);
 			listCommands.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listCommands.setCellRenderer(new CommandListCellRenderer());
 			listCommands.addListSelectionListener(new ListSelectionListener() {
 				@Override
 				public void valueChanged(ListSelectionEvent e) {
 					if (listCommands.getSelectedValue() != null) {
-						if (!editIsOn) {
+						if (!command_editIsOn) {
 							getBtEdit().setEnabled(true);
 							getBtRemoveCommand().setEnabled(true);
 							CommandContainer c = (CommandContainer)listCommands.getSelectedValue();
@@ -461,16 +476,16 @@ public class GUI_PnPluginInformation extends JPanel {
 			btNewCommand = new JButton("New");
 			btNewCommand.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					editHasStarted = false;
+					command_editHasStarted = false;
 					CommandContainer newCommand = new CommandContainer("New Command");
-					list_data.addElement(newCommand);
+					command_list_data.addElement(newCommand);
 					getListCommands().setSelectedValue(newCommand, true);
 					getTfCmd_Name().requestFocus();
 					setEditEnabled(true,false);
 					getBtNewCommand().setEnabled(false);
 					getBtEdit().setEnabled(false);
 					getBtRemoveCommand().setEnabled(false);
-					editIsOn = true;
+					command_editIsOn = true;
 				}
 			});
 		}
@@ -496,7 +511,7 @@ public class GUI_PnPluginInformation extends JPanel {
 					}
 					CommandContainer c = (CommandContainer)getListCommands().getSelectedValue();
 					GUI.getMain().getData().getCommands().remove(c);
-					list_data.removeElement(c);
+					command_list_data.removeElement(c);
 					
 					getTfAliases().setText("");
 					getTfCmd_Name().setText("");
@@ -609,8 +624,8 @@ public class GUI_PnPluginInformation extends JPanel {
 				public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 					str = str.replace(" ", "_");
 					str = str.toLowerCase();
-					if (!editHasStarted) {
-						editHasStarted = true;
+					if (!command_editHasStarted) {
+						command_editHasStarted = true;
 						return;
 					}
 					super.insertString(offs, str, a);
@@ -635,11 +650,11 @@ public class GUI_PnPluginInformation extends JPanel {
 				}
 				
 				private void handleUpdate(){
-					if (editIsOn) {
+					if (command_editIsOn) {
 						System.out.println(tfCmd_Name.getText());
-						CommandContainer cont = (CommandContainer)list_data.getElementAt(list_data.size()-1);
+						CommandContainer cont = (CommandContainer)command_list_data.getElementAt(command_list_data.size()-1);
 						cont.setCommand(tfCmd_Name.getText());
-						list_data.setElementAt(cont, list_data.size()-1);
+						command_list_data.setElementAt(cont, command_list_data.size()-1);
 						checkBtnOkEnable();
 					}
 				}
@@ -721,7 +736,7 @@ public class GUI_PnPluginInformation extends JPanel {
 			btSaveCommand.setEnabled(false);
 			btSaveCommand.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					editIsOn = false;
+					command_editIsOn = false;
 					ArrayList<String> aliases = new ArrayList<String>();
 					for (String string : tfAliases.getText().split(",")) {
 						aliases.add(string);
@@ -742,7 +757,7 @@ public class GUI_PnPluginInformation extends JPanel {
 //					getTaDescription().setText("");
 //					getCbPlayerOnly().setEnabled(true);
 					
-					editIsOn = false;
+					command_editIsOn = false;
 					//editHasStarted = false;
 					setEditEnabled(false, false);
 					getBtNewCommand().setEnabled(true);
@@ -780,7 +795,7 @@ public class GUI_PnPluginInformation extends JPanel {
 	}
 	
 	private void checkBtnOkEnable(){
-		if (editIsOn) {
+		if (command_editIsOn) {
 			if (getTfCmd_Name().getText().length() > 0 && getTaDescription().getText().trim().length() > 0) {
 				getBtSaveCommand().setEnabled(true);
 			}
@@ -803,7 +818,7 @@ public class GUI_PnPluginInformation extends JPanel {
 			btEdit = new JButton("Edit");
 			btEdit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					editHasStarted = true;
+					command_editHasStarted = true;
 
 					//CommandContainer newCommand = (CommandContainer) getListCommands().getSelectedValue();
 					getTfCmd_Name().requestFocus();
@@ -811,7 +826,7 @@ public class GUI_PnPluginInformation extends JPanel {
 					getBtNewCommand().setEnabled(false);
 					getBtEdit().setEnabled(false);
 					getBtRemoveCommand().setEnabled(false);
-					editIsOn = true;
+					command_editIsOn = true;
 				}
 			});
 			btEdit.setEnabled(false);
@@ -824,7 +839,7 @@ public class GUI_PnPluginInformation extends JPanel {
 			pnScroll.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					if (!editIsOn) {
+					if (!command_editIsOn) {
 						getListCommands().clearSelection();
 						getTfAliases().setText("");
 						getTfCmd_Name().setText("");
@@ -839,6 +854,161 @@ public class GUI_PnPluginInformation extends JPanel {
 			pnScroll.add(getListCommands(), BorderLayout.NORTH);
 		}
 		return pnScroll;
+	}
+	private JScrollPane getSpTasks() {
+		if (spTasks == null) {
+			spTasks = new JScrollPane();
+			spTasks.setViewportView(getPnTasksScroll());
+		}
+		return spTasks;
+	}
+	private JPanel getPnTasksBtns() {
+		if (pnTasksBtns == null) {
+			pnTasksBtns = new JPanel();
+			pnTasksBtns.setBorder(new EmptyBorder(5, 5, 0, 5));
+			GridBagLayout gbl_pnTasksBtns = new GridBagLayout();
+			gbl_pnTasksBtns.columnWidths = new int[]{0, 0};
+			gbl_pnTasksBtns.rowHeights = new int[]{0, 0, 0, 0, 0};
+			gbl_pnTasksBtns.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+			gbl_pnTasksBtns.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+			pnTasksBtns.setLayout(gbl_pnTasksBtns);
+			GridBagConstraints gbc_btNewTask = new GridBagConstraints();
+			gbc_btNewTask.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btNewTask.insets = new Insets(0, 0, 5, 0);
+			gbc_btNewTask.gridx = 0;
+			gbc_btNewTask.gridy = 0;
+			pnTasksBtns.add(getBtNewTask(), gbc_btNewTask);
+			GridBagConstraints gbc_btEditTask = new GridBagConstraints();
+			gbc_btEditTask.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btEditTask.insets = new Insets(0, 0, 5, 0);
+			gbc_btEditTask.gridx = 0;
+			gbc_btEditTask.gridy = 1;
+			pnTasksBtns.add(getBtEditTask(), gbc_btEditTask);
+			GridBagConstraints gbc_btRemoveTask = new GridBagConstraints();
+			gbc_btRemoveTask.insets = new Insets(0, 0, 5, 0);
+			gbc_btRemoveTask.gridx = 0;
+			gbc_btRemoveTask.gridy = 2;
+			pnTasksBtns.add(getBtRemoveTask(), gbc_btRemoveTask);
+		}
+		return pnTasksBtns;
+	}
+	private JButton getBtNewTask() {
+		if (btNewTask == null) {
+			btNewTask = new JButton("New Task");
+			btNewTask.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					performClickNew();
+				}
+			});
+		}
+		return btNewTask;
+	}
+	private void performClickNew(){
+		TaskContainer c = new TaskContainer();
+		GUI.getMain().getData().getTasks().add(c);
+		task_list_data.addElement(c);
+		new GUI_TaskEditor(this, false, c);
+	}
+	
+	private JButton getBtEditTask() {
+		if (btEditTask == null) {
+			btEditTask = new JButton("Edit Task");
+			btEditTask.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					performClickEdit();
+				}
+			});
+			btEditTask.setEnabled(false);
+		}
+		return btEditTask;
+	}
+	
+	private void performClickEdit(){
+		TaskContainer c = (TaskContainer) getListTasks().getSelectedValue();
+		new GUI_TaskEditor(this, true, c);
+	}
+	
+	private JButton getBtRemoveTask() {
+		if (btRemoveTask == null) {
+			btRemoveTask = new JButton("Remove Task");
+			btRemoveTask.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int input = JOptionPane.showConfirmDialog(GUI, "Delete this task?", "Confirm task delete", JOptionPane.OK_CANCEL_OPTION);
+					if (input != 0) {
+						return;
+					}
+					TaskContainer c = (TaskContainer) getListTasks().getSelectedValue();
+					task_list_data.removeElement(c);
+					GUI.getMain().getData().getTasks().remove(c);
+				}
+			});
+			btRemoveTask.setEnabled(false);
+		}
+		return btRemoveTask;
+	}
+	private JPanel getPnTasksLabel() {
+		if (pnTasksLabel == null) {
+			pnTasksLabel = new JPanel();
+			pnTasksLabel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			pnTasksLabel.add(getLbTask());
+		}
+		return pnTasksLabel;
+	}
+	private JLabel getLbTask() {
+		if (lbTask == null) {
+			lbTask = new JLabel("Derp me a river and create some tasks if you want");
+		}
+		return lbTask;
+	}
+	private JPanel getPnTasksScroll() {
+		if (pnTasksScroll == null) {
+			pnTasksScroll = new JPanel();
+			pnTasksScroll.setLayout(new BorderLayout(0, 0));
+			pnTasksScroll.add(getListTasks(), BorderLayout.NORTH);
+			pnTasksScroll.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				getListTasks().clearSelection();
+			}
+			});
+		}
+		return pnTasksScroll;
+	}
+	private JList getListTasks() {
+		if (listTasks == null) {
+			listTasks = new JList();
+			listTasks.addListSelectionListener(new ListSelectionListener() {
+				@Override
+				public void valueChanged(ListSelectionEvent arg0) {
+
+					if (listTasks.getSelectedValue() != null) {
+						btEditTask.setEnabled(true);
+						btRemoveTask.setEnabled(true);
+					}
+					else {
+						btEditTask.setEnabled(false);
+						btRemoveTask.setEnabled(false);
+					}
+				}
+			});
+			listTasks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			listTasks.setCellRenderer(new TaskListCellRenderer());
+			task_list_data = new DefaultListModel();
+			getListTasks().setModel(task_list_data);
+		}
+		return listTasks;
+	}
+	
+	public void updateTasks(){
+		getListTasks().repaint();
+	}
+	
+	public void cancelTask(TaskContainer c){
+		task_list_data.removeElement(c);
+		GUI.getMain().getData().getTasks().remove(c);
+	}
+	public GUI_Main_Window getGUI() {
+		return GUI;
 	}
 }
 

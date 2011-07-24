@@ -59,6 +59,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 		this.add(getPnLeft());
 		add(getPanel());
 		this.setEnabled(true);
+		getTfPluginname().requestFocus();
 	}
 	private JTextField getTfPluginname() {
 		if (tfPluginname == null) {
@@ -92,6 +93,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 				}
 				
 			});
+			tfPluginname.setText("NewPlugin");
 		}
 		return tfPluginname;
 	}

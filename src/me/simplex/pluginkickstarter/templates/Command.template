@@ -22,7 +22,7 @@ public class $classname implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {
-		if (command.getName().toLowerCase().equals("$command")) {
+		if (command.getName().equalsIgnoreCase("$command")) {
 			$playeronly
 			//TODO:  Handle command $command
 			return true;

@@ -12,9 +12,11 @@ import me.simplex.pluginkickstarter.generator.GenCommand;
 import me.simplex.pluginkickstarter.generator.GenListeners;
 import me.simplex.pluginkickstarter.generator.GenPlugin;
 import me.simplex.pluginkickstarter.generator.GenMainClass;
+import me.simplex.pluginkickstarter.generator.GenTask;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
 import me.simplex.pluginkickstarter.storage.FileContainer;
 import me.simplex.pluginkickstarter.storage.ListenerContainer;
+import me.simplex.pluginkickstarter.storage.TaskContainer;
 import me.simplex.pluginkickstarter.util.ListenerType;
 import me.simplex.pluginkickstarter.util.TemplateType;
 
@@ -87,8 +89,19 @@ public class FileBuilder {
 		return new FileContainer("plugin.yml", "", content);
 	}
 	
-	public FileContainer build_Task_File(){
-		return null;
+	public FileContainer build_Task_File(TaskContainer c){
+		GenTask gen = new GenTask(main, c);
+		String content = loadTemplateFile(TemplateType.Command);
+		
+		content = content.replace("$author", 				gen.buildAuthor());
+		content = content.replace("$website", 				gen.buildWebsite());
+		content = content.replace("$pluginname", 			gen.buildPluginName());
+		content = content.replace("$mainclassimport", 		gen.buildMainClassImport());
+		content = content.replace("$mainclasstype", 		gen.buildMainClassType());
+		content = content.replace("$package", 				gen.buildPackage(TemplateType.Command));
+		content = content.replace("$classname", 			gen.buildClassname());
+		
+		return new FileContainer(gen.buildFileName(), gen.buildFilepath(TemplateType.Command), content);
 	}
 	
 	public FileContainer build_Command_File(CommandContainer c){

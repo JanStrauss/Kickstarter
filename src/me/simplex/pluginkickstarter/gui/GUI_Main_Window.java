@@ -63,7 +63,6 @@ public class GUI_Main_Window extends JFrame {
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//this.lookAndFeel();
 		this.setIconImage(new ImageIcon(GUI_Main_Window.class.getResource("/me/simplex/pluginkickstarter/gui/images/icon_this.png")).getImage());
 		this.getContentPane().setLayout(new BorderLayout(0, 0));
 		this.getContentPane().add(getPnHeaderContainer(), BorderLayout.NORTH);

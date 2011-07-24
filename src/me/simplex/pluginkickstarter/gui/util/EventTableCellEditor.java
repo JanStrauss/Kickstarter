@@ -1,4 +1,4 @@
-package me.simplex.pluginkickstarter.gui;
+package me.simplex.pluginkickstarter.gui.util;
 
 import java.awt.Component;
 import javax.swing.*;

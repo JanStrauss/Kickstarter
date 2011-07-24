@@ -71,14 +71,14 @@ public class GenMainClass extends Generator {
 		for (TaskContainer task : main.getData().getTasks()) {
 			if (task.isRegisterAtOnEnable()) {
 				switch (task.getType()) {
-				case AsyncTask: 			return "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+task.getTaskname()+"(this))";
-				case AsyncDelayedTask: 		return "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getOffset()+")";
-				case AsyncRepeatingTask: 	return "this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new "+task.getTaskname()+"(this)), "+task.getOffset()+", "+task.getOffset()+");";
-				case SyncTask:				return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this))";
-				case SyncDeplayedTask:		return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getOffset()+")";
-				case SyncRepeatingTask: 	return "this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new "+task.getTaskname()+"(this)), "+task.getOffset()+", "+task.getOffset()+");";
-				default: return null;
-			}
+					case AsyncTask: 			return "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+task.getTaskname()+"(this))";
+					case AsyncDelayedTask: 		return "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getOffset()+")";
+					case AsyncRepeatingTask: 	return "this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new "+task.getTaskname()+"(this)), "+task.getOffset()+", "+task.getOffset()+");";
+					case SyncTask:				return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this))";
+					case SyncDeplayedTask:		return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getOffset()+")";
+					case SyncRepeatingTask: 	return "this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new "+task.getTaskname()+"(this)), "+task.getOffset()+", "+task.getOffset()+");";
+					default: return null;
+				}
 			}
 		}
 		return ret;

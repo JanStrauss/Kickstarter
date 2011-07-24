@@ -7,12 +7,17 @@
  
  $package
  
- $imports
+ $mainclassimport
  
  public class $classname extends Runnable{
+ 	private $mainclasstype plugin;
+
+	public $classname($mainclasstype plugin){
+		this.plugin = plugin;
+	}
  	
  	@Override
  	public void run(){
- 		$run
+ 		// TODO: implement task
  	}
  }
