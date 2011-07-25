@@ -54,7 +54,8 @@ public class GUI_TaskEditor extends JDialog {
 	private JButton btnSave;
 	private JButton btnCancel;
 	
-	private TaskContainer c;
+	private TaskContainer c;	
+	private boolean isEditDialog;
 
 	public GUI_TaskEditor(GUI_PnPluginInformation gui, boolean edit, TaskContainer container) {
 
@@ -62,10 +63,13 @@ public class GUI_TaskEditor extends JDialog {
 		setBounds(new Rectangle(0, 0, 360, 180));
 		this.GUI = gui;
 		this.c = container;
+		this.isEditDialog = edit;
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				GUI.cancelTask(c);
+				if (!isEditDialog) {
+					GUI.cancelTask(c);
+				}
 				dispose();
 			}
 		});
@@ -339,7 +343,9 @@ public class GUI_TaskEditor extends JDialog {
 			btnCancel.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					GUI.cancelTask(c);
+					if (!isEditDialog) {
+						GUI.cancelTask(c);
+					}
 					dispose();
 				}
 			});
