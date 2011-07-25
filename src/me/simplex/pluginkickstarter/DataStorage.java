@@ -13,6 +13,8 @@ public class DataStorage {
 	private String description;
 	private String website;
 	private String version;
+	private String depends;
+	private String softdepends;
 	
 	private boolean usePermissions;
 	private boolean singleCommandExecuter;
@@ -168,5 +170,23 @@ public class DataStorage {
 		}
 		
 	}
+
+	public String getDepends() {
+		return depends;
+	}
+
+	public void setDepends(String depends) {
+		this.depends = depends;
+	}
+
+	public String getSoftdepends() {
+		return softdepends;
+	}
+
+	public void setSoftdepends(String softdepends) {
+		this.softdepends = softdepends;
+	}
+	
+	
 
 }

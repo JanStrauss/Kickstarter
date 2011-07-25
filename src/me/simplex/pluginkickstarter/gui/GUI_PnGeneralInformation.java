@@ -22,6 +22,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import me.simplex.pluginkickstarter.DataStorage;
+
 public class GUI_PnGeneralInformation extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GUI_Main_Window GUI;
@@ -60,6 +62,18 @@ public class GUI_PnGeneralInformation extends JPanel {
 		add(getPanel());
 		this.setEnabled(true);
 		getTfPluginname().requestFocus();
+	}
+	
+	public void updataData() {
+		DataStorage s = GUI.getMain().getData();
+
+		s.setAuthor(getTfAuthor().getText());
+		s.setPluginname(getTfPluginname().getText());
+		s.setDescription(getTaDesc().getText());
+		s.setWebsite(getTfWebsite().getText());
+		s.setVersion(getTfVersion().getText());
+		s.setSoftdepends(getTfSoftdepends().getText());
+		s.setDepends(getTfDepends().getText());
 	}
 	private JTextField getTfPluginname() {
 		if (tfPluginname == null) {
@@ -313,6 +327,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
+			panel.setEnabled(false);
 			panel.setBorder(new CompoundBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Generator Configuration", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), new EmptyBorder(5, 5, 5, 5)));
 			panel.setBounds(400, 10, 380, 170);
 			GridBagLayout gbl_panel = new GridBagLayout();
@@ -357,6 +372,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JCheckBox getCbUsePermissions() {
 		if (cbUsePermissions == null) {
 			cbUsePermissions = new JCheckBox("Setup Permissions");
+			cbUsePermissions.setEnabled(false);
 			cbUsePermissions.setSelected(true);
 		}
 		return cbUsePermissions;
@@ -372,6 +388,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JCheckBox getCbEveryCommandownExecutor() {
 		if (cbEveryCommandownExecutor == null) {
 			cbEveryCommandownExecutor = new JCheckBox("Generate a  own CommandExecutor for each command");
+			cbEveryCommandownExecutor.setEnabled(false);
 			cbEveryCommandownExecutor.setSelected(true);
 			cbEveryCommandownExecutor.setToolTipText("Generate a CommandExecutor for each Command");
 		}
@@ -380,6 +397,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JCheckBox getCbPluginYML() {
 		if (cbPluginYML == null) {
 			cbPluginYML = new JCheckBox("Generate the plugin.yml file");
+			cbPluginYML.setEnabled(false);
 			cbPluginYML.setSelected(true);
 		}
 		return cbPluginYML;
@@ -387,6 +405,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JCheckBox getChckbxGenerateProjectdataFor() {
 		if (chckbxGenerateProjectdataFor == null) {
 			chckbxGenerateProjectdataFor = new JCheckBox("Generate .project file for Eclipse");
+			chckbxGenerateProjectdataFor.setEnabled(false);
 		}
 		return chckbxGenerateProjectdataFor;
 	}

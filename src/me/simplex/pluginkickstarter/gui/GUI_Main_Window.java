@@ -223,7 +223,7 @@ public class GUI_Main_Window extends JFrame {
 						getPnContent().repaint();
 						getPnFooter().changeBackground("/me/simplex/pluginkickstarter/gui/images/footer2.png");
 						btLastStep.setVisible(true);
-						
+						pnGeneral.updataData();
 						break;
 					case Step2: // 2 to 3
 						status = Selected.Step3;
@@ -249,6 +249,9 @@ public class GUI_Main_Window extends JFrame {
 		}
 		return lbStatus;
 	}
+	
+
+	
 	private JButton getBtLastStep() {
 		if (btLastStep == null) {
 			btLastStep = new JButton("Back");
