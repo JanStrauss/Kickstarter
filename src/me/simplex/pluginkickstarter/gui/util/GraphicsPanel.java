@@ -28,7 +28,7 @@ public class GraphicsPanel extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (texture == null) {
-			g2.drawString("Background not found.", 0, 0);
+			g2.drawString("", 0, 0);
 			return;
 		}
 		if (singlePaint) {

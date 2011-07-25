@@ -5,7 +5,7 @@ import me.simplex.pluginkickstarter.util.TaskType;
 public class TaskContainer {
 	private String taskname;
 	private TaskType type;
-	private long offset;
+	private long period;
 	private long delay;
 	private boolean registerAtOnEnable;
 	
@@ -16,8 +16,8 @@ public class TaskContainer {
 		return type;
 	}
 
-	public long getOffset() {
-		return offset;
+	public long getPeriod() {
+		return period;
 	}
 
 
@@ -34,8 +34,8 @@ public class TaskContainer {
 	public void setType(TaskType type) {
 		this.type = type;
 	}
-	public void setOffset(long offset) {
-		this.offset = offset;
+	public void setPeriod(long offset) {
+		this.period = offset;
 	}
 	public void setDelay(long delay) {
 		this.delay = delay;

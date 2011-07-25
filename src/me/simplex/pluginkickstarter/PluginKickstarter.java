@@ -2,6 +2,7 @@ package me.simplex.pluginkickstarter;
 
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -23,9 +24,17 @@ public class PluginKickstarter {
 		data = new DataStorage();
 		builder = new FileBuilder(this);
 		listener_data = new ListenerData();
-		GUI = new GUI_Main_Window(this);
 		
-		//test();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				startGUI();
+			}
+		});
+	}
+	
+	private void startGUI(){
+		GUI = new GUI_Main_Window(this);
 	}
 	
 	public static void main(String[] args) {

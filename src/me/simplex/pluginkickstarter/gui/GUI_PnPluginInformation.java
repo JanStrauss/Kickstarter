@@ -27,6 +27,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -132,9 +133,9 @@ public class GUI_PnPluginInformation extends JPanel {
 	}
 	private void initialize() {
 		this.setSize(800, 372);
-		setLayout(null);
+		this.setLayout(null);
 		this.setEnabled(true);
-		add(getTpPluginData());
+		this.add(getTpPluginData());
 	}
 	private JTabbedPane getTpPluginData() {
 		if (tpPluginData == null) {
@@ -858,6 +859,7 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JScrollPane getSpTasks() {
 		if (spTasks == null) {
 			spTasks = new JScrollPane();
+			spTasks.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			spTasks.setViewportView(getPnTasksScroll());
 		}
 		return spTasks;
@@ -977,10 +979,11 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JList getListTasks() {
 		if (listTasks == null) {
 			listTasks = new JList();
+			task_list_data = new DefaultListModel();
+			listTasks.setModel(task_list_data);
 			listTasks.addListSelectionListener(new ListSelectionListener() {
 				@Override
 				public void valueChanged(ListSelectionEvent arg0) {
-
 					if (listTasks.getSelectedValue() != null) {
 						btEditTask.setEnabled(true);
 						btRemoveTask.setEnabled(true);
@@ -989,12 +992,15 @@ public class GUI_PnPluginInformation extends JPanel {
 						btEditTask.setEnabled(false);
 						btRemoveTask.setEnabled(false);
 					}
+			          for(int x = 0; x < task_list_data.size(); x++) 
+			          { 
+			        	  task_list_data.setElementAt(task_list_data.getElementAt(x),x); 
+			          } 
 				}
 			});
 			listTasks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listTasks.setCellRenderer(new TaskListCellRenderer());
-			task_list_data = new DefaultListModel();
-			getListTasks().setModel(task_list_data);
+			
 		}
 		return listTasks;
 	}

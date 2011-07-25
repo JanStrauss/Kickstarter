@@ -34,6 +34,8 @@ import me.simplex.pluginkickstarter.gui.util.GraphicsPanel;
 import me.simplex.pluginkickstarter.storage.TaskContainer;
 import me.simplex.pluginkickstarter.util.TaskType;
 import javax.swing.border.MatteBorder;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_TaskEditor extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -44,9 +46,9 @@ public class GUI_TaskEditor extends JDialog {
 	private JLabel lblDelay;
 	private JLabel lblTaskname;
 	private JTextField tfTaskname;
-	private JLabel lblOffset;
+	private JLabel lpPeriod;
 	private JFormattedTextField tfDelay;
-	private JFormattedTextField tfOffset;
+	private JFormattedTextField tfPeriod;
 	private JCheckBox chckbxRegisterInOnenable;
 	private GraphicsPanel pnBtns;
 	private JButton btnSave;
@@ -54,16 +56,25 @@ public class GUI_TaskEditor extends JDialog {
 	
 	private TaskContainer c;
 
-	public GUI_TaskEditor(GUI_PnPluginInformation gui, boolean edit, TaskContainer c) {
+	public GUI_TaskEditor(GUI_PnPluginInformation gui, boolean edit, TaskContainer container) {
+
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setBounds(new Rectangle(0, 0, 360, 180));
 		this.GUI = gui;
-		this.c = c;
+		this.c = container;
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI.cancelTask(c);
+				dispose();
+			}
+		});
 		initialize();
 		if (edit) {
 			this.setTitle("Edit Task");
 			getTfTaskname().setText(c.getTaskname());
 			getCbType().setSelectedItem(c.getType());
-			getTfOffset().setText(""+c.getOffset());
+			getTfPeriod().setText(""+c.getPeriod());
 			getTfDelay().setText(""+c.getDelay());
 			getChckbxRegisterInOnenable().setSelected(c.isRegisterAtOnEnable());
 		}
@@ -133,18 +144,18 @@ public class GUI_TaskEditor extends JDialog {
 			gbc_tfDelay.gridx = 1;
 			gbc_tfDelay.gridy = 2;
 			panel.add(getTfDelay(), gbc_tfDelay);
-			GridBagConstraints gbc_lblOffset = new GridBagConstraints();
-			gbc_lblOffset.insets = new Insets(0, 0, 5, 5);
-			gbc_lblOffset.anchor = GridBagConstraints.WEST;
-			gbc_lblOffset.gridx = 2;
-			gbc_lblOffset.gridy = 2;
-			panel.add(getLblOffset(), gbc_lblOffset);
+			GridBagConstraints gbc_lpPeriod = new GridBagConstraints();
+			gbc_lpPeriod.insets = new Insets(0, 0, 5, 5);
+			gbc_lpPeriod.anchor = GridBagConstraints.WEST;
+			gbc_lpPeriod.gridx = 2;
+			gbc_lpPeriod.gridy = 2;
+			panel.add(getLpPeriod(), gbc_lpPeriod);
 			GridBagConstraints gbc_tfOffset = new GridBagConstraints();
 			gbc_tfOffset.insets = new Insets(0, 0, 5, 0);
 			gbc_tfOffset.fill = GridBagConstraints.HORIZONTAL;
 			gbc_tfOffset.gridx = 3;
 			gbc_tfOffset.gridy = 2;
-			panel.add(getTfOffset(), gbc_tfOffset);
+			panel.add(getTfPeriod(), gbc_tfOffset);
 			GridBagConstraints gbc_chckbxRegisterInOnenable = new GridBagConstraints();
 			gbc_chckbxRegisterInOnenable.gridwidth = 2;
 			gbc_chckbxRegisterInOnenable.anchor = GridBagConstraints.WEST;
@@ -172,27 +183,27 @@ public class GUI_TaskEditor extends JDialog {
 					switch (t) {
 					case AsyncDelayedTask: 
 						getTfDelay().setEnabled(false);
-						getTfOffset().setEnabled(true);
+						getTfPeriod().setEnabled(true);
 						break;
 					case AsyncRepeatingTask:
 						getTfDelay().setEnabled(true);
-						getTfOffset().setEnabled(true);
+						getTfPeriod().setEnabled(true);
 						break;
 					case AsyncTask:
 						getTfDelay().setEnabled(false);
-						getTfOffset().setEnabled(false);
+						getTfPeriod().setEnabled(false);
 						break;
 					case SyncDeplayedTask:
 						getTfDelay().setEnabled(false);
-						getTfOffset().setEnabled(true);
+						getTfPeriod().setEnabled(true);
 						break;
 					case SyncRepeatingTask: 
 						getTfDelay().setEnabled(true);
-						getTfOffset().setEnabled(true);
+						getTfPeriod().setEnabled(true);
 						break;
 					case SyncTask: 
 						getTfDelay().setEnabled(false);
-						getTfOffset().setEnabled(false);
+						getTfPeriod().setEnabled(false);
 						break;
 					default:break;
 					}
@@ -251,7 +262,7 @@ public class GUI_TaskEditor extends JDialog {
 	}
 	
 	private void checkUnlockOk(){
-		if (getTfTaskname().getText().length() > 0 && getTfDelay().getText().length() > 0 && getTfOffset().getText().length() > 0) {
+		if (getTfTaskname().getText().length() > 0 && getTfDelay().getText().length() > 0 && getTfPeriod().getText().length() > 0) {
 			getBtnSave().setEnabled(true);
 		}
 		else {
@@ -259,11 +270,11 @@ public class GUI_TaskEditor extends JDialog {
 		}
 	}
 	
-	private JLabel getLblOffset() {
-		if (lblOffset == null) {
-			lblOffset = new JLabel("Offset (in seconds):");
+	private JLabel getLpPeriod() {
+		if (lpPeriod == null) {
+			lpPeriod = new JLabel("Period (in seconds):");
 		}
-		return lblOffset;
+		return lpPeriod;
 	}
 	private JFormattedTextField getTfDelay() {
 		if (tfDelay == null) {
@@ -275,15 +286,15 @@ public class GUI_TaskEditor extends JDialog {
 		}
 		return tfDelay;
 	}
-	private JFormattedTextField getTfOffset() {
-		if (tfOffset == null) {
+	private JFormattedTextField getTfPeriod() {
+		if (tfPeriod == null) {
 	        NumberFormat format = NumberFormat.getInstance();
-			tfOffset = new JFormattedTextField(format);
-			tfOffset.setText("5");
-	        ((NumberFormatter)tfOffset.getFormatter()).setAllowsInvalid(false);
-			tfOffset.setColumns(10);
+			tfPeriod = new JFormattedTextField(format);
+			tfPeriod.setText("5");
+	        ((NumberFormatter)tfPeriod.getFormatter()).setAllowsInvalid(false);
+			tfPeriod.setColumns(10);
 		}
-		return tfOffset;
+		return tfPeriod;
 	}
 	private JCheckBox getChckbxRegisterInOnenable() {
 		if (chckbxRegisterInOnenable == null) {
@@ -313,7 +324,7 @@ public class GUI_TaskEditor extends JDialog {
 					c.setType((TaskType) cbType.getSelectedItem());
 					c.setTaskname(tfTaskname.getText());
 					c.setDelay(Long.valueOf(tfDelay.getText()));
-					c.setOffset(Long.valueOf(tfOffset.getText()));
+					c.setPeriod(Long.valueOf(tfPeriod.getText()));
 					c.setRegisterAtOnEnable(chckbxRegisterInOnenable.isSelected());
 					GUI.updateTasks();
 					dispose();
