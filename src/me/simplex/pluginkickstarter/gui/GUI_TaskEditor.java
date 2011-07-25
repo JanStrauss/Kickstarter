@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
 
 import javax.swing.ImageIcon;
@@ -33,9 +35,6 @@ import javax.swing.text.PlainDocument;
 import me.simplex.pluginkickstarter.gui.util.GraphicsPanel;
 import me.simplex.pluginkickstarter.storage.TaskContainer;
 import me.simplex.pluginkickstarter.util.TaskType;
-import javax.swing.border.MatteBorder;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class GUI_TaskEditor extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -308,8 +307,8 @@ public class GUI_TaskEditor extends JDialog {
 	}
 	private GraphicsPanel getPnBtns() {
 		if (pnBtns == null) {
-			pnBtns = new GraphicsPanel(false, "/me/simplex/pluginkickstarter/gui/images/bg_sel.png");
-			pnBtns.setBorder(new MatteBorder(3, 0, 0, 0, (Color) Color.DARK_GRAY));
+			pnBtns = new GraphicsPanel(false, "/me/simplex/pluginkickstarter/gui/images/bg_edit_task.png");
+			pnBtns.setBorder(null);
 			pnBtns.setBackground(new Color(105, 105, 105));
 			FlowLayout fl_pnBtns = (FlowLayout) pnBtns.getLayout();
 			fl_pnBtns.setAlignment(FlowLayout.RIGHT);

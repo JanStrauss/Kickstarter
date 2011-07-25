@@ -1,7 +1,6 @@
 package me.simplex.pluginkickstarter.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,7 +17,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
@@ -407,7 +405,7 @@ public class GUI_PnPluginInformation extends JPanel {
 			btNewCommand = new JButton("New Command");
 			btNewCommand.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//TODO
+					performClickNewCmd();
 				}
 			});
 		}
@@ -447,8 +445,7 @@ public class GUI_PnPluginInformation extends JPanel {
 			btEdit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
-					//CommandContainer newCommand = (CommandContainer) getListCommands().getSelectedValue();
-					//TODO
+				performClickEditCommand();
 				}
 			});
 			btEdit.setEnabled(false);
@@ -512,17 +509,24 @@ public class GUI_PnPluginInformation extends JPanel {
 			btNewTask = new JButton("New Task");
 			btNewTask.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					performClickNew();
+					performClickNewTask();
 				}
 			});
 		}
 		return btNewTask;
 	}
-	private void performClickNew(){
+	private void performClickNewTask(){
 		TaskContainer c = new TaskContainer();
 		GUI.getMain().getData().getTasks().add(c);
 		task_list_data.addElement(c);
 		new GUI_TaskEditor(this, false, c);
+	}
+	
+	private void performClickNewCmd(){
+		CommandContainer c = new CommandContainer();
+		GUI.getMain().getData().getCommands().add(c);
+		command_list_data.addElement(c);
+		new GUI_CommandEditor(this, false, c);
 	}
 	
 	private JButton getBtEditTask() {
@@ -530,7 +534,7 @@ public class GUI_PnPluginInformation extends JPanel {
 			btEditTask = new JButton("Edit Task");
 			btEditTask.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					performClickEdit();
+					performClickEditTask();
 				}
 			});
 			btEditTask.setEnabled(false);
@@ -538,10 +542,17 @@ public class GUI_PnPluginInformation extends JPanel {
 		return btEditTask;
 	}
 	
-	private void performClickEdit(){
+	private void performClickEditTask(){
 		TaskContainer c = (TaskContainer) getListTasks().getSelectedValue();
 		new GUI_TaskEditor(this, true, c);
 	}
+	
+
+	private void performClickEditCommand(){
+		CommandContainer c = (CommandContainer) getListCommands().getSelectedValue();
+		new GUI_CommandEditor(this, true, c);
+	}
+	
 	
 	private JButton getBtRemoveTask() {
 		if (btRemoveTask == null) {

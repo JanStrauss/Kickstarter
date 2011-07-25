@@ -9,8 +9,7 @@ public class CommandContainer {
 	private String usage="/<command> ";
 	private boolean PlayerOnly;
 	
-	public CommandContainer(String command){
-		this.command = command;
+	public CommandContainer(){
 		this.PlayerOnly = true;
 		this.aliases = new ArrayList<String>();
 	}

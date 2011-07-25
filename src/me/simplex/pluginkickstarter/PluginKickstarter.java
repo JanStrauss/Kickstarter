@@ -1,7 +1,5 @@
 package me.simplex.pluginkickstarter;
 
-import java.util.ArrayList;
-
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -61,19 +59,6 @@ public class PluginKickstarter {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void test(){
-		data.setAuthor("simplex");
-		data.setPluginname("Testplugin");
-		data.setVersion("0.1.3.3.7");
-		data.setWebsite("http://derp.over9000.eu");
-		data.setDescription("awesome testplugin");
-		ArrayList<String> aliases = new ArrayList<String>();
-		aliases.add("derp");
-		aliases.add("herp");
-		data.getCommands().add(new CommandContainer("hurrdurr"));
-		System.out.println(builder.build_Plugin_File());
 	}
 	
 	public void buildPlugin(){

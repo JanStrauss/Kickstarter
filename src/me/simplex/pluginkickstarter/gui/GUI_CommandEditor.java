@@ -1,7 +1,6 @@
 package me.simplex.pluginkickstarter.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,15 +21,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import me.simplex.pluginkickstarter.gui.util.GraphicsPanel;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
 
 public class GUI_CommandEditor extends JDialog {
@@ -44,7 +42,7 @@ public class GUI_CommandEditor extends JDialog {
 	private JScrollPane spDesc;
 	private JTextField tfUsage;
 	private JLabel lblUsage;
-	private JPanel pnBtns;
+	private GraphicsPanel pnBtns;
 	private JButton btSaveCommand;
 	private JTextArea taDescription;
 	private JCheckBox cbPlayerOnly;
@@ -55,7 +53,7 @@ public class GUI_CommandEditor extends JDialog {
 	private JPanel pnConent;
 	private JButton btCancelCommand;
 	
-	public GUI_CommandEditor(boolean edit, CommandContainer container, GUI_PnPluginInformation gui) {
+	public GUI_CommandEditor(GUI_PnPluginInformation gui, boolean edit, CommandContainer container) {
 		this.c = container;
 		this.GUI = gui;
 		this.isEditDialog = edit;
@@ -82,6 +80,9 @@ public class GUI_CommandEditor extends JDialog {
 			this.setTitle("Edit Command");
 			getTfCmd_Name().setText(c.getCommand());
 			getTfAliases().setText(aliases.trim());
+			getTfUsage().setText(c.getUsage());
+			getTaDescription().setText(c.getDescription());
+			getCbPlayerOnly().setSelected(c.isPlayerOnly());
 		}
 		else {
 			this.setTitle("New Command");
@@ -93,6 +94,7 @@ public class GUI_CommandEditor extends JDialog {
 		this.setResizable(false);
 		this.setIconImage(new ImageIcon(GUI_Main_Window.class.getResource("/me/simplex/pluginkickstarter/gui/images/icon_this.png")).getImage());
 		this.setModalExclusionType(ModalExclusionType.NO_EXCLUDE);
+		this.setVisible(true);
 	}
 
 
@@ -263,10 +265,10 @@ private JLabel getLblUsage() {
 	}
 	return lblUsage;
 }
-private JPanel getPnBtns() {
+private GraphicsPanel getPnBtns() {
 	if (pnBtns == null) {
-		pnBtns = new JPanel();
-		pnBtns.setBorder(new CompoundBorder(new MatteBorder(1, 0, 0, 0, new Color(221, 221, 221)), new EmptyBorder(3, 0, 0, 0)));
+		pnBtns = new GraphicsPanel(false,"/me/simplex/pluginkickstarter/gui/images/bg_edit_cmd.png");
+		pnBtns.setBorder(null);
 		pnBtns.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		pnBtns.add(getBtSaveCommand());
 		pnBtns.add(getBtCancelCommand());
@@ -289,7 +291,8 @@ private JButton getBtSaveCommand() {
 				c.setAliases(aliases);
 				c.setPlayerOnly(cbPlayerOnly.isSelected());
 				c.setUsage(tfUsage.getText());
-
+				GUI.updateCommands();
+				dispose();
 			}
 		});
 	}
@@ -353,6 +356,10 @@ private JCheckBox getCbPlayerOnly() {
 			btCancelCommand = new JButton("Cancel");
 			btCancelCommand.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if (!isEditDialog) {
+						GUI.cancelCommand(c);
+					}
+					dispose();
 				}
 			});
 		}
