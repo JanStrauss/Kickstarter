@@ -45,7 +45,7 @@ public class GUI_TaskEditor extends JDialog {
 	private JLabel lblDelay;
 	private JLabel lblTaskname;
 	private JTextField tfTaskname;
-	private JLabel lpPeriod;
+	private JLabel lblPeriod;
 	private JFormattedTextField tfDelay;
 	private JFormattedTextField tfPeriod;
 	private JCheckBox chckbxRegisterInOnenable;
@@ -59,7 +59,7 @@ public class GUI_TaskEditor extends JDialog {
 	public GUI_TaskEditor(GUI_PnPluginInformation gui, boolean edit, TaskContainer container) {
 
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		setBounds(new Rectangle(0, 0, 360, 180));
+		setBounds(new Rectangle(0, 0, 360, 185));
 		this.GUI = gui;
 		this.c = container;
 		this.isEditDialog = edit;
@@ -147,12 +147,12 @@ public class GUI_TaskEditor extends JDialog {
 			gbc_tfDelay.gridx = 1;
 			gbc_tfDelay.gridy = 2;
 			panel.add(getTfDelay(), gbc_tfDelay);
-			GridBagConstraints gbc_lpPeriod = new GridBagConstraints();
-			gbc_lpPeriod.insets = new Insets(0, 0, 5, 5);
-			gbc_lpPeriod.anchor = GridBagConstraints.WEST;
-			gbc_lpPeriod.gridx = 2;
-			gbc_lpPeriod.gridy = 2;
-			panel.add(getLpPeriod(), gbc_lpPeriod);
+			GridBagConstraints gbc_lblPeriod = new GridBagConstraints();
+			gbc_lblPeriod.insets = new Insets(0, 0, 5, 5);
+			gbc_lblPeriod.anchor = GridBagConstraints.WEST;
+			gbc_lblPeriod.gridx = 2;
+			gbc_lblPeriod.gridy = 2;
+			panel.add(getLblPeriod(), gbc_lblPeriod);
 			GridBagConstraints gbc_tfOffset = new GridBagConstraints();
 			gbc_tfOffset.insets = new Insets(0, 0, 5, 0);
 			gbc_tfOffset.fill = GridBagConstraints.HORIZONTAL;
@@ -185,28 +185,46 @@ public class GUI_TaskEditor extends JDialog {
 					TaskType t = (TaskType) cbType.getSelectedItem();	
 					switch (t) {
 					case AsyncDelayedTask: 
-						getTfDelay().setEnabled(false);
-						getTfPeriod().setEnabled(true);
+						getTfDelay().setVisible(true);
+						getLblDelay().setVisible(true);
+						
+						getTfPeriod().setVisible(false);
+						getLblPeriod().setVisible(false);
 						break;
 					case AsyncRepeatingTask:
-						getTfDelay().setEnabled(true);
-						getTfPeriod().setEnabled(true);
+						getTfDelay().setVisible(true);
+						getLblDelay().setVisible(true);
+						
+						getTfPeriod().setVisible(true);
+						getLblPeriod().setVisible(true);
 						break;
 					case AsyncTask:
-						getTfDelay().setEnabled(false);
-						getTfPeriod().setEnabled(false);
+						getTfDelay().setVisible(false);
+						getLblDelay().setVisible(false);
+						
+						getTfPeriod().setVisible(false);
+						getLblPeriod().setVisible(false);
 						break;
 					case SyncDeplayedTask:
-						getTfDelay().setEnabled(false);
-						getTfPeriod().setEnabled(true);
+						getTfDelay().setVisible(true);
+						getLblDelay().setVisible(true);
+						
+						getTfPeriod().setVisible(false);
+						getLblPeriod().setVisible(false);
 						break;
 					case SyncRepeatingTask: 
-						getTfDelay().setEnabled(true);
-						getTfPeriod().setEnabled(true);
+						getTfDelay().setVisible(true);
+						getLblDelay().setVisible(true);
+						
+						getTfPeriod().setVisible(true);
+						getLblPeriod().setVisible(true);
 						break;
 					case SyncTask: 
-						getTfDelay().setEnabled(false);
-						getTfPeriod().setEnabled(false);
+						getTfDelay().setVisible(false);
+						getLblDelay().setVisible(false);
+						
+						getTfPeriod().setVisible(false);
+						getLblPeriod().setVisible(false);
 						break;
 					default:break;
 					}
@@ -218,6 +236,7 @@ public class GUI_TaskEditor extends JDialog {
 	private JLabel getLblDelay() {
 		if (lblDelay == null) {
 			lblDelay = new JLabel("Delay (in seconds):");
+			lblDelay.setVisible(false);
 		}
 		return lblDelay;
 	}
@@ -273,17 +292,19 @@ public class GUI_TaskEditor extends JDialog {
 		}
 	}
 	
-	private JLabel getLpPeriod() {
-		if (lpPeriod == null) {
-			lpPeriod = new JLabel("Period (in seconds):");
+	private JLabel getLblPeriod() {
+		if (lblPeriod == null) {
+			lblPeriod = new JLabel("Period (in seconds):");
+			lblPeriod.setVisible(false);
 		}
-		return lpPeriod;
+		return lblPeriod;
 	}
 	private JFormattedTextField getTfDelay() {
 		if (tfDelay == null) {
 	        NumberFormat format = NumberFormat.getInstance();
 			tfDelay = new JFormattedTextField(format);
-			tfDelay.setText("5");
+			tfDelay.setVisible(false);
+			tfDelay.setText("");
 	        ((NumberFormatter)tfDelay.getFormatter()).setAllowsInvalid(false);
 			tfDelay.setColumns(10);
 		}
@@ -293,7 +314,8 @@ public class GUI_TaskEditor extends JDialog {
 		if (tfPeriod == null) {
 	        NumberFormat format = NumberFormat.getInstance();
 			tfPeriod = new JFormattedTextField(format);
-			tfPeriod.setText("5");
+			tfPeriod.setVisible(false);
+			tfPeriod.setText("");
 	        ((NumberFormatter)tfPeriod.getFormatter()).setAllowsInvalid(false);
 			tfPeriod.setColumns(10);
 		}
