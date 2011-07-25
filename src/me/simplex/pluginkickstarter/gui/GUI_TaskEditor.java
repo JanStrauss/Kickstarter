@@ -14,6 +14,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -205,7 +207,7 @@ public class GUI_TaskEditor extends JDialog {
 						getTfPeriod().setVisible(false);
 						getLblPeriod().setVisible(false);
 						break;
-					case SyncDeplayedTask:
+					case SyncDelayedTask:
 						getTfDelay().setVisible(true);
 						getLblDelay().setVisible(true);
 						
@@ -284,11 +286,39 @@ public class GUI_TaskEditor extends JDialog {
 	}
 	
 	private void checkUnlockOk(){
-		if (getTfTaskname().getText().length() > 0 && getTfDelay().getText().length() > 0 && getTfPeriod().getText().length() > 0) {
-			getBtnSave().setEnabled(true);
+		TaskType t = (TaskType) cbType.getSelectedItem();	
+		if (!(getTfTaskname().getText().length() > 0)) {
+			btnSave.setEnabled(false);
+			return;
 		}
-		else {
-			getBtnSave().setEnabled(false);
+
+		switch (t) {
+		case AsyncDelayedTask: 
+			if (getTfDelay().getText().length() >0 ) {
+				btnSave.setEnabled(true);
+			}
+			break;
+		case AsyncRepeatingTask:
+			if (getTfDelay().getText().length() >0 && getTfPeriod().getText().length() >0) {
+				btnSave.setEnabled(true);
+			}
+			break;
+		case AsyncTask:
+			btnSave.setEnabled(true);
+			break;
+		case SyncDelayedTask:
+			if (getTfDelay().getText().length() >0 ) {
+				btnSave.setEnabled(true);
+			}
+			break;
+		case SyncRepeatingTask: 
+			if (getTfDelay().getText().length() >0 && getTfPeriod().getText().length() >0) {
+				btnSave.setEnabled(true);
+			}
+			break;
+		case SyncTask: 
+			btnSave.setEnabled(true);
+			break;
 		}
 	}
 	
@@ -307,6 +337,26 @@ public class GUI_TaskEditor extends JDialog {
 			tfDelay.setText("");
 	        ((NumberFormatter)tfDelay.getFormatter()).setAllowsInvalid(false);
 			tfDelay.setColumns(10);
+			tfDelay.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+			});
 		}
 		return tfDelay;
 	}
@@ -318,6 +368,26 @@ public class GUI_TaskEditor extends JDialog {
 			tfPeriod.setText("");
 	        ((NumberFormatter)tfPeriod.getFormatter()).setAllowsInvalid(false);
 			tfPeriod.setColumns(10);
+			tfPeriod.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					checkUnlockOk();
+					
+				}
+			});
 		}
 		return tfPeriod;
 	}
@@ -346,10 +416,29 @@ public class GUI_TaskEditor extends JDialog {
 			btnSave.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					ArrayList<TaskContainer> cOnTainazZ = GUI.getGUI().getMain().getData().getTasks();
+					for (TaskContainer c : cOnTainazZ) {
+						if (c.getTaskname() != null) {
+							if (c.getTaskname().equalsIgnoreCase(tfTaskname.getText().trim())) {
+
+								JOptionPane.showMessageDialog(getContentPane().getParent(), "There is already a Task with this name", "Error", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
 					c.setType((TaskType) cbType.getSelectedItem());
-					c.setTaskname(tfTaskname.getText());
-					c.setDelay(Long.valueOf(tfDelay.getText()));
-					c.setPeriod(Long.valueOf(tfPeriod.getText()));
+					c.setTaskname(tfTaskname.getText().trim());
+					try {
+						c.setDelay(Long.valueOf(tfDelay.getText().trim()));
+					} catch (NumberFormatException e) {
+						c.setDelay(0);
+					}
+					try {
+						c.setPeriod(Long.valueOf(tfPeriod.getText().trim()));
+					} catch (NumberFormatException e) {
+						c.setPeriod(0);	
+					}
+
 					c.setRegisterAtOnEnable(chckbxRegisterInOnenable.isSelected());
 					GUI.updateTasks();
 					dispose();

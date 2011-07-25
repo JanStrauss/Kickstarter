@@ -14,7 +14,6 @@ public class PluginMainDummy extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

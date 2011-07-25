@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -281,6 +282,16 @@ private JButton getBtSaveCommand() {
 		btSaveCommand.setEnabled(false);
 		btSaveCommand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ArrayList<CommandContainer> cOnTainazZ = GUI.getGUI().getMain().getData().getCommands();
+				for (CommandContainer c : cOnTainazZ) {
+					if (c.getCommand() != null) {
+						if (c.getCommand().equalsIgnoreCase(tfCmd_Name.getText().trim())) {
+
+							JOptionPane.showMessageDialog(getContentPane().getParent(), "There is already a Command with this name", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				}
 				ArrayList<String> aliases = new ArrayList<String>();
 				for (String string : tfAliases.getText().trim().split(",")) {
 					aliases.add(string);

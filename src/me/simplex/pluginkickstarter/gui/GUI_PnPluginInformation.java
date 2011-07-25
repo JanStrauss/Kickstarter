@@ -81,7 +81,7 @@ public class GUI_PnPluginInformation extends JPanel {
 	private DefaultListModel command_list_data;
 	private DefaultListModel task_list_data;
 
-	private JButton btEdit;
+	private JButton btEditCommand;
 	private JPanel pnScroll;
 	private JScrollPane spTasks;
 	private JPanel pnTasksBtns;
@@ -354,6 +354,7 @@ public class GUI_PnPluginInformation extends JPanel {
 		if (spCommands == null) {
 			spCommands = new JScrollPane();
 			spCommands.setViewportView(getPnScroll());
+			spCommands.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		}
 		return spCommands;
 	}
@@ -368,13 +369,17 @@ public class GUI_PnPluginInformation extends JPanel {
 				public void valueChanged(ListSelectionEvent e) {
 					if (listCommands.getSelectedValue() != null) {
 
-						getBtEdit().setEnabled(true);
+						getBtEditCommand().setEnabled(true);
 						getBtRemoveCommand().setEnabled(true);
 					}
 					else {
-						getBtEdit().setEnabled(false);
+						getBtEditCommand().setEnabled(false);
 						getBtRemoveCommand().setEnabled(false);
 					}
+			          for(int x = 0; x < command_list_data.size(); x++) 
+			          { 
+			        	  command_list_data.setElementAt(command_list_data.getElementAt(x),x); 
+			          } 
 					
 				}
 			});
@@ -439,18 +444,18 @@ public class GUI_PnPluginInformation extends JPanel {
 		return lblItsSimpleWe;
 	}
 
-	private JButton getBtEdit() {
-		if (btEdit == null) {
-			btEdit = new JButton("Edit Command");
-			btEdit.addActionListener(new ActionListener() {
+	private JButton getBtEditCommand() {
+		if (btEditCommand == null) {
+			btEditCommand = new JButton("Edit Command");
+			btEditCommand.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
 				performClickEditCommand();
 				}
 			});
-			btEdit.setEnabled(false);
+			btEditCommand.setEnabled(false);
 		}
-		return btEdit;
+		return btEditCommand;
 	}
 	private JPanel getPnScroll() {
 		if (pnScroll == null) {
@@ -662,7 +667,7 @@ public class GUI_PnPluginInformation extends JPanel {
 			gbc_btEdit.insets = new Insets(0, 0, 5, 0);
 			gbc_btEdit.gridx = 0;
 			gbc_btEdit.gridy = 1;
-			pnButtons.add(getBtEdit(), gbc_btEdit);
+			pnButtons.add(getBtEditCommand(), gbc_btEdit);
 			GridBagConstraints gbc_btRemoveCommand = new GridBagConstraints();
 			gbc_btRemoveCommand.gridx = 0;
 			gbc_btRemoveCommand.gridy = 2;

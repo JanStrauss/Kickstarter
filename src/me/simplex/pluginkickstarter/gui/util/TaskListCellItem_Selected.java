@@ -14,13 +14,13 @@ public class TaskListCellItem_Selected extends GraphicsPanel{
 	private JLabel lbTaskname;
 	private JLabel lbType;
 	private JLabel lblRegisterOnStartup;
-	private JLabel lbOffset;
+	private JLabel lbPeriod;
 	private JLabel lbDelay;
 	private JLabel lbTaskNameData;
 	private JLabel lbTypeData;
 	private JLabel lbRegisterOnStartupData;
 	private JLabel lbDelayData;
-	private JLabel lbOffsetData;
+	private JLabel lbPeriodData;
 	private JLabel label;
 
 	public TaskListCellItem_Selected() {
@@ -41,8 +41,8 @@ public class TaskListCellItem_Selected extends GraphicsPanel{
 		add(getLbDelayData());
 		add(getLblRegisterOnStartup());
 		add(getLbRegisterOnStartupData());
-		add(getLbOffset());
-		add(getLbOffsetData());
+		add(getLbPeriod());
+		add(getLbPeriodData());
 		add(getLabel());
 	}
 	
@@ -58,8 +58,54 @@ public class TaskListCellItem_Selected extends GraphicsPanel{
 		lbTaskNameData.setText(c.getTaskname());
 		lbTypeData.setText(c.getType().toString());
 		lbDelayData.setText(""+c.getDelay());
-		lbOffsetData.setText(""+c.getPeriod());
+		lbPeriodData.setText(""+c.getPeriod());
 		lbRegisterOnStartupData.setText(""+c.isRegisterAtOnEnable());
+		
+		switch (c.getType()) {
+		case AsyncDelayedTask: 
+			lbDelayData.setVisible(true);
+			lbDelay.setVisible(true);
+			
+			lbPeriodData.setVisible(false);
+			lbPeriod.setVisible(false);
+			break;
+		case AsyncRepeatingTask:
+			lbDelayData.setVisible(true);
+			lbDelay.setVisible(true);
+			
+			lbPeriodData.setVisible(true);
+			lbPeriod.setVisible(true);
+			break;
+		case AsyncTask:
+			lbDelayData.setVisible(false);
+			lbDelay.setVisible(false);
+			
+			lbPeriodData.setVisible(false);
+			lbPeriod.setVisible(false);
+			break;
+		case SyncDelayedTask:
+			lbDelayData.setVisible(true);
+			lbDelay.setVisible(true);
+			
+			lbPeriodData.setVisible(false);
+			lbPeriod.setVisible(false);
+			break;
+		case SyncRepeatingTask: 
+			lbDelayData.setVisible(true);
+			lbDelay.setVisible(true);
+			
+			lbPeriodData.setVisible(true);
+			lbPeriod.setVisible(true);
+			break;
+		case SyncTask: 
+			lbDelayData.setVisible(false);
+			lbDelay.setVisible(false);
+			
+			lbPeriodData.setVisible(false);
+			lbPeriod.setVisible(false);
+			break;
+		default:break;
+		}
 	}
 
 	private JLabel getLbTaskname() {
@@ -88,13 +134,13 @@ public class TaskListCellItem_Selected extends GraphicsPanel{
 		}
 		return lblRegisterOnStartup;
 	}
-	private JLabel getLbOffset() {
-		if (lbOffset == null) {
-			lbOffset = new JLabel("Period:");
-			lbOffset.setBounds(560, 30, 50, 30);
-			lbOffset.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+	private JLabel getLbPeriod() {
+		if (lbPeriod == null) {
+			lbPeriod = new JLabel("Period:");
+			lbPeriod.setBounds(560, 30, 50, 30);
+			lbPeriod.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		}
-		return lbOffset;
+		return lbPeriod;
 	}
 	
 	private JLabel getLbDelay() {
@@ -140,13 +186,13 @@ public class TaskListCellItem_Selected extends GraphicsPanel{
 		return lbDelayData;
 	}
 	
-	private JLabel getLbOffsetData() {
-		if (lbOffsetData == null) {
-			lbOffsetData = new JLabel("");
-			lbOffsetData.setFont(new Font("Segoe UI", Font.BOLD, 11));
-			lbOffsetData.setBounds(610, 30, 90, 30);
+	private JLabel getLbPeriodData() {
+		if (lbPeriodData == null) {
+			lbPeriodData = new JLabel("");
+			lbPeriodData.setFont(new Font("Segoe UI", Font.BOLD, 11));
+			lbPeriodData.setBounds(610, 30, 90, 30);
 		}
-		return lbOffsetData;
+		return lbPeriodData;
 	}
 	private JLabel getLabel() {
 		if (label == null) {

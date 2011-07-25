@@ -75,7 +75,7 @@ public class GenMainClass extends Generator {
 					case AsyncDelayedTask: 		return "this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getPeriod()+")";
 					case AsyncRepeatingTask: 	return "this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new "+task.getTaskname()+"(this)), "+task.getPeriod()+", "+task.getPeriod()+");";
 					case SyncTask:				return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this))";
-					case SyncDeplayedTask:		return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getPeriod()+")";
+					case SyncDelayedTask:		return "this.getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getPeriod()+")";
 					case SyncRepeatingTask: 	return "this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new "+task.getTaskname()+"(this)), "+task.getPeriod()+", "+task.getPeriod()+");";
 					default: return null;
 				}

@@ -5,6 +5,6 @@ public enum TaskType {
 	AsyncDelayedTask,
 	AsyncRepeatingTask,
 	SyncTask,
-	SyncDeplayedTask,
+	SyncDelayedTask,
 	SyncRepeatingTask
 }
