@@ -3,6 +3,8 @@ main: $mainclass
 version: $version
 website: $website
 author: $author
+$depends
+$softdepends
 description: >
              $description
 $commands

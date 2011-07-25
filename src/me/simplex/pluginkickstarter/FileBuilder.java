@@ -85,6 +85,8 @@ public class FileBuilder {
 		content = content.replace("$website", 				gen.buildWebsite());
 		content = content.replace("$description", 			gen.buildDescription());
 		content = content.replace("$commands", 				gen.buildCommands());
+		content = content.replace("$depends", 				gen.buildDepends());
+		content = content.replace("$softdepends", 			gen.buildSoftdepends());
 		
 		return new FileContainer("plugin.yml", "", content);
 	}
