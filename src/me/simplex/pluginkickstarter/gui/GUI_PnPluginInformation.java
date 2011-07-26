@@ -30,6 +30,8 @@ import me.simplex.pluginkickstarter.gui.util.TaskListCellRenderer;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
 import me.simplex.pluginkickstarter.storage.TaskContainer;
 import me.simplex.pluginkickstarter.util.ListenerType;
+import javax.swing.JTextField;
+import javax.swing.JTree;
 
 public class GUI_PnPluginInformation extends JPanel {
 	private GUI_Main_Window GUI;
@@ -93,6 +95,17 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JPanel pnTasksScroll;
 	private JList listTasks;
 	private JPanel pnButtons;
+	private JPanel pnBtnConfig;
+	private JPanel pnConfigTop;
+	private JButton btnNewNode;
+	private JButton btnEditNode;
+	private JButton btnRemoveNode;
+	private JLabel lbConfigDesc;
+	private JLabel lbConfigHeader;
+	private JTextField tfConfigHeaderline;
+	private JPanel pnConfigTree;
+	private JScrollPane spConfigTree;
+	private JTree tree;
 		
 	public GUI_PnPluginInformation(GUI_Main_Window GUI) {
 		this.GUI = GUI;
@@ -139,6 +152,10 @@ public class GUI_PnPluginInformation extends JPanel {
 		if (pnConfiguration == null) {
 			pnConfiguration = new JPanel();
 			pnConfiguration.setEnabled(false);
+			pnConfiguration.setLayout(new BorderLayout(0, 0));
+			pnConfiguration.add(getPnBtnConfig(), BorderLayout.EAST);
+			pnConfiguration.add(getPnConfigTop(), BorderLayout.NORTH);
+			pnConfiguration.add(getPnConfigTree(), BorderLayout.CENTER);
 		}
 		return pnConfiguration;
 	}
@@ -682,6 +699,138 @@ public class GUI_PnPluginInformation extends JPanel {
 	public void cancelCommand(CommandContainer c){
 		command_list_data.removeElement(c);
 		GUI.getMain().getData().getCommands().remove(c);
+	}
+	private JPanel getPnBtnConfig() {
+		if (pnBtnConfig == null) {
+			pnBtnConfig = new JPanel();
+			pnBtnConfig.setBorder(new EmptyBorder(5, 5, 5, 5));
+			GridBagLayout gbl_pnBtnConfig = new GridBagLayout();
+			gbl_pnBtnConfig.columnWidths = new int[]{0, 0};
+			gbl_pnBtnConfig.rowHeights = new int[]{0, 0, 0, 0};
+			gbl_pnBtnConfig.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+			gbl_pnBtnConfig.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+			pnBtnConfig.setLayout(gbl_pnBtnConfig);
+			GridBagConstraints gbc_btnNewNode = new GridBagConstraints();
+			gbc_btnNewNode.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btnNewNode.insets = new Insets(0, 0, 5, 0);
+			gbc_btnNewNode.gridx = 0;
+			gbc_btnNewNode.gridy = 0;
+			pnBtnConfig.add(getBtnNewNode(), gbc_btnNewNode);
+			GridBagConstraints gbc_btnEditNode = new GridBagConstraints();
+			gbc_btnEditNode.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btnEditNode.insets = new Insets(0, 0, 5, 0);
+			gbc_btnEditNode.gridx = 0;
+			gbc_btnEditNode.gridy = 1;
+			pnBtnConfig.add(getBtnEditNode(), gbc_btnEditNode);
+			GridBagConstraints gbc_btnRemoveNode = new GridBagConstraints();
+			gbc_btnRemoveNode.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btnRemoveNode.gridx = 0;
+			gbc_btnRemoveNode.gridy = 2;
+			pnBtnConfig.add(getBtnRemoveNode(), gbc_btnRemoveNode);
+		}
+		return pnBtnConfig;
+	}
+	private JPanel getPnConfigTop() {
+		if (pnConfigTop == null) {
+			pnConfigTop = new JPanel();
+			pnConfigTop.setBorder(new EmptyBorder(5, 5, 5, 5));
+			GridBagLayout gbl_pnConfigTop = new GridBagLayout();
+			gbl_pnConfigTop.columnWidths = new int[]{60, 51, 0};
+			gbl_pnConfigTop.rowHeights = new int[]{15, 0, 0};
+			gbl_pnConfigTop.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+			gbl_pnConfigTop.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+			pnConfigTop.setLayout(gbl_pnConfigTop);
+			GridBagConstraints gbc_lbConfigDesc = new GridBagConstraints();
+			gbc_lbConfigDesc.gridwidth = 2;
+			gbc_lbConfigDesc.insets = new Insets(0, 0, 5, 0);
+			gbc_lbConfigDesc.anchor = GridBagConstraints.NORTHWEST;
+			gbc_lbConfigDesc.gridx = 0;
+			gbc_lbConfigDesc.gridy = 0;
+			pnConfigTop.add(getLbConfigDesc(), gbc_lbConfigDesc);
+			GridBagConstraints gbc_lbConfigHeader = new GridBagConstraints();
+			gbc_lbConfigHeader.anchor = GridBagConstraints.WEST;
+			gbc_lbConfigHeader.insets = new Insets(0, 0, 0, 5);
+			gbc_lbConfigHeader.gridx = 0;
+			gbc_lbConfigHeader.gridy = 1;
+			pnConfigTop.add(getLbConfigHeader(), gbc_lbConfigHeader);
+			GridBagConstraints gbc_tfConfigHeaderline = new GridBagConstraints();
+			gbc_tfConfigHeaderline.fill = GridBagConstraints.HORIZONTAL;
+			gbc_tfConfigHeaderline.gridx = 1;
+			gbc_tfConfigHeaderline.gridy = 1;
+			pnConfigTop.add(getTfConfigHeaderline(), gbc_tfConfigHeaderline);
+		}
+		return pnConfigTop;
+	}
+	private JButton getBtnNewNode() {
+		if (btnNewNode == null) {
+			btnNewNode = new JButton("New Node");
+			btnNewNode.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+		}
+		return btnNewNode;
+	}
+	private JButton getBtnEditNode() {
+		if (btnEditNode == null) {
+			btnEditNode = new JButton("Edit Node");
+			btnEditNode.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+		}
+		return btnEditNode;
+	}
+	private JButton getBtnRemoveNode() {
+		if (btnRemoveNode == null) {
+			btnRemoveNode = new JButton("Remove Node");
+			btnRemoveNode.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+		}
+		return btnRemoveNode;
+	}
+	private JLabel getLbConfigDesc() {
+		if (lbConfigDesc == null) {
+			lbConfigDesc = new JLabel("Configurate the configuration of the plugin");
+		}
+		return lbConfigDesc;
+	}
+	private JLabel getLbConfigHeader() {
+		if (lbConfigHeader == null) {
+			lbConfigHeader = new JLabel("config.yml headerline:");
+			lbConfigHeader.setLabelFor(getTfConfigHeaderline());
+		}
+		return lbConfigHeader;
+	}
+	private JTextField getTfConfigHeaderline() {
+		if (tfConfigHeaderline == null) {
+			tfConfigHeaderline = new JTextField();
+			tfConfigHeaderline.setColumns(10);
+		}
+		return tfConfigHeaderline;
+	}
+	private JPanel getPnConfigTree() {
+		if (pnConfigTree == null) {
+			pnConfigTree = new JPanel();
+			pnConfigTree.setLayout(new BorderLayout(0, 0));
+			pnConfigTree.add(getSpConfigTree(), BorderLayout.CENTER);
+		}
+		return pnConfigTree;
+	}
+	private JScrollPane getSpConfigTree() {
+		if (spConfigTree == null) {
+			spConfigTree = new JScrollPane();
+			spConfigTree.setViewportView(getTree());
+		}
+		return spConfigTree;
+	}
+	private JTree getTree() {
+		if (tree == null) {
+			tree = new JTree();
+		}
+		return tree;
 	}
 }
 

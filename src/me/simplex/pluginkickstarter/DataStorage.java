@@ -3,6 +3,7 @@ package me.simplex.pluginkickstarter;
 import java.util.ArrayList;
 
 import me.simplex.pluginkickstarter.storage.CommandContainer;
+import me.simplex.pluginkickstarter.storage.ConfigurationNodeContainer;
 import me.simplex.pluginkickstarter.storage.FileContainer;
 import me.simplex.pluginkickstarter.storage.ListenerContainer;
 import me.simplex.pluginkickstarter.storage.TaskContainer;
@@ -15,6 +16,7 @@ public class DataStorage {
 	private String version;
 	private String depends;
 	private String softdepends;
+	private String cfgfileheader;
 	
 	private boolean usePermissions;
 	private boolean singleCommandExecuter;
@@ -22,6 +24,7 @@ public class DataStorage {
 	private ArrayList<TaskContainer> tasks;
 	private ArrayList<CommandContainer> commands;
 	private ArrayList<ListenerContainer> listener;
+	private ArrayList<ConfigurationNodeContainer> configNodes;
 	
 	private ArrayList<FileContainer> buildFiles;
 	
@@ -30,6 +33,7 @@ public class DataStorage {
 		this.commands = new ArrayList<CommandContainer>();
 		this.listener = new ArrayList<ListenerContainer>();
 		this.buildFiles = new ArrayList<FileContainer>();
+		this.configNodes = new ArrayList<ConfigurationNodeContainer>();
 	}
 	
 	public CommandContainer getCmdContainerByName(String name){
@@ -185,6 +189,18 @@ public class DataStorage {
 
 	public void setSoftdepends(String softdepends) {
 		this.softdepends = softdepends;
+	}
+	
+	public ArrayList<ConfigurationNodeContainer> getConfigNodes(){
+		return configNodes;
+	}
+
+	public String getCfgfileheader() {
+		return cfgfileheader;
+	}
+
+	public void setCfgfileheader(String cfgfileheader) {
+		this.cfgfileheader = cfgfileheader;
 	}
 	
 	
