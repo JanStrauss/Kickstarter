@@ -74,7 +74,10 @@ public class GUI_PnGeneralInformation extends JPanel {
 		s.setVersion(getTfVersion().getText());
 		s.setSoftdepends(getTfSoftdepends().getText());
 		s.setDepends(getTfDepends().getText());
+		
+		
 	}
+	
 	private JTextField getTfPluginname() {
 		if (tfPluginname == null) {
 			tfPluginname = new JTextField();

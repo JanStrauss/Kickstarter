@@ -3,7 +3,6 @@ package me.simplex.pluginkickstarter.test.commands;
 import me.simplex.pluginkickstarter.test.PluginMainDummy;
 
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +31,7 @@ public class Commandexe implements CommandExecutor {
 		 		bla=bla+s+" ";
 		 		}
 		 		bla.trim();
-
+		 		plugin.isEnabled();
 		 		
 				Player player = (Player)sender;
 				

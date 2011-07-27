@@ -1,7 +1,6 @@
 package me.simplex.pluginkickstarter.test;
 
 import me.simplex.pluginkickstarter.test.commands.Commandexe;
-import me.simplex.pluginkickstarter.util.TemplateType;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
@@ -24,7 +23,7 @@ public class PluginMainDummy extends JavaPlugin {
 		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT, null, Priority.Normal, this);
 		configuration = setupConfig();
 		
-		TemplateType.Command.toString()
+		//TemplateType.Command.toString()
 	}
     
 	public boolean checkPermissions(Player player, String node){

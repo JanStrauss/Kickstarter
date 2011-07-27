@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
@@ -25,13 +26,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import me.simplex.pluginkickstarter.gui.util.CommandListCellRenderer;
+import me.simplex.pluginkickstarter.gui.util.ConfigNodeListCellRenderer;
 import me.simplex.pluginkickstarter.gui.util.EventTable;
 import me.simplex.pluginkickstarter.gui.util.TaskListCellRenderer;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
+import me.simplex.pluginkickstarter.storage.ConfigurationNodeContainer;
 import me.simplex.pluginkickstarter.storage.TaskContainer;
 import me.simplex.pluginkickstarter.util.ListenerType;
-import javax.swing.JTextField;
-import javax.swing.JTree;
 
 public class GUI_PnPluginInformation extends JPanel {
 	private GUI_Main_Window GUI;
@@ -82,7 +83,8 @@ public class GUI_PnPluginInformation extends JPanel {
 
 	private DefaultListModel command_list_data;
 	private DefaultListModel task_list_data;
-
+	private DefaultListModel confignode_list_data;
+	
 	private JButton btEditCommand;
 	private JPanel pnScroll;
 	private JScrollPane spTasks;
@@ -98,14 +100,16 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JPanel pnBtnConfig;
 	private JPanel pnConfigTop;
 	private JButton btnNewNode;
-	private JButton btnEditNode;
-	private JButton btnRemoveNode;
+	private JButton btEditNode;
+	private JButton btRemoveNode;
 	private JLabel lbConfigDesc;
 	private JLabel lbConfigHeader;
 	private JTextField tfConfigHeaderline;
 	private JPanel pnConfigTree;
 	private JScrollPane spConfigTree;
-	private JTree tree;
+	private JList listConfig;
+	private JPanel pnScrollConfig;
+	private JPanel pnResetConfigSel;
 		
 	public GUI_PnPluginInformation(GUI_Main_Window GUI) {
 		this.GUI = GUI;
@@ -151,7 +155,6 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JPanel getPnConfiguration() {
 		if (pnConfiguration == null) {
 			pnConfiguration = new JPanel();
-			pnConfiguration.setEnabled(false);
 			pnConfiguration.setLayout(new BorderLayout(0, 0));
 			pnConfiguration.add(getPnBtnConfig(), BorderLayout.EAST);
 			pnConfiguration.add(getPnConfigTop(), BorderLayout.NORTH);
@@ -551,6 +554,15 @@ public class GUI_PnPluginInformation extends JPanel {
 		new GUI_CommandEditor(this, false, c);
 	}
 	
+	private void performClickNewNode(){
+		ConfigurationNodeContainer c = new ConfigurationNodeContainer();
+		GUI.getMain().getData().getConfigNodes().add(c);
+		
+		confignode_list_data.addElement(c);
+		
+		new GUI_ConfigurationNodeEditor(this, false, c);
+	}
+	
 	private JButton getBtEditTask() {
 		if (btEditTask == null) {
 			btEditTask = new JButton("Edit Task");
@@ -573,6 +585,11 @@ public class GUI_PnPluginInformation extends JPanel {
 	private void performClickEditCommand(){
 		CommandContainer c = (CommandContainer) getListCommands().getSelectedValue();
 		new GUI_CommandEditor(this, true, c);
+	}
+	
+	private void performClickEditNode(){
+		ConfigurationNodeContainer c = (ConfigurationNodeContainer) getListConfig().getSelectedValue();
+		new GUI_ConfigurationNodeEditor(this, true, c);
 	}
 	
 	
@@ -721,12 +738,12 @@ public class GUI_PnPluginInformation extends JPanel {
 			gbc_btnEditNode.insets = new Insets(0, 0, 5, 0);
 			gbc_btnEditNode.gridx = 0;
 			gbc_btnEditNode.gridy = 1;
-			pnBtnConfig.add(getBtnEditNode(), gbc_btnEditNode);
+			pnBtnConfig.add(getBtEditNode(), gbc_btnEditNode);
 			GridBagConstraints gbc_btnRemoveNode = new GridBagConstraints();
 			gbc_btnRemoveNode.fill = GridBagConstraints.HORIZONTAL;
 			gbc_btnRemoveNode.gridx = 0;
 			gbc_btnRemoveNode.gridy = 2;
-			pnBtnConfig.add(getBtnRemoveNode(), gbc_btnRemoveNode);
+			pnBtnConfig.add(getBtRemoveNode(), gbc_btnRemoveNode);
 		}
 		return pnBtnConfig;
 	}
@@ -766,30 +783,34 @@ public class GUI_PnPluginInformation extends JPanel {
 			btnNewNode = new JButton("New Node");
 			btnNewNode.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					performClickNewNode();
 				}
 			});
 		}
 		return btnNewNode;
 	}
-	private JButton getBtnEditNode() {
-		if (btnEditNode == null) {
-			btnEditNode = new JButton("Edit Node");
-			btnEditNode.addActionListener(new ActionListener() {
+	private JButton getBtEditNode() {
+		if (btEditNode == null) {
+			btEditNode = new JButton("Edit Node");
+			btEditNode.setEnabled(false);
+			btEditNode.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					performClickEditNode();
 				}
 			});
 		}
-		return btnEditNode;
+		return btEditNode;
 	}
-	private JButton getBtnRemoveNode() {
-		if (btnRemoveNode == null) {
-			btnRemoveNode = new JButton("Remove Node");
-			btnRemoveNode.addActionListener(new ActionListener() {
+	private JButton getBtRemoveNode() {
+		if (btRemoveNode == null) {
+			btRemoveNode = new JButton("Remove Node");
+			btRemoveNode.setEnabled(false);
+			btRemoveNode.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
 		}
-		return btnRemoveNode;
+		return btRemoveNode;
 	}
 	private JLabel getLbConfigDesc() {
 		if (lbConfigDesc == null) {
@@ -808,6 +829,7 @@ public class GUI_PnPluginInformation extends JPanel {
 		if (tfConfigHeaderline == null) {
 			tfConfigHeaderline = new JTextField();
 			tfConfigHeaderline.setColumns(10);
+			tfConfigHeaderline.setText("MahPluginz configuration xD!!111 s0 l33t:");
 		}
 		return tfConfigHeaderline;
 	}
@@ -822,15 +844,66 @@ public class GUI_PnPluginInformation extends JPanel {
 	private JScrollPane getSpConfigTree() {
 		if (spConfigTree == null) {
 			spConfigTree = new JScrollPane();
-			spConfigTree.setViewportView(getTree());
+			spConfigTree.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			spConfigTree.setViewportView(getPnScrollConfig());
 		}
 		return spConfigTree;
 	}
-	private JTree getTree() {
-		if (tree == null) {
-			tree = new JTree();
+	public void cancelConfigNode(ConfigurationNodeContainer c) {
+		confignode_list_data.removeElement(c);
+		GUI.getMain().getData().getConfigNodes().remove(c);
+	}
+	
+	public void updateConfig() {
+		getListConfig().repaint();
+	}
+	
+	private JList getListConfig() {
+		if (listConfig == null) {
+			listConfig = new JList();
+			listConfig.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			confignode_list_data = new DefaultListModel();
+			listConfig.setModel(confignode_list_data);
+			listConfig.setCellRenderer(new ConfigNodeListCellRenderer());
+			listConfig.addListSelectionListener(new ListSelectionListener() {
+				@Override
+				public void valueChanged(ListSelectionEvent arg0) {
+					if (listConfig.getSelectedValue() != null) {
+						btEditNode.setEnabled(true);
+						btRemoveNode.setEnabled(true);
+					}
+					else {
+						btEditNode.setEnabled(false);
+						btRemoveNode.setEnabled(false);
+					}
+			          for(int x = 0; x < confignode_list_data.size(); x++) 
+			          { 
+			        	  confignode_list_data.setElementAt(confignode_list_data.getElementAt(x),x); 
+			          } 
+				}
+			});
 		}
-		return tree;
+		return listConfig;
+	}
+	private JPanel getPnScrollConfig() {
+		if (pnScrollConfig == null) {
+			pnScrollConfig = new JPanel();
+			pnScrollConfig.setLayout(new BorderLayout(0, 0));
+			pnScrollConfig.add(getListConfig(), BorderLayout.NORTH);
+			pnScrollConfig.add(getPnResetConfigSel(), BorderLayout.CENTER);
+		}
+		return pnScrollConfig;
+	}
+	private JPanel getPnResetConfigSel() {
+		if (pnResetConfigSel == null) {
+			pnResetConfigSel = new JPanel();
+			pnResetConfigSel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					listConfig.clearSelection();
+				}
+			});
+		}
+		return pnResetConfigSel;
 	}
 }
-
