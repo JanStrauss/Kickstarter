@@ -1,5 +1,7 @@
 package me.simplex.pluginkickstarter.test;
 
+import java.util.ArrayList;
+
 import me.simplex.pluginkickstarter.test.commands.Commandexe;
 
 import org.bukkit.entity.Player;
@@ -22,7 +24,6 @@ public class PluginMainDummy extends JavaPlugin {
 		getCommand("test").setExecutor(new Commandexe(this));
 		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT, null, Priority.Normal, this);
 		configuration = setupConfig();
-	
 		//TemplateType.Command.toString()
 	}
     
@@ -37,10 +38,11 @@ public class PluginMainDummy extends JavaPlugin {
 	private Configuration setupConfig(){
 		Configuration cfg = getConfiguration();
 		
+		
 		cfg.setHeader("# HURR");
 		
 		cfg.getBoolean("i.leik.turtles", false);
-
+cfg.getBooleanList("asdsad", new ArrayList<Boolean>());
 		cfg.save();
 		return cfg;
 	}
