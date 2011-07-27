@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import me.simplex.pluginkickstarter.DataStorage;
 import me.simplex.pluginkickstarter.gui.util.CommandListCellRenderer;
 import me.simplex.pluginkickstarter.gui.util.ConfigNodeListCellRenderer;
 import me.simplex.pluginkickstarter.gui.util.EventTable;
@@ -133,6 +134,33 @@ public class GUI_PnPluginInformation extends JPanel {
 		return tpPluginData;
 	}
 	
+	public void updateTabs(){
+		DataStorage s = GUI.getMain().getData();
+		if (!s.isGen_listener()) {
+			tpPluginData.setEnabledAt(0, false);
+		}
+		else {
+			tpPluginData.setEnabledAt(0, true);
+		}
+		if (!s.isGen_commands()) {
+			tpPluginData.setEnabledAt(1, false);
+		}
+		else {
+			tpPluginData.setEnabledAt(1, true);
+		}
+		if (!s.isGen_configuration()) {
+			tpPluginData.setEnabledAt(2, false);
+		}
+		else {
+			tpPluginData.setEnabledAt(2, true);
+		}
+		if (!s.isGen_tasks()) {
+			tpPluginData.setEnabledAt(3, false);
+		}
+		else {
+			tpPluginData.setEnabledAt(3, true);
+		}
+	}
 	
 	private JPanel getPnEvents() {
 		if (pnEvents == null) {

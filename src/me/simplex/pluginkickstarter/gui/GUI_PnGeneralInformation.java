@@ -370,7 +370,6 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JCheckBox getCbGenerateListeners() {
 		if (cbGenerateListeners == null) {
 			cbGenerateListeners = new JCheckBox("Generate Listeners");
-			cbGenerateListeners.setEnabled(false);
 			cbGenerateListeners.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					GUI.getMain().getData().setGen_listener(cbGenerateListeners.isSelected());
@@ -383,7 +382,6 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JCheckBox getCbGenerateConfiguration() {
 		if (cbGenerateConfiguration == null) {
 			cbGenerateConfiguration = new JCheckBox("Generate Configuration");
-			cbGenerateConfiguration.setEnabled(false);
 			cbGenerateConfiguration.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					GUI.getMain().getData().setGen_configuration(cbGenerateConfiguration.isSelected());
@@ -396,7 +394,6 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JCheckBox getCbGenerateCommands() {
 		if (cbGenerateCommands == null) {
 			cbGenerateCommands = new JCheckBox("Generate Commands");
-			cbGenerateCommands.setEnabled(false);
 			cbGenerateCommands.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					GUI.getMain().getData().setGen_commands(cbGenerateCommands.isSelected());
@@ -410,7 +407,6 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JCheckBox getCbGenerateTasks() {
 		if (cbGenerateTasks == null) {
 			cbGenerateTasks = new JCheckBox("Generate Tasks");
-			cbGenerateTasks.setEnabled(false);
 			cbGenerateTasks.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					GUI.getMain().getData().setGen_tasks(cbGenerateTasks.isSelected());

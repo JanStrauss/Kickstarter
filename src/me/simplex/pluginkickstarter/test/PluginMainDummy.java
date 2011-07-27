@@ -22,7 +22,7 @@ public class PluginMainDummy extends JavaPlugin {
 		getCommand("test").setExecutor(new Commandexe(this));
 		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT, null, Priority.Normal, this);
 		configuration = setupConfig();
-		
+	
 		//TemplateType.Command.toString()
 	}
     

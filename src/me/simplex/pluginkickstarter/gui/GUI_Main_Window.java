@@ -28,6 +28,7 @@ public class GUI_Main_Window extends JFrame {
 	private PluginKickstarter main;
 	private GUI_PnGeneralInformation pnGeneral;
 	private GUI_PnPluginInformation pnPlugin;
+	private GUI_PnCheckAndBuild pnExport;
 	
 	private enum Selected{Step1,Step2,Step3};
 	private Selected status;
@@ -53,6 +54,7 @@ public class GUI_Main_Window extends JFrame {
 		this.main = pluginSeed;
 		this.pnGeneral = new GUI_PnGeneralInformation(this);
 		this.pnPlugin = new GUI_PnPluginInformation(this);
+		this.pnExport = new GUI_PnCheckAndBuild(this);
 		status = Selected.Step1;
 		initialize();
 	}
@@ -224,12 +226,17 @@ public class GUI_Main_Window extends JFrame {
 						getPnFooter().changeBackground("/me/simplex/pluginkickstarter/gui/images/footer2.png");
 						btLastStep.setVisible(true);
 						pnGeneral.updataData();
+						pnPlugin.updateTabs();
 						break;
 					case Step2: // 2 to 3
 						status = Selected.Step3;
 						getBtNextStep().setText("Exit");
 						lbStatus.setText("Step 3 of 3: Confirm output and save plugin project");
-						//getBtLastStep().setVisible(false);
+						pnExport.updateExportOverview();
+						getPnContent().removeAll();
+						getPnContent().add(pnExport);
+						getPnContent().repaint();
+						
 						break;
 					case Step3: // 3 to end
 						System.out.println("end");
