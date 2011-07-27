@@ -133,6 +133,7 @@ public class GUI_PnPluginInformation extends JPanel {
 		return tpPluginData;
 	}
 	
+	
 	private JPanel getPnEvents() {
 		if (pnEvents == null) {
 			pnEvents = new JPanel();
@@ -177,6 +178,7 @@ public class GUI_PnPluginInformation extends JPanel {
 		}
 		return tpEvents;
 	}
+	
 	private JPanel getPnPlayerEvents() {
 		if (pnPlayerEvents == null) {
 			pnPlayerEvents = new JPanel();
@@ -667,6 +669,8 @@ public class GUI_PnPluginInformation extends JPanel {
 		}
 		return listTasks;
 	}
+	
+
 	
 	public void updateTasks(){
 		getListTasks().repaint();

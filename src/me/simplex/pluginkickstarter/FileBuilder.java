@@ -67,9 +67,8 @@ public class FileBuilder {
 		content = content.replace("$register_commands", 	gen.buildRegister_Commands());
 		content = content.replace("$schedule_tasks", 		gen.buildSchedule_Tasks());
 		content = content.replace("$disable", 				gen.buildDisable());
-		content = content.replace("$setupPermissions", 		gen.buildSetupPermissions());
-		content = content.replace("$configChecks", 			gen.buildConfigChecks());
-		content = content.replace("$GetterAndSetter", 		gen.buildGetterAndSetter());
+		content = content.replace("$setupPermissions", 		gen.buildSetupConfig());
+		content = content.replace("$configChecks", 			gen.buildConfigGetter());
 		
 		return new FileContainer(main.getData().getPluginname()+".java", gen.buildFilepath(TemplateType.MainClass), content);
 	}

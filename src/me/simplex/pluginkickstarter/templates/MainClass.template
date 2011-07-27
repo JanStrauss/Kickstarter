@@ -29,9 +29,7 @@
  		$disable
  	}
  	
- 	$setupPermissions
+ 	$setupConfig
  	
- 	$configChecks
- 	
- 	$getterAndSetter
+ 	$configGetter
  }

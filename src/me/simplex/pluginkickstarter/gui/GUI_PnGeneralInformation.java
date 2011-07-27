@@ -23,6 +23,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import me.simplex.pluginkickstarter.DataStorage;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GUI_PnGeneralInformation extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -41,15 +43,15 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JScrollPane spDesc;
 	private JPanel pnLeft;
 	private JPanel panel;
-	private JCheckBox cbUsePermissions;
-	private JCheckBox cbUseConfig;
-	private JCheckBox cbEveryCommandownExecutor;
-	private JCheckBox cbPluginYML;
-	private JCheckBox chckbxGenerateProjectdataFor;
+	private JCheckBox cbGenerateListeners;
+	private JCheckBox cbGenerateConfiguration;
+	private JCheckBox cbGenerateCommands;
+	private JCheckBox cbGenerateTasks;
 	private JLabel lbDepends;
 	private JTextField tfDepends;
 	private JLabel lbSoftdepends;
 	private JTextField tfSoftdepends;
+	private JPanel panel_1;
 	
 	public GUI_PnGeneralInformation(GUI_Main_Window gui) {
 		this.GUI = gui;
@@ -62,6 +64,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 		add(getPanel());
 		this.setEnabled(true);
 		getTfPluginname().requestFocus();
+		add(getPanel_1());
 	}
 	
 	public void updataData() {
@@ -74,7 +77,6 @@ public class GUI_PnGeneralInformation extends JPanel {
 		s.setVersion(getTfVersion().getText());
 		s.setSoftdepends(getTfSoftdepends().getText());
 		s.setDepends(getTfDepends().getText());
-		
 		
 	}
 	
@@ -330,87 +332,93 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setEnabled(false);
 			panel.setBorder(new CompoundBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Generator Configuration", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), new EmptyBorder(5, 5, 5, 5)));
-			panel.setBounds(400, 10, 380, 170);
+			panel.setBounds(400, 10, 380, 150);
 			GridBagLayout gbl_panel = new GridBagLayout();
 			gbl_panel.columnWidths = new int[]{0, 0, 0};
-			gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+			gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0};
 			gbl_panel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-			gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+			gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 			panel.setLayout(gbl_panel);
-			GridBagConstraints gbc_cbUsePermissions = new GridBagConstraints();
-			gbc_cbUsePermissions.anchor = GridBagConstraints.WEST;
-			gbc_cbUsePermissions.insets = new Insets(0, 0, 5, 5);
-			gbc_cbUsePermissions.gridx = 0;
-			gbc_cbUsePermissions.gridy = 0;
-			panel.add(getCbUsePermissions(), gbc_cbUsePermissions);
-			GridBagConstraints gbc_cbUseConfig = new GridBagConstraints();
-			gbc_cbUseConfig.anchor = GridBagConstraints.WEST;
-			gbc_cbUseConfig.insets = new Insets(0, 0, 5, 5);
-			gbc_cbUseConfig.gridx = 0;
-			gbc_cbUseConfig.gridy = 1;
-			panel.add(getCbUseConfig(), gbc_cbUseConfig);
-			GridBagConstraints gbc_cbEveryCommandownExecutor = new GridBagConstraints();
-			gbc_cbEveryCommandownExecutor.anchor = GridBagConstraints.WEST;
-			gbc_cbEveryCommandownExecutor.insets = new Insets(0, 0, 5, 5);
-			gbc_cbEveryCommandownExecutor.gridx = 0;
-			gbc_cbEveryCommandownExecutor.gridy = 2;
-			panel.add(getCbEveryCommandownExecutor(), gbc_cbEveryCommandownExecutor);
-			GridBagConstraints gbc_cbPluginYML = new GridBagConstraints();
-			gbc_cbPluginYML.anchor = GridBagConstraints.WEST;
-			gbc_cbPluginYML.insets = new Insets(0, 0, 5, 5);
-			gbc_cbPluginYML.gridx = 0;
-			gbc_cbPluginYML.gridy = 3;
-			panel.add(getCbPluginYML(), gbc_cbPluginYML);
-			GridBagConstraints gbc_chckbxGenerateProjectdataFor = new GridBagConstraints();
-			gbc_chckbxGenerateProjectdataFor.anchor = GridBagConstraints.WEST;
-			gbc_chckbxGenerateProjectdataFor.insets = new Insets(0, 0, 5, 5);
-			gbc_chckbxGenerateProjectdataFor.gridx = 0;
-			gbc_chckbxGenerateProjectdataFor.gridy = 4;
-			panel.add(getChckbxGenerateProjectdataFor(), gbc_chckbxGenerateProjectdataFor);
+			GridBagConstraints gbc_cbGenerateListeners = new GridBagConstraints();
+			gbc_cbGenerateListeners.anchor = GridBagConstraints.WEST;
+			gbc_cbGenerateListeners.insets = new Insets(0, 0, 5, 5);
+			gbc_cbGenerateListeners.gridx = 0;
+			gbc_cbGenerateListeners.gridy = 0;
+			panel.add(getCbGenerateListeners(), gbc_cbGenerateListeners);
+			GridBagConstraints gbc_cbGenerateConfiguration = new GridBagConstraints();
+			gbc_cbGenerateConfiguration.anchor = GridBagConstraints.WEST;
+			gbc_cbGenerateConfiguration.insets = new Insets(0, 0, 5, 5);
+			gbc_cbGenerateConfiguration.gridx = 0;
+			gbc_cbGenerateConfiguration.gridy = 1;
+			panel.add(getCbGenerateConfiguration(), gbc_cbGenerateConfiguration);
+			GridBagConstraints gbc_cbGenerateCommands = new GridBagConstraints();
+			gbc_cbGenerateCommands.anchor = GridBagConstraints.WEST;
+			gbc_cbGenerateCommands.insets = new Insets(0, 0, 5, 5);
+			gbc_cbGenerateCommands.gridx = 0;
+			gbc_cbGenerateCommands.gridy = 2;
+			panel.add(getCbGenerateCommands(), gbc_cbGenerateCommands);
+			GridBagConstraints gbc_cbGenerateTasks = new GridBagConstraints();
+			gbc_cbGenerateTasks.anchor = GridBagConstraints.WEST;
+			gbc_cbGenerateTasks.insets = new Insets(0, 0, 0, 5);
+			gbc_cbGenerateTasks.gridx = 0;
+			gbc_cbGenerateTasks.gridy = 3;
+			panel.add(getCbGenerateTasks(), gbc_cbGenerateTasks);
 		}
 		return panel;
 	}
-	private JCheckBox getCbUsePermissions() {
-		if (cbUsePermissions == null) {
-			cbUsePermissions = new JCheckBox("Setup Permissions");
-			cbUsePermissions.setEnabled(false);
-			cbUsePermissions.setSelected(true);
+	private JCheckBox getCbGenerateListeners() {
+		if (cbGenerateListeners == null) {
+			cbGenerateListeners = new JCheckBox("Generate Listeners");
+			cbGenerateListeners.setEnabled(false);
+			cbGenerateListeners.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUI.getMain().getData().setGen_listener(cbGenerateListeners.isSelected());
+				}
+			});
+			cbGenerateListeners.setSelected(true);
 		}
-		return cbUsePermissions;
+		return cbGenerateListeners;
 	}
-	private JCheckBox getCbUseConfig() {
-		if (cbUseConfig == null) {
-			cbUseConfig = new JCheckBox("Generate Configloader *todo*");
-			cbUseConfig.setEnabled(false);
-			cbUseConfig.setSelected(true);
+	private JCheckBox getCbGenerateConfiguration() {
+		if (cbGenerateConfiguration == null) {
+			cbGenerateConfiguration = new JCheckBox("Generate Configuration");
+			cbGenerateConfiguration.setEnabled(false);
+			cbGenerateConfiguration.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUI.getMain().getData().setGen_configuration(cbGenerateConfiguration.isSelected());
+				}
+			});
+			cbGenerateConfiguration.setSelected(true);
 		}
-		return cbUseConfig;
+		return cbGenerateConfiguration;
 	}
-	private JCheckBox getCbEveryCommandownExecutor() {
-		if (cbEveryCommandownExecutor == null) {
-			cbEveryCommandownExecutor = new JCheckBox("Generate a  own CommandExecutor for each command");
-			cbEveryCommandownExecutor.setEnabled(false);
-			cbEveryCommandownExecutor.setSelected(true);
-			cbEveryCommandownExecutor.setToolTipText("Generate a CommandExecutor for each Command");
+	private JCheckBox getCbGenerateCommands() {
+		if (cbGenerateCommands == null) {
+			cbGenerateCommands = new JCheckBox("Generate Commands");
+			cbGenerateCommands.setEnabled(false);
+			cbGenerateCommands.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUI.getMain().getData().setGen_commands(cbGenerateCommands.isSelected());
+				}
+			});
+			cbGenerateCommands.setSelected(true);
+			cbGenerateCommands.setToolTipText("");
 		}
-		return cbEveryCommandownExecutor;
+		return cbGenerateCommands;
 	}
-	private JCheckBox getCbPluginYML() {
-		if (cbPluginYML == null) {
-			cbPluginYML = new JCheckBox("Generate the plugin.yml file");
-			cbPluginYML.setEnabled(false);
-			cbPluginYML.setSelected(true);
+	private JCheckBox getCbGenerateTasks() {
+		if (cbGenerateTasks == null) {
+			cbGenerateTasks = new JCheckBox("Generate Tasks");
+			cbGenerateTasks.setEnabled(false);
+			cbGenerateTasks.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUI.getMain().getData().setGen_tasks(cbGenerateTasks.isSelected());
+				}
+			});
+			cbGenerateTasks.setSelected(true);
 		}
-		return cbPluginYML;
-	}
-	private JCheckBox getChckbxGenerateProjectdataFor() {
-		if (chckbxGenerateProjectdataFor == null) {
-			chckbxGenerateProjectdataFor = new JCheckBox("Generate .project file for Eclipse");
-			chckbxGenerateProjectdataFor.setEnabled(false);
-		}
-		return chckbxGenerateProjectdataFor;
+		return cbGenerateTasks;
 	}
 	private JLabel getLbDepends() {
 		if (lbDepends == null) {
@@ -439,5 +447,13 @@ public class GUI_PnGeneralInformation extends JPanel {
 			tfSoftdepends.setColumns(10);
 		}
 		return tfSoftdepends;
+	}
+	private JPanel getPanel_1() {
+		if (panel_1 == null) {
+			panel_1 = new JPanel();
+			panel_1.setBorder(new CompoundBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Advanced Configuration", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), new EmptyBorder(5, 5, 5, 5)));
+			panel_1.setBounds(400, 165, 380, 145);
+		}
+		return panel_1;
 	}
 }

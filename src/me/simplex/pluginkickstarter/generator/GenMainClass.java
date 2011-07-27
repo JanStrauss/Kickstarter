@@ -31,8 +31,10 @@ public class GenMainClass extends Generator {
 	
 	public String buildVariables(){
 		String ret ="";
+		// Config
 		
-		// BEGIN Listeners
+		
+		// Listeners
 		for (ListenerType t : types_to_handle) {
 			ret=ret+"private Listener_"+StringToClassName(t.toString())+" listener"+StringToClassName(t.toString())+";\n";
 		}
@@ -43,7 +45,7 @@ public class GenMainClass extends Generator {
 	public String buildInit(){
 		String ret ="";
 		
-		// BEGIN Listeners
+		// Listeners
 		for (ListenerType t : types_to_handle) {
 			ret=ret+"listener"+StringToClassName(t.toString())+" = new Listener_"+StringToClassName(t.toString())+"(this);\n";
 		}
@@ -87,6 +89,8 @@ public class GenMainClass extends Generator {
 	public String buildImports(){
 		String ret="";
 		
+		//Config Imports
+		
 		//Command Imports
 		for (CommandContainer c : main.getData().getCommands()) {
 			ret=ret+"import me."+ main.getData().getAuthor()+"."+ main.getData().getPluginname().toLowerCase()+".commands."+StringToClassName(c.getCommand())+"";
@@ -115,15 +119,11 @@ public class GenMainClass extends Generator {
 		return ""; //TODO
 	}
 	
-	public String buildSetupPermissions(){
+	public String buildSetupConfig(){
 		return ""; //TODO
 	}
-	
-	public String buildConfigChecks(){
-		return ""; //TODO
-	}
-	
-	public String buildGetterAndSetter(){
+		
+	public String buildConfigGetter(){
 		return ""; //TODO
 	}
 

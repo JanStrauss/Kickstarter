@@ -18,8 +18,10 @@ public class DataStorage {
 	private String softdepends;
 	private String cfgfileheader;
 	
-	private boolean usePermissions;
-	private boolean singleCommandExecuter;
+	private boolean gen_listener;
+	private boolean gen_commands;
+	private boolean gen_configuration;
+	private boolean gen_tasks;
 	
 	private ArrayList<TaskContainer> tasks;
 	private ArrayList<CommandContainer> commands;
@@ -34,6 +36,11 @@ public class DataStorage {
 		this.listener = new ArrayList<ListenerContainer>();
 		this.buildFiles = new ArrayList<FileContainer>();
 		this.configNodes = new ArrayList<ConfigurationNodeContainer>();
+		
+		gen_listener = true;
+		gen_commands = true;
+		gen_configuration = true;
+		gen_tasks = true;
 	}
 	
 	public CommandContainer getCmdContainerByName(String name){
@@ -96,27 +103,6 @@ public class DataStorage {
 		this.version = version;
 	}
 	
-	public boolean isUsePermissions() {
-		return usePermissions;
-	}
-	
-	public void setUsePermissions(boolean usePermissions) {
-		this.usePermissions = usePermissions;
-	}
-
-	/**
-	 * @param singleCommandExecuter the singleCommandExecuter to set
-	 */
-	public void setSingleCommandExecuter(boolean singleCommandExecuter) {
-		this.singleCommandExecuter = singleCommandExecuter;
-	}
-
-	/**
-	 * @return the singleCommandExecuter
-	 */
-	public boolean isSingleCommandExecuter() {
-		return singleCommandExecuter;
-	}
 
 	/**
 	 * @param tasks the tasks to set
@@ -201,6 +187,38 @@ public class DataStorage {
 
 	public void setCfgfileheader(String cfgfileheader) {
 		this.cfgfileheader = cfgfileheader;
+	}
+
+	public boolean isGen_listener() {
+		return gen_listener;
+	}
+
+	public void setGen_listener(boolean genListener) {
+		gen_listener = genListener;
+	}
+
+	public boolean isGen_commands() {
+		return gen_commands;
+	}
+
+	public void setGen_commands(boolean genCommands) {
+		gen_commands = genCommands;
+	}
+
+	public boolean isGen_configuration() {
+		return gen_configuration;
+	}
+
+	public void setGen_configuration(boolean genConfiguration) {
+		gen_configuration = genConfiguration;
+	}
+
+	public boolean isGen_tasks() {
+		return gen_tasks;
+	}
+
+	public void setGen_tasks(boolean genTasks) {
+		gen_tasks = genTasks;
 	}
 	
 	
