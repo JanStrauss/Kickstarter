@@ -1,30 +1,27 @@
 package me.simplex.pluginkickstarter.gui;
 
 import java.awt.Color;
-
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import me.simplex.pluginkickstarter.DataStorage;
-import java.awt.Font;
-import java.io.File;
-
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class GUI_PnCheckAndBuild extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -44,6 +41,7 @@ public class GUI_PnCheckAndBuild extends JPanel {
 	private JLabel lbFiles;
 	private JLabel lbFileCount;
 	private JPanel panel;
+	@SuppressWarnings("unused")
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JButton btChooseDir;
 	private JTextField tfDirectory;
