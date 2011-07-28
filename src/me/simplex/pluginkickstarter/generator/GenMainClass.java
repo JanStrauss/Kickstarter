@@ -183,7 +183,7 @@ public class GenMainClass extends Generator {
 	
 	public String buildSetupConfig(){
 		String ret="";
-		if (main.getData().isGen_configuration()) {
+		if (main.getData().isGen_configuration() && main.getData().getConfigNodes().size() > 0) {
 			ret=ret+"	private void setupConfiguration(){\n";
 			ret=ret+"		Configuration cfg = getConfiguration();\n";
 			ret=ret+"		\n";
