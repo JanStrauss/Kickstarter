@@ -61,7 +61,7 @@ public class GUI_Main_Window extends JFrame {
 	private void initialize() {
 		this.setResizable(false);
 		this.setSize(800, 566);
-		this.setTitle("Plugin Kickstarter");
+		this.setTitle("Kickstarter");
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -95,6 +95,7 @@ public class GUI_Main_Window extends JFrame {
 	private JMenuItem getMenuitem_new() {
 		if (menuitem_new == null) {
 			menuitem_new = new JMenuItem("Start new Plugin");
+			menuitem_new.setEnabled(false);
 		}
 		return menuitem_new;
 	}
@@ -123,6 +124,7 @@ public class GUI_Main_Window extends JFrame {
 	private JMenuItem getMenuitem_help() {
 		if (menuitem_help == null) {
 			menuitem_help = new JMenuItem("Help");
+			menuitem_help.setEnabled(false);
 		}
 		return menuitem_help;
 	}
