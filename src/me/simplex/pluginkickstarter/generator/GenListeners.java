@@ -45,4 +45,32 @@ public class GenListeners extends Generator {
 		}
 		return ret;
 	}
+	
+	public String buildListenerImport(){
+		switch (type) {
+		case Block: return "import org.bukkit.event.block.BlockListener;\n";
+		case Entity: return "import org.bukkit.event.entity.EntityListener;\n";
+		case Inventory: return "import org.bukkit.event.inventory.InventoryListener;\n";
+		case Player:  return "import org.bukkit.event.player.PlayerListener;\n";
+		case Server: return "import org.bukkit.event.server.ServerListener;\n";
+		case Vehicle: return "import org.bukkit.event.vehicle.VehicleListener;\n";
+		case Weather: return "import org.bukkit.event.weather.WeatherListener;\n";
+		case World: return "import org.bukkit.event.world.WorldListener;\n";
+		}
+		return "";
+	}
+
+	public CharSequence buildSuperclass() {
+		switch (type) {
+		case Block: return "BlockListener";
+		case Entity: return "EntityListener";
+		case Inventory: return "InventoryListener";
+		case Player:  return "PlayerListener";
+		case Server: return "ServerListener";
+		case Vehicle: return "VehicleListener";
+		case Weather: return "WeatherListener";
+		case World: return "WorldListener";
+		}
+		return "";
+	}
 }

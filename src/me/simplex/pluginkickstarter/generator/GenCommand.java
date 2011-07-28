@@ -13,10 +13,10 @@ public class GenCommand extends Generator {
 		
 	public String buildPlayerOnly(){
 		if (c.isPlayerOnly()) {
-			return 	"		if (!(sender instanceof Player)) {\n"+
-					"			sender.sendMessage(\"Y U NO PLAYER??!111\");\n"+
-					"			return true;\n"+
-					"		}\n";
+			return 	"			if (!(sender instanceof Player)) {\n"+
+					"				sender.sendMessage(\"Y U NO PLAYER??!111\");\n"+
+					"				return true;\n"+
+					"			}\n";
 		}
 		else {
 			return "";

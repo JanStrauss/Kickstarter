@@ -7,11 +7,11 @@
 
 package $package
 
-import org.bukkit.event.entity.$typeListener;
+$typeListener
 $listenerimports
 $mainclassimport
 
-public class $classname extends EntityListener {
+public class $classname extends $superclass {
 	private $mainclasstype plugin;
 
 	public $classname($mainclasstype plugin){

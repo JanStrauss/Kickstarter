@@ -150,6 +150,8 @@ public class FileBuilder {
 		content = content.replace("$mainclasstype", 		gen.buildMainClassType());
 		content = content.replace("$listenerimports", 		gen.buildImports());
 		content = content.replace("$listeners", 			gen.buildListeners());
+		content = content.replace("$typeListener", 			gen.buildListenerImport());
+		content = content.replace("$superclass", 			gen.buildSuperclass());
 		
 		return new FileContainer(gen.buildFileName(), gen.buildFilepath(TemplateType.Listener), content);
 	}

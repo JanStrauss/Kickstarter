@@ -93,7 +93,7 @@ public class GenMainClass extends Generator {
 	public String buildRegister_Commands(){
 		String commandRegisters = "";
 		for (CommandContainer c : main.getData().getCommands()) {
-			commandRegisters = commandRegisters + "		getCommand("+c.getCommand().toLowerCase()+").setExecutor(new "+"CommandExecutor_"+StringToClassName(c.getCommand())+"());\n";
+			commandRegisters = commandRegisters + "		getCommand(\n"+c.getCommand().toLowerCase()+"\").setExecutor(new "+"CommandExecutor_"+StringToClassName(c.getCommand())+"(this));\n";
 		}
 		return commandRegisters;
 	}
@@ -103,12 +103,12 @@ public class GenMainClass extends Generator {
 		for (TaskContainer task : main.getData().getTasks()) {
 			if (task.isRegisterAtOnEnable()) {
 				switch (task.getType()) {
-					case AsyncTask: 			ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+task.getTaskname()+"(this));\n";break;
-					case AsyncDelayedTask: 		ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getPeriod()+");\n";break;
-					case AsyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new "+task.getTaskname()+"(this)), "+task.getPeriod()+", "+task.getPeriod()+");\n";break;
-					case SyncTask:				ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this));\n";break;
-					case SyncDelayedTask:		ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new "+task.getTaskname()+"(this),"+task.getPeriod()+");\n";break;
-					case SyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleSyncRepeatingTask(this, new "+task.getTaskname()+"(this)), "+task.getPeriod()+", "+task.getPeriod()+");\n";break;
+					case AsyncTask: 			ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+task.getTaskname()+"(this));\n";break;
+					case AsyncDelayedTask: 		ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+task.getTaskname()+"(this),"+task.getPeriod()+");\n";break;
+					case AsyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Task_"+task.getTaskname()+"(this)), "+task.getPeriod()+", "+task.getPeriod()+");\n";break;
+					case SyncTask:				ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+task.getTaskname()+"(this));\n";break;
+					case SyncDelayedTask:		ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+task.getTaskname()+"(this),"+task.getPeriod()+");\n";break;
+					case SyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Task_"+task.getTaskname()+"(this)), "+task.getPeriod()+", "+task.getPeriod()+");\n";break;
 					default: break;
 				}
 			}
@@ -150,7 +150,7 @@ public class GenMainClass extends Generator {
 			ret=ret+"import org.bukkit.event.Event.Priority;\n";
 			ret=ret+"import org.bukkit.event.Event.Type;\n";		
 			for (ListenerType t : types_to_handle) {
-				ret=ret+"import "+buildPackage(TemplateType.Listener, false).toLowerCase()+"."+StringToClassName(t.toString())+";\n";
+				ret=ret+"import "+buildPackage(TemplateType.Listener, false).toLowerCase()+".Listener_"+StringToClassName(t.toString())+";\n";
 			}
 		}
 		
@@ -164,7 +164,7 @@ public class GenMainClass extends Generator {
 	public String buildSetupConfig(){
 		String ret="";
 		if (main.getData().isGen_configuration()) {
-			ret=ret+"	private Configuration setupConfig(){\n";
+			ret=ret+"	private Configuration setupConfiguration(){\n";
 			ret=ret+"		Configuration cfg = getConfiguration();\n";
 			ret=ret+"		\n";
 			ret=ret+"		cfg.setHeader(\"#"+main.getData().getCfgfileheader()+"\");\n";
@@ -189,14 +189,14 @@ public class GenMainClass extends Generator {
 		case DOUBLE_LIST: return buildListInit(c);
 		case INT: return "		"+buildConfigVarName(c)+"cfg.getInt(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
 		case INT_LIST: return buildListInit(c);
-		case STRING: return "		"+buildConfigVarName(c)+"cfg.getString(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
+		case STRING: return "		"+buildConfigVarName(c)+"cfg.getString(\""+c.getNode()+"\", \""+c.getDefaultValue()+"\");\n";
 		case STRING_LIST: return buildListInit(c);
 		}
 		return "";
 	}
 	
 	private String buildConfigVarName(ConfigurationNodeContainer c){
-		return "config_"+c.getNode().replace(".", "_").toLowerCase()+";\n"; 
+		return "config_"+c.getNode().replace(".", "_").toLowerCase(); 
 	}
 	
 	private String buildListInit(ConfigurationNodeContainer c){
