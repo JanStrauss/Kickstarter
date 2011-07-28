@@ -417,12 +417,14 @@ public class GUI_TaskEditor extends JDialog {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					ArrayList<TaskContainer> cOnTainazZ = GUI.getGUI().getMain().getData().getTasks();
-					for (TaskContainer c : cOnTainazZ) {
-						if (c.getTaskname() != null) {
-							if (c.getTaskname().equalsIgnoreCase(tfTaskname.getText().trim())) {
+					if (!isEditDialog) {
+						for (TaskContainer c : cOnTainazZ) {
+							if (c.getTaskname() != null) {
+								if (c.getTaskname().equalsIgnoreCase(tfTaskname.getText().trim())) {
 
-								JOptionPane.showMessageDialog(getContentPane().getParent(), "There is already a Task with this name", "Error", JOptionPane.ERROR_MESSAGE);
-								return;
+									JOptionPane.showMessageDialog(getContentPane().getParent(), "There is already a Task with this name", "Error", JOptionPane.ERROR_MESSAGE);
+									return;
+								}
 							}
 						}
 					}

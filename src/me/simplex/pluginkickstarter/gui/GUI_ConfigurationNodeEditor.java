@@ -149,12 +149,14 @@ public class GUI_ConfigurationNodeEditor extends JDialog {
 			btSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ArrayList<ConfigurationNodeContainer> cOnTainazZ = GUI.getGUI().getMain().getData().getConfigNodes();
-					for (ConfigurationNodeContainer c : cOnTainazZ) {
-						if (c.getNode() != null) {
-							if (c.getNode().equalsIgnoreCase(getTfNode().getText().trim())) {
+					if (!isEditDialog) {
+						for (ConfigurationNodeContainer c : cOnTainazZ) {
+							if (c.getNode() != null) {
+								if (c.getNode().equalsIgnoreCase(getTfNode().getText().trim())) {
 
-								JOptionPane.showMessageDialog(getContentPane().getParent(), "There is already a Node with this name", "Error", JOptionPane.ERROR_MESSAGE);
-								return;
+									JOptionPane.showMessageDialog(getContentPane().getParent(), "There is already a Node with this name", "Error", JOptionPane.ERROR_MESSAGE);
+									return;
+								}
 							}
 						}
 					}

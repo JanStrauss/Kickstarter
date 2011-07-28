@@ -283,12 +283,14 @@ private JButton getBtSaveCommand() {
 		btSaveCommand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<CommandContainer> cOnTainazZ = GUI.getGUI().getMain().getData().getCommands();
-				for (CommandContainer c : cOnTainazZ) {
-					if (c.getCommand() != null) {
-						if (c.getCommand().equalsIgnoreCase(tfCmd_Name.getText().trim())) {
+				if (!isEditDialog) {
+					for (CommandContainer c : cOnTainazZ) {
+						if (c.getCommand() != null) {
+							if (c.getCommand().equalsIgnoreCase(tfCmd_Name.getText().trim())) {
 
-							JOptionPane.showMessageDialog(getContentPane().getParent(), "There is already a Command with this name", "Error", JOptionPane.ERROR_MESSAGE);
-							return;
+								JOptionPane.showMessageDialog(getContentPane().getParent(), "There is already a Command with this name", "Error", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
 						}
 					}
 				}

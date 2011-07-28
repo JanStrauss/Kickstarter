@@ -39,7 +39,7 @@ public class GenMainClass extends Generator {
 		
 		// Config
 		if (main.getData().isGen_configuration()) {
-			ret=ret+"	private Configuration configuration;";
+			ret=ret+"	private Configuration configuration;\n";
 			for (ConfigurationNodeContainer c : main.getData().getConfigNodes()) {
 				switch (c.getType()) {
 					case BOOLEAN: 		ret=ret+"	private boolean "+buildConfigVarName(c)+";\n"; break;
@@ -93,7 +93,7 @@ public class GenMainClass extends Generator {
 	public String buildRegister_Commands(){
 		String commandRegisters = "";
 		for (CommandContainer c : main.getData().getCommands()) {
-			commandRegisters = commandRegisters + "		getCommand(\n"+c.getCommand().toLowerCase()+"\").setExecutor(new "+"CommandExecutor_"+StringToClassName(c.getCommand())+"(this));\n";
+			commandRegisters = commandRegisters + "		getCommand(\""+c.getCommand().toLowerCase()+"\").setExecutor(new "+"CommandExecutor_"+StringToClassName(c.getCommand())+"(this));\n";
 		}
 		return commandRegisters;
 	}
@@ -183,13 +183,13 @@ public class GenMainClass extends Generator {
 	
 	private String buildCfgGetString(ConfigurationNodeContainer c){
 		switch (c.getType()) {
-		case BOOLEAN: return "		"+buildConfigVarName(c)+"cfg.getBoolean(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
+		case BOOLEAN: return "		"+buildConfigVarName(c)+" = cfg.getBoolean(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
 		case BOOLEAN_LIST: return buildListInit(c);
-		case DOUBLE: return "		"+buildConfigVarName(c)+"cfg.getDouble(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
+		case DOUBLE: return "		"+buildConfigVarName(c)+" = cfg.getDouble(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
 		case DOUBLE_LIST: return buildListInit(c);
-		case INT: return "		"+buildConfigVarName(c)+"cfg.getInt(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
+		case INT: return "		"+buildConfigVarName(c)+" = cfg.getInt(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
 		case INT_LIST: return buildListInit(c);
-		case STRING: return "		"+buildConfigVarName(c)+"cfg.getString(\""+c.getNode()+"\", \""+c.getDefaultValue()+"\");\n";
+		case STRING: return "		"+buildConfigVarName(c)+" = cfg.getString(\""+c.getNode()+"\", \""+c.getDefaultValue()+"\");\n";
 		case STRING_LIST: return buildListInit(c);
 		}
 		return "";
@@ -203,32 +203,32 @@ public class GenMainClass extends Generator {
 		String ret ="";
 		switch (c.getType()) {
 		case BOOLEAN_LIST:
-			ret=ret+ "		ArrayList<Boolean> init_"+c.getDefaultValue().replace(".", "_")+" = new ArrayList<Boolean>();\n";
+			ret=ret+ "		ArrayList<Boolean> init_"+c.getNode().replace(".", "_")+" = new ArrayList<Boolean>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
 				ret=ret+"		init_"+c.getDefaultValue().replace(".", "_")+".add("+listinit.trim()+");\n";
 			}
-			ret=ret+"		"+buildConfigVarName(c)+"cfg.getBooleanList(\""+c.getNode()+"\", init_"+c.getDefaultValue().replace(".", "_")+");\n";
+			ret=ret+"		"+buildConfigVarName(c)+".add(cfg.getBooleanList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
 		case DOUBLE_LIST: 	
-			ret=ret+ "		ArrayList<Double> init_"+c.getDefaultValue().replace(".", "_")+" =new ArrayList<Double>(\""+c.getDefaultValue()+"\".split(\",\"));\n";
+			ret=ret+ "		ArrayList<Double> init_"+c.getNode().replace(".", "_")+" =new ArrayList<Double>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
 				ret=ret+"		init_"+c.getDefaultValue().replace(".", "_")+".add("+listinit.trim()+");\n";
 			}
-			ret=ret+"		"+buildConfigVarName(c)+"cfg.getDoubleList(\""+c.getNode()+"\", init_"+c.getDefaultValue().replace(".", "_")+");\n";
+			ret=ret+"		"+buildConfigVarName(c)+".add(cfg.getDoubleList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
 		case INT_LIST:		
-			ret=ret+ "		ArrayList<Integer> init_"+c.getDefaultValue().replace(".", "_")+" = new ArrayList<Integer>(\""+c.getDefaultValue()+"\".split(\",\"));\n";
+			ret=ret+ "		ArrayList<Integer> init_"+c.getNode().replace(".", "_")+" = new ArrayList<Integer>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
 				ret=ret+"		init_"+c.getDefaultValue().replace(".", "_")+".add("+listinit.trim()+");\n";
 			}
-			ret=ret+"		"+buildConfigVarName(c)+"cfg.getIntList(\""+c.getNode()+"\", init_"+c.getDefaultValue().replace(".", "_")+");\n";
+			ret=ret+"		"+buildConfigVarName(c)+".add(cfg.getIntList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
 		case STRING_LIST:	
-			ret=ret+ "		ArrayList<String> init_"+c.getDefaultValue().replace(".", "_")+" =new ArrayList<String>(\""+c.getDefaultValue()+"\".split(\",\"));\n";
+			ret=ret+ "		ArrayList<String> init_"+c.getNode().replace(".", "_")+" =new ArrayList<String>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
 				ret=ret+"		init_"+c.getDefaultValue().replace(".", "_")+".add(\""+listinit.trim()+"\");\n";
 			}
-			ret=ret+"		"+buildConfigVarName(c)+"cfg.getStringList(\""+c.getNode()+"\", init_"+c.getDefaultValue().replace(".", "_")+");\n";
+			ret=ret+"		"+buildConfigVarName(c)+".add(cfg.getStringList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
 		}
 		return ret;
