@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import me.simplex.pluginkickstarter.PluginKickstarter;
@@ -242,7 +243,7 @@ public class GUI_Main_Window extends JFrame {
 						break;
 					case Step3: // 3 to end
 						System.out.println("end");
-						System.exit(0);
+						checkBuildAndExit();
 						break;
 					}
 				}
@@ -250,6 +251,15 @@ public class GUI_Main_Window extends JFrame {
 			btNextStep.setBounds(620, 11, 166, 40);
 		}
 		return btNextStep;
+	}
+	protected void checkBuildAndExit() {
+		if (!pnExport.isBuilded()) {
+			int input = JOptionPane.showConfirmDialog(this, "Exit Kickstarter without exporting?", "Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
+			if (input != 0) {
+				return;
+			}
+			System.exit(0);
+		}
 	}
 	private JLabel getLbStatus() {
 		if (lbStatus == null) {

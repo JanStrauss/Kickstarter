@@ -1,8 +1,6 @@
 package me.simplex.pluginkickstarter;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,7 +29,7 @@ public class FileBuilder {
 	public String loadTemplateFile(TemplateType type){
 		ArrayList<String> content= new ArrayList<String>();
 		try {
-			BufferedReader bffrdRdr = new BufferedReader(new InputStreamReader(new FileInputStream(new File(getClass().getResource("templates/"+type.giveFilename()).getFile()))));
+			BufferedReader bffrdRdr = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("templates/"+type.giveFilename())));
 			while(true){
 				String line = bffrdRdr.readLine();
 				if(line==null){

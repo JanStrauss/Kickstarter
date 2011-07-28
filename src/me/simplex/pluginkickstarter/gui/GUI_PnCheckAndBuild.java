@@ -60,6 +60,8 @@ public class GUI_PnCheckAndBuild extends JPanel {
 	private JTextArea taExportLog;
 	private JPanel pnLog;
 	
+	private boolean builded = false;
+	
 	public GUI_PnCheckAndBuild(GUI_Main_Window gui) {
 		this.GUI = gui;
 		initialize();
@@ -344,6 +346,7 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			btBuild.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					GUI.getMain().buildPlugin(tfDirectory.getText(), cbShowInExplorer.isSelected());
+					builded=true;
 				}
 			});
 		}
@@ -390,5 +393,12 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			pnLog.add(getScrollPane(), BorderLayout.CENTER);
 		}
 		return pnLog;
+	}
+
+	/**
+	 * @return the builded
+	 */
+	public boolean isBuilded() {
+		return builded;
 	}
 }

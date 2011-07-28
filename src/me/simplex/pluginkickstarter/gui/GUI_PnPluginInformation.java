@@ -843,6 +843,13 @@ public class GUI_PnPluginInformation extends JPanel {
 			btRemoveNode.setEnabled(false);
 			btRemoveNode.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					int input = JOptionPane.showConfirmDialog(GUI, "Delete this node?", "Confirm node delete", JOptionPane.OK_CANCEL_OPTION);
+					if (input != 0) {
+						return;
+					}
+					ConfigurationNodeContainer c = (ConfigurationNodeContainer) getListTasks().getSelectedValue();
+					confignode_list_data.removeElement(c);
+					GUI.getMain().getData().getConfigNodes().remove(c);
 				}
 			});
 		}

@@ -231,7 +231,7 @@ public class GenMainClass extends Generator {
 		case DOUBLE_LIST: 	
 			ret=ret+ "		ArrayList<Double> init_"+c.getNode().replace(".", "_")+" =new ArrayList<Double>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
-				ret=ret+"		init_"+c.getNode().replace(".", "_")+".add("+listinit.trim()+");\n";
+				ret=ret+"		init_"+c.getNode().replace(".", "_")+".add("+listinit.trim()+"D);\n";
 			}
 			ret=ret+"		"+buildConfigVarName(c)+".addAll(cfg.getDoubleList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
