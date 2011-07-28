@@ -152,13 +152,16 @@ public class DataStorage {
 		return buildFiles;
 	}
 
-	public void removeNullListener() {
-		for (ListenerContainer container : listener) {
-			if (container == null) {
-				listener.remove(container);
+	public void removeNullFiles() {
+		ArrayList<Integer> toRemove = new ArrayList<Integer>();
+		for (int i = buildFiles.size()-1; i >= 0; i--) {
+			if (buildFiles.get(i)== null) {
+				toRemove.add(i);
 			}
 		}
-		
+		for (int i : toRemove) {
+			buildFiles.remove(i);
+		}
 	}
 
 	public String getDepends() {

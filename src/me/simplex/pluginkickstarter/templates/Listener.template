@@ -18,5 +18,5 @@ public class $classname extends EntityListener {
 		this.plugin = plugin;
 	}
 
-	$listeners
+$listeners
 }

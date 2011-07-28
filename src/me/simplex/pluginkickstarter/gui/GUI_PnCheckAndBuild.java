@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -22,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import me.simplex.pluginkickstarter.DataStorage;
+import me.simplex.pluginkickstarter.storage.ListenerContainer;
+import me.simplex.pluginkickstarter.util.ListenerType;
 
 public class GUI_PnCheckAndBuild extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -46,9 +49,9 @@ public class GUI_PnCheckAndBuild extends JPanel {
 	private JButton btChooseDir;
 	private JTextField tfDirectory;
 	private JFileChooser chooser;
+	private JButton btBuild;
 	
 	public GUI_PnCheckAndBuild(GUI_Main_Window gui) {
-		// TODO Auto-generated constructor stub
 		this.GUI = gui;
 		initialize();
 	}
@@ -70,7 +73,22 @@ public class GUI_PnCheckAndBuild extends JPanel {
 		lbPluginnameFull.setText(s.getPluginname()+" version: "+s.getVersion());
 		
 		tfDirectory.setText(System.getProperty("user.home")+File.separator+GUI.getMain().getData().getPluginname());
-
+		
+		ArrayList<ListenerType> types_to_handle = new ArrayList<ListenerType>();
+		int count = 0;
+		for (ListenerType type : ListenerType.values()) {
+			for (ListenerContainer con : s.getListener()) {
+				if (con.getFile().equals(type)) {
+					count++;
+				}
+			}
+			if (count >0) {
+				types_to_handle.add(type);
+			}
+			count = 0;
+		}
+		int files=1+types_to_handle.size()+s.getTasks().size()+s.getCommands().size();
+		lbFileCount.setText(""+files);
 	}
 	
 	private JPanel getPnCheck() {
@@ -146,8 +164,9 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			gbc_lbFiles.gridy = 5;
 			pnCheck.add(getLabel_2(), gbc_lbFiles);
 			GridBagConstraints gbc_lbFileCount = new GridBagConstraints();
+			gbc_lbFileCount.anchor = GridBagConstraints.WEST;
 			gbc_lbFileCount.gridx = 1;
-			gbc_lbFileCount.gridy = 6;
+			gbc_lbFileCount.gridy = 5;
 			pnCheck.add(getLabel_3(), gbc_lbFileCount);
 		}
 		return pnCheck;
@@ -234,20 +253,27 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			panel = new JPanel();
 			GridBagLayout gbl_panel = new GridBagLayout();
 			gbl_panel.columnWidths = new int[]{121, 0, 0};
-			gbl_panel.rowHeights = new int[]{0, 0};
+			gbl_panel.rowHeights = new int[]{0, 0, 0};
 			gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-			gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+			gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 			panel.setLayout(gbl_panel);
 			GridBagConstraints gbc_tfDirectory = new GridBagConstraints();
-			gbc_tfDirectory.insets = new Insets(0, 0, 0, 5);
+			gbc_tfDirectory.insets = new Insets(0, 0, 5, 5);
 			gbc_tfDirectory.fill = GridBagConstraints.HORIZONTAL;
 			gbc_tfDirectory.gridx = 0;
 			gbc_tfDirectory.gridy = 0;
 			panel.add(getTfDirectory(), gbc_tfDirectory);
 			GridBagConstraints gbc_btChooseDir = new GridBagConstraints();
+			gbc_btChooseDir.insets = new Insets(0, 0, 5, 0);
 			gbc_btChooseDir.gridx = 1;
 			gbc_btChooseDir.gridy = 0;
 			panel.add(getBtChooseDir(), gbc_btChooseDir);
+			GridBagConstraints gbc_btBuild = new GridBagConstraints();
+			gbc_btBuild.anchor = GridBagConstraints.EAST;
+			gbc_btBuild.insets = new Insets(0, 0, 0, 5);
+			gbc_btBuild.gridx = 0;
+			gbc_btBuild.gridy = 1;
+			panel.add(getBtBuild(), gbc_btBuild);
 		}
 		return panel;
 	}
@@ -286,5 +312,22 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			tfDirectory.setColumns(10);
 		}
 		return tfDirectory;
+	}
+	private JButton getBtBuild() {
+		if (btBuild == null) {
+			btBuild = new JButton("Export Plugin");
+			btBuild.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							GUI.getMain().buildPlugin(tfDirectory.getText());
+						}
+					}).start();
+					
+				}
+			});
+		}
+		return btBuild;
 	}
 }

@@ -28,36 +28,41 @@ public abstract class Generator {
 		return main.getData().getPluginname();
 	}
 	
-	public String buildPackage(TemplateType template){
+	public String buildPackage(TemplateType template , boolean isPackageDeclare){
+		String ret;
 		if (template.equals(TemplateType.Command)) {
-			return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".commands;";
+			ret = "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".commands";
 		}
 		else if(template.equals(TemplateType.Task)) {
-			return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".tasks;";
+			ret =  "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".tasks";
 		}
 		else if(template.equals(TemplateType.Listener)){
-			return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".listeners;";
+			ret =  "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".listeners";
 		}
 		else {
-			return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+";";
+			ret =  "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+"";
 		}
+		if (isPackageDeclare) {
+			ret=ret+";\n";
+		}
+		return ret;
 	}
 	
 	public String buildFilepath(TemplateType template){
-		return "src"+File.separator+buildPackage(template).replace(".", File.separator);
+		return "src"+File.separator+buildPackage(template,false).replace(".", File.separator);
 	}
 		
 	public abstract String buildClassname();
 	
 	public String buildMainClassImport(){
-		return "import "+buildPackage(TemplateType.MainClass)+"."+buildMainClassType();
+		return "import "+buildPackage(TemplateType.MainClass,false)+"."+buildMainClassType()+";\n";
 	}
 	
 	public String buildMainClassType(){
 		return StringToClassName(main.getData().getPluginname());
 	}
 	
-	protected static String StringToClassName(String g){
+	public static String StringToClassName(String g){
 		return g.toLowerCase().substring(0, 1).toUpperCase()+g.substring(1);
 	}
 }

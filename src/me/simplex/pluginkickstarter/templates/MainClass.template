@@ -4,32 +4,32 @@
  *
  * powered by Kickstarter
  */
- 
- package $package
- 
- import org.bukkit.plugin.java.JavaPlugin;
- $imports
- 
- public class $classname extends JavaPlugin{
- 	$variables
- 	
- 	@Override
- 	public void onEnable(){
- 		$init
- 		
- 		$register_events
- 		
- 		$register_commands
- 		
- 		$schedule_tasks
- 	}
- 	
- 	@Override
- 	public void onDisable(){
- 		$disable
- 	}
- 	
- 	$setupConfig
- 	
- 	$configGetter
- }
+
+package $package
+
+import org.bukkit.plugin.java.JavaPlugin;
+$imports
+
+public class $classname extends JavaPlugin{
+$variables
+	
+	@Override
+	public void onEnable(){
+$init
+		
+$register_events
+		
+$register_commands
+		
+$schedule_tasks
+	}
+	
+	@Override
+	public void onDisable(){
+$disable
+	}
+	
+$setupConfig
+	
+$configGetter
+}

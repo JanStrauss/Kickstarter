@@ -4,20 +4,20 @@
  *
  * powered by Kickstarter
  */
- 
- $package
- 
- $mainclassimport
- 
- public class $classname extends Runnable{
- 	private $mainclasstype plugin;
+
+package $package
+
+$mainclassimport
+
+public class $classname implements Runnable{
+	private $mainclasstype plugin;
 
 	public $classname($mainclasstype plugin){
 		this.plugin = plugin;
 	}
- 	
- 	@Override
- 	public void run(){
- 		// TODO: implement task
- 	}
- }
+
+	@Override
+	public void run(){
+		// TODO: implement task
+	}
+}

@@ -20,7 +20,7 @@ public class GenMainClass extends Generator {
 		int count = 0;
 		for (ListenerType type : ListenerType.values()) {
 			for (ListenerContainer con : main.getData().getListener()) {
-				if (con.getType().equals(type)) {
+				if (con.getFile().equals(type)) {
 					count++;
 				}
 			}
@@ -66,12 +66,12 @@ public class GenMainClass extends Generator {
 		String ret ="";
 		
 		//general
-		ret=ret+"		log = Logger.getLogger(\"Minecraft\")\n";
-		ret=ret+"		description = getDesription();\n";	
+		ret=ret+"		log = Logger.getLogger(\"Minecraft\");\n";
+		ret=ret+"		description = getDescription();\n";	
 		
 		ret=ret+"		log.info(\"loading \"+description.getFullName());\n";
 		// Config
-		if (main.getData().isGen_configuration()) {
+		if (main.getData().isGen_configuration() && main.getData().getConfigNodes().size() > 0) {
 			ret=ret+"		configuration = setupConfiguration();\n";
 		}
 		
@@ -120,14 +120,14 @@ public class GenMainClass extends Generator {
 		String ret="";
 		//general imports
 		ret=ret+"import java.util.logging.Logger;\n";
-		ret=ret+"import org.bukkit.plugin.PluginDescriptionFile;";
+		ret=ret+"import org.bukkit.plugin.PluginDescriptionFile;\n";
 		
 		//Config Imports
 		if (main.getData().isGen_configuration()) {
 			for (ConfigurationNodeContainer c : main.getData().getConfigNodes()) {
 				ConfigNodeDataType t=c.getType();
-				if (t.equals(ConfigNodeDataType.BOOLEAN_LIST)) {
-					ret=ret+"import java.util.ArrayList;";
+				if (t.equals(ConfigNodeDataType.BOOLEAN_LIST) || t.equals(ConfigNodeDataType.DOUBLE_LIST)|| t.equals(ConfigNodeDataType.INT_LIST)|| t.equals(ConfigNodeDataType.STRING_LIST)) {
+					ret=ret+"import java.util.ArrayList;\n";
 					break;
 				}
 			}
@@ -135,13 +135,13 @@ public class GenMainClass extends Generator {
 		}
 		//Command Imports
 		for (CommandContainer c : main.getData().getCommands()) {
-			ret=ret+"import me."+ main.getData().getAuthor()+"."+ main.getData().getPluginname().toLowerCase()+".commands."+StringToClassName(c.getCommand())+"";
+			ret=ret+"import me."+ main.getData().getAuthor().toLowerCase()+"."+ main.getData().getPluginname().toLowerCase()+".commands.CommandExecutor_"+StringToClassName(c.getCommand())+";\n";
 		}
 		
 		//Task Imports
 		for (TaskContainer task : main.getData().getTasks()) {
 			if (task.isRegisterAtOnEnable()) {
-				ret=ret+"import me."+ main.getData().getAuthor()+"."+ main.getData().getPluginname().toLowerCase()+".tasks."+StringToClassName(task.getTaskname())+"";
+				ret=ret+"import me."+ main.getData().getAuthor().toLowerCase()+"."+ main.getData().getPluginname().toLowerCase()+".tasks.Task_"+StringToClassName(task.getTaskname())+";\n";
 			}
 		}
 		
@@ -150,7 +150,7 @@ public class GenMainClass extends Generator {
 			ret=ret+"import org.bukkit.event.Event.Priority;\n";
 			ret=ret+"import org.bukkit.event.Event.Type;\n";		
 			for (ListenerType t : types_to_handle) {
-				ret=ret+"import "+buildPackage(TemplateType.Listener)+"."+StringToClassName(t.toString())+";\n";
+				ret=ret+"import "+buildPackage(TemplateType.Listener, false).toLowerCase()+"."+StringToClassName(t.toString())+";\n";
 			}
 		}
 		

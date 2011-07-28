@@ -13,6 +13,7 @@ import me.simplex.pluginkickstarter.generator.GenListeners;
 import me.simplex.pluginkickstarter.generator.GenPlugin;
 import me.simplex.pluginkickstarter.generator.GenMainClass;
 import me.simplex.pluginkickstarter.generator.GenTask;
+import me.simplex.pluginkickstarter.generator.Generator;
 import me.simplex.pluginkickstarter.storage.CommandContainer;
 import me.simplex.pluginkickstarter.storage.FileContainer;
 import me.simplex.pluginkickstarter.storage.ListenerContainer;
@@ -58,7 +59,7 @@ public class FileBuilder {
 		content = content.replace("$author", 				gen.buildAuthor());
 		content = content.replace("$website", 				gen.buildWebsite());
 		content = content.replace("$pluginname", 			gen.buildPluginName());
-		content = content.replace("$package", 				gen.buildPackage(TemplateType.MainClass));
+		content = content.replace("$package", 				gen.buildPackage(TemplateType.MainClass,true));
 		content = content.replace("$imports", 				gen.buildImports());
 		content = content.replace("$classname", 			gen.buildClassname());
 		content = content.replace("$variables", 			gen.buildVariables());
@@ -67,10 +68,10 @@ public class FileBuilder {
 		content = content.replace("$register_commands", 	gen.buildRegister_Commands());
 		content = content.replace("$schedule_tasks", 		gen.buildSchedule_Tasks());
 		content = content.replace("$disable", 				gen.buildDisable());
-		content = content.replace("$setupPermissions", 		gen.buildSetupConfig());
-		content = content.replace("$configChecks", 			gen.buildConfigGetter());
+		content = content.replace("$setupConfig", 			gen.buildSetupConfig());
+		content = content.replace("$configGetter", 			gen.buildConfigGetter());
 		
-		return new FileContainer(main.getData().getPluginname()+".java", gen.buildFilepath(TemplateType.MainClass), content);
+		return new FileContainer(Generator.StringToClassName(main.getData().getPluginname())+".java", gen.buildFilepath(TemplateType.MainClass), content);
 	}
 	
 	public FileContainer build_Plugin_File(){
@@ -92,17 +93,17 @@ public class FileBuilder {
 	
 	public FileContainer build_Task_File(TaskContainer c){
 		GenTask gen = new GenTask(main, c);
-		String content = loadTemplateFile(TemplateType.Command);
+		String content = loadTemplateFile(TemplateType.Task);
 		
 		content = content.replace("$author", 				gen.buildAuthor());
 		content = content.replace("$website", 				gen.buildWebsite());
 		content = content.replace("$pluginname", 			gen.buildPluginName());
 		content = content.replace("$mainclassimport", 		gen.buildMainClassImport());
 		content = content.replace("$mainclasstype", 		gen.buildMainClassType());
-		content = content.replace("$package", 				gen.buildPackage(TemplateType.Command));
+		content = content.replace("$package", 				gen.buildPackage(TemplateType.Task,true));
 		content = content.replace("$classname", 			gen.buildClassname());
 		
-		return new FileContainer(gen.buildFileName(), gen.buildFilepath(TemplateType.Command), content);
+		return new FileContainer(gen.buildFileName(), gen.buildFilepath(TemplateType.Task), content);
 	}
 	
 	public FileContainer build_Command_File(CommandContainer c){
@@ -115,7 +116,7 @@ public class FileBuilder {
 		content = content.replace("$playeronly", 			gen.buildPlayerOnly());
 		content = content.replace("$mainclassimport", 		gen.buildMainClassImport());
 		content = content.replace("$mainclasstype", 		gen.buildMainClassType());
-		content = content.replace("$package", 				gen.buildPackage(TemplateType.Command));
+		content = content.replace("$package", 				gen.buildPackage(TemplateType.Command,true));
 		content = content.replace("$playerimport", 			gen.buildPlayerImport());
 		content = content.replace("$classname", 			gen.buildClassname());
 		content = content.replace("$command", 				gen.buildCommand());
@@ -126,7 +127,7 @@ public class FileBuilder {
 	public FileContainer build_Listener_File(ListenerType type){
 		int count = 0;
 		for (ListenerContainer con : main.getData().getListener()) {
-			if (con.getType().equals(type)) {
+			if (con.getFile().equals(type)) {
 				count++;
 			}
 		}

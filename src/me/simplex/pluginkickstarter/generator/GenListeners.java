@@ -15,7 +15,7 @@ public class GenListeners extends Generator {
 		this.type = type;
 		listeners = new ArrayList<ListenerContainer>();
 		for (ListenerContainer c : main.getData().getListener()) {
-			if (c.getType().equals(type)) {
+			if (c.getFile().equals(type)) {
 				listeners.add(c);
 			}
 		}
@@ -38,7 +38,7 @@ public class GenListeners extends Generator {
 	public String buildListeners() {
 		String ret = "";
 		for (ListenerContainer c : listeners) {
-			ret=ret+"@Override\n";
+			ret=ret+"	@Override\n";
 			ret=ret+"	public void "+c.getName()+"("+c.getEvent()+" event){"+"\n";
 			ret=ret+"		// TODO handle that event\n";
 			ret=ret+"	}\n\n";

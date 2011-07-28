@@ -20,7 +20,7 @@ public class CommandContainer {
 		ret = ret+"    description: "+description+"\n";
 		ret = ret+buildAliasesLine();
 		ret = ret+"    usage: |\n";
-		ret = ret+"           /<command> "+usage+"\n";
+		ret = ret+"           "+usage+"\n";
 		return ret;
 	}
 	
