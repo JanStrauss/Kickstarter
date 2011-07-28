@@ -64,12 +64,14 @@ public class PluginKickstarter {
 		}
 	}
 	
-	public void buildPlugin(String dir){
-		System.out.println("begin build of files");
+	public void buildPlugin(String dir, boolean showFolder){
+		getGUI().addToLog("begin class generation:",true);
 		long timestart = System.currentTimeMillis();
 		data.getBuildFiles().clear();
 		// plugin.yml
+		
 		data.getBuildFiles().add(builder.build_Plugin_File());
+		getGUI().addToLog("generated plugin.yml",true);
 		
 		// commandExecutors
 		if (data.getCommands().size() > 0) {
@@ -77,7 +79,8 @@ public class PluginKickstarter {
 				data.getBuildFiles().add(builder.build_Command_File(c));
 			}
 		}
-
+		getGUI().addToLog("generated CommandExecutors",true);
+		
 		// listeners
 		
 		if (data.getListener().size() > 0) {
@@ -85,6 +88,7 @@ public class PluginKickstarter {
 				data.getBuildFiles().add(builder.build_Listener_File(type));
 			}
 		}
+		getGUI().addToLog("generated listeners",true);
 		
 		// tasks
 		if (data.getTasks().size() > 0) {
@@ -92,16 +96,19 @@ public class PluginKickstarter {
 				data.getBuildFiles().add(builder.build_Task_File(c));
 			}
 		}
+		getGUI().addToLog("generated tasks",true);
 		
 		//<Pluginname>.java
 		data.getBuildFiles().add(builder.build_MainClass_File());
 		
+		getGUI().addToLog("generated main class:",true);
+		
 		data.removeNullFiles();
 		
 		long timedelta = System.currentTimeMillis()-timestart;
-		System.out.println("created files. Time past: "+timedelta+"ms");
+		getGUI().addToLog("created classes. Time past: "+timedelta+"ms",true);
 		
-		creater.createProject(dir);
+		creater.createProject(dir, showFolder);
 	}
 
 	public String getVersion() {

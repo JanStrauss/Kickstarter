@@ -297,4 +297,8 @@ public class GUI_Main_Window extends JFrame {
 	public PluginKickstarter getMain() {
 		return main;
 	}
+	
+	public void addToLog(String msg, boolean newline){
+		pnExport.addToLog(msg, newline);
+	}
 }

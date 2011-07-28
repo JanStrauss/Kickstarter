@@ -1,5 +1,6 @@
 package me.simplex.pluginkickstarter;
 
+import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -14,11 +15,25 @@ public class FileCreater {
 	this.main = main;
 	}
 	
-	public void createProject(String dir){
+	public void createProject(String dir, boolean showFolder){
+		long current = System.currentTimeMillis();
+		main.getGUI().addToLog("starting file export:",true);
 		for (FileContainer c : main.getData().getBuildFiles()) {
 			System.out.print("create file: "+c.getFilename()+".. ");
+			main.getGUI().addToLog("create file: "+c.getFilename()+".. ", false);
 			createFile(c, dir);
 			System.out.println("done");
+			main.getGUI().addToLog("done", true);
+		}
+		main.getGUI().addToLog("done exporting files, took "+(System.currentTimeMillis()-current)+"ms.",true);
+		
+		if (showFolder) {
+			main.getGUI().addToLog("display output folder..", true);
+			try {
+				Desktop.getDesktop().open(new File(dir));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -44,6 +59,7 @@ public class FileCreater {
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			main.getGUI().addToLog(e.getStackTrace().toString(),true);
 		}
 	}
 }

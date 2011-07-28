@@ -106,11 +106,11 @@ public class GenMainClass extends Generator {
 			if (task.isRegisterAtOnEnable()) {
 				switch (task.getType()) {
 					case AsyncTask: 			ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+task.getTaskname()+"(this));\n";break;
-					case AsyncDelayedTask: 		ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+task.getTaskname()+"(this),"+task.getPeriod()+");\n";break;
-					case AsyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Task_"+task.getTaskname()+"(this)), "+task.getPeriod()+", "+task.getPeriod()+");\n";break;
+					case AsyncDelayedTask: 		ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+task.getTaskname()+"(this), 20*"+task.getPeriod()+");\n";break;
+					case AsyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Task_"+task.getTaskname()+"(this)), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
 					case SyncTask:				ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+task.getTaskname()+"(this));\n";break;
-					case SyncDelayedTask:		ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+task.getTaskname()+"(this),"+task.getPeriod()+");\n";break;
-					case SyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Task_"+task.getTaskname()+"(this)), "+task.getPeriod()+", "+task.getPeriod()+");\n";break;
+					case SyncDelayedTask:		ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+task.getTaskname()+"(this), 20*"+task.getPeriod()+");\n";break;
+					case SyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Task_"+task.getTaskname()+"(this)), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
 					default: break;
 				}
 			}

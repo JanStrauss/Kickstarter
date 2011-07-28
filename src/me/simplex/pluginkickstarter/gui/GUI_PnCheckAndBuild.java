@@ -13,10 +13,14 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -25,6 +29,7 @@ import javax.swing.border.TitledBorder;
 import me.simplex.pluginkickstarter.DataStorage;
 import me.simplex.pluginkickstarter.storage.ListenerContainer;
 import me.simplex.pluginkickstarter.util.ListenerType;
+import java.awt.BorderLayout;
 
 public class GUI_PnCheckAndBuild extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -50,6 +55,10 @@ public class GUI_PnCheckAndBuild extends JPanel {
 	private JTextField tfDirectory;
 	private JFileChooser chooser;
 	private JButton btBuild;
+	private JCheckBox cbShowInExplorer;
+	private JScrollPane scrollPane;
+	private JTextArea taExportLog;
+	private JPanel pnLog;
 	
 	public GUI_PnCheckAndBuild(GUI_Main_Window gui) {
 		this.GUI = gui;
@@ -87,7 +96,7 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			}
 			count = 0;
 		}
-		int files=1+types_to_handle.size()+s.getTasks().size()+s.getCommands().size();
+		int files=2+types_to_handle.size()+s.getTasks().size()+s.getCommands().size();
 		lbFileCount.setText(""+files);
 	}
 	
@@ -253,9 +262,9 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			panel = new JPanel();
 			GridBagLayout gbl_panel = new GridBagLayout();
 			gbl_panel.columnWidths = new int[]{121, 0, 0};
-			gbl_panel.rowHeights = new int[]{0, 0, 0};
+			gbl_panel.rowHeights = new int[]{0, 0, 0, 60, 0, 0, 0};
 			gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-			gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+			gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 			panel.setLayout(gbl_panel);
 			GridBagConstraints gbc_tfDirectory = new GridBagConstraints();
 			gbc_tfDirectory.insets = new Insets(0, 0, 5, 5);
@@ -268,12 +277,28 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			gbc_btChooseDir.gridx = 1;
 			gbc_btChooseDir.gridy = 0;
 			panel.add(getBtChooseDir(), gbc_btChooseDir);
+			GridBagConstraints gbc_cbShowInExplorer = new GridBagConstraints();
+			gbc_cbShowInExplorer.anchor = GridBagConstraints.WEST;
+			gbc_cbShowInExplorer.insets = new Insets(0, 0, 5, 5);
+			gbc_cbShowInExplorer.gridx = 0;
+			gbc_cbShowInExplorer.gridy = 1;
+			panel.add(getCbShowInExplorer(), gbc_cbShowInExplorer);
 			GridBagConstraints gbc_btBuild = new GridBagConstraints();
-			gbc_btBuild.anchor = GridBagConstraints.EAST;
-			gbc_btBuild.insets = new Insets(0, 0, 0, 5);
+			gbc_btBuild.gridheight = 2;
+			gbc_btBuild.insets = new Insets(0, 0, 5, 0);
+			gbc_btBuild.gridwidth = 2;
+			gbc_btBuild.fill = GridBagConstraints.BOTH;
 			gbc_btBuild.gridx = 0;
-			gbc_btBuild.gridy = 1;
+			gbc_btBuild.gridy = 2;
 			panel.add(getBtBuild(), gbc_btBuild);
+			GridBagConstraints gbc_pnLog = new GridBagConstraints();
+			gbc_pnLog.gridheight = 2;
+			gbc_pnLog.gridwidth = 2;
+			gbc_pnLog.insets = new Insets(0, 0, 5, 5);
+			gbc_pnLog.fill = GridBagConstraints.BOTH;
+			gbc_pnLog.gridx = 0;
+			gbc_pnLog.gridy = 4;
+			panel.add(getPnLog(), gbc_pnLog);
 		}
 		return panel;
 	}
@@ -318,16 +343,52 @@ public class GUI_PnCheckAndBuild extends JPanel {
 			btBuild = new JButton("Export Plugin");
 			btBuild.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							GUI.getMain().buildPlugin(tfDirectory.getText());
-						}
-					}).start();
-					
+					GUI.getMain().buildPlugin(tfDirectory.getText(), cbShowInExplorer.isSelected());
 				}
 			});
 		}
 		return btBuild;
+	}
+	private JCheckBox getCbShowInExplorer() {
+		if (cbShowInExplorer == null) {
+			cbShowInExplorer = new JCheckBox("View directory after export");
+			cbShowInExplorer.setSelected(true);
+		}
+		return cbShowInExplorer;
+	}
+	private JScrollPane getScrollPane() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.setViewportView(getTaExportLog());
+		}
+		return scrollPane;
+	}
+	private JTextArea getTaExportLog() {
+		if (taExportLog == null) {
+			taExportLog = new JTextArea();
+			taExportLog.setEditable(false);
+			taExportLog.setLineWrap(true);
+			taExportLog.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		}
+		return taExportLog;
+	}
+	
+	public void addToLog(String msg, boolean newline){
+		if (newline) {
+			taExportLog.setText(taExportLog.getText()+msg+"\n");
+		}
+		else {
+			taExportLog.setText(taExportLog.getText()+msg);
+		}
+	}
+	private JPanel getPnLog() {
+		if (pnLog == null) {
+			pnLog = new JPanel();
+			pnLog.setBorder(new CompoundBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Export Log", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), new EmptyBorder(2, 2, 2, 2)));
+			pnLog.setLayout(new BorderLayout(0, 0));
+			pnLog.add(getScrollPane(), BorderLayout.CENTER);
+		}
+		return pnLog;
 	}
 }
