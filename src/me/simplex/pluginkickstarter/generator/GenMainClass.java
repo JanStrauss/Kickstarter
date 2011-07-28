@@ -69,9 +69,10 @@ public class GenMainClass extends Generator {
 		//general
 		ret=ret+"		log = Logger.getLogger(\"Minecraft\");\n";
 		ret=ret+"		description = getDescription();\n";	
-		ret=ret+"		prefix = \"[\"+description.getName()+\"] \";";
-		
+		ret=ret+"		prefix = \"[\"+description.getName()+\"] \";\n";
+		ret=ret+"\n";
 		ret=ret+"		log(\"loading \"+description.getFullName());\n";
+		ret=ret+"\n";
 		// Config
 		if (main.getData().isGen_configuration() && main.getData().getConfigNodes().size() > 0) {
 			ret=ret+"		configuration = setupConfiguration();\n";
@@ -105,12 +106,12 @@ public class GenMainClass extends Generator {
 		for (TaskContainer task : main.getData().getTasks()) {
 			if (task.isRegisterAtOnEnable()) {
 				switch (task.getType()) {
-					case AsyncTask: 			ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+task.getTaskname()+"(this));\n";break;
-					case AsyncDelayedTask: 		ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+task.getTaskname()+"(this), 20*"+task.getPeriod()+");\n";break;
-					case AsyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Task_"+task.getTaskname()+"(this)), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
-					case SyncTask:				ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+task.getTaskname()+"(this));\n";break;
-					case SyncDelayedTask:		ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+task.getTaskname()+"(this), 20*"+task.getPeriod()+");\n";break;
-					case SyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Task_"+task.getTaskname()+"(this)), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
+					case AsyncTask: 			ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this));\n";break;
+					case AsyncDelayedTask: 		ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this), 20*"+task.getPeriod()+");\n";break;
+					case AsyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this)), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
+					case SyncTask:				ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this));\n";break;
+					case SyncDelayedTask:		ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this), 20*"+task.getPeriod()+");\n";break;
+					case SyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this)), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
 					default: break;
 				}
 			}
@@ -207,30 +208,30 @@ public class GenMainClass extends Generator {
 		case BOOLEAN_LIST:
 			ret=ret+ "		ArrayList<Boolean> init_"+c.getNode().replace(".", "_")+" = new ArrayList<Boolean>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
-				ret=ret+"		init_"+c.getDefaultValue().replace(".", "_")+".add("+listinit.trim()+");\n";
+				ret=ret+"		init_"+c.getNode().replace(".", "_")+".add("+listinit.trim()+");\n";
 			}
-			ret=ret+"		"+buildConfigVarName(c)+".add(cfg.getBooleanList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
+			ret=ret+"		"+buildConfigVarName(c)+".addAll(cfg.getBooleanList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
 		case DOUBLE_LIST: 	
 			ret=ret+ "		ArrayList<Double> init_"+c.getNode().replace(".", "_")+" =new ArrayList<Double>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
-				ret=ret+"		init_"+c.getDefaultValue().replace(".", "_")+".add("+listinit.trim()+");\n";
+				ret=ret+"		init_"+c.getNode().replace(".", "_")+".add("+listinit.trim()+");\n";
 			}
-			ret=ret+"		"+buildConfigVarName(c)+".add(cfg.getDoubleList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
+			ret=ret+"		"+buildConfigVarName(c)+".addAll(cfg.getDoubleList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
 		case INT_LIST:		
 			ret=ret+ "		ArrayList<Integer> init_"+c.getNode().replace(".", "_")+" = new ArrayList<Integer>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
-				ret=ret+"		init_"+c.getDefaultValue().replace(".", "_")+".add("+listinit.trim()+");\n";
+				ret=ret+"		init_"+c.getNode().replace(".", "_")+".add("+listinit.trim()+");\n";
 			}
-			ret=ret+"		"+buildConfigVarName(c)+".add(cfg.getIntList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
+			ret=ret+"		"+buildConfigVarName(c)+".addAll(cfg.getIntList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
 		case STRING_LIST:	
 			ret=ret+ "		ArrayList<String> init_"+c.getNode().replace(".", "_")+" =new ArrayList<String>();\n";
 			for (String listinit : c.getDefaultValue().split(",")) {
-				ret=ret+"		init_"+c.getDefaultValue().replace(".", "_")+".add(\""+listinit.trim()+"\");\n";
+				ret=ret+"		init_"+c.getNode().replace(".", "_")+".add(\""+listinit.trim()+"\");\n";
 			}
-			ret=ret+"		"+buildConfigVarName(c)+".add(cfg.getStringList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
+			ret=ret+"		"+buildConfigVarName(c)+".addAll(cfg.getStringList(\""+c.getNode()+"\", init_"+c.getNode().replace(".", "_")+"));\n";
 			break;
 		}
 		return ret;

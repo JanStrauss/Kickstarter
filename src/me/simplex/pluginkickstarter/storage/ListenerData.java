@@ -130,7 +130,7 @@ public class ListenerData {
 		listener_Vehicle.add(new ListenerContainer(ListenerType.Vehicle, "Type.VEHICLE_EXIT", "onVehicleExit", "VehicleExitEvent", "Called when an entity exits a vehicle"));
 		listener_Vehicle.add(new ListenerContainer(ListenerType.Vehicle, "Type.VEHICLE_MOVE", "onVehicleMove", "VehicleMoveEvent", "Called when an vehicle moves"));
 		listener_Vehicle.add(new ListenerContainer(ListenerType.Vehicle, "Type.VEHICLE_DESTROY", "onVehicleDestroy", "VehicleDestroyEvent", "Called when a vehicle is destroyed"));
-		listener_Vehicle.add(new ListenerContainer(ListenerType.Vehicle, "Type.VEHICLE_UPDATA", "onVehicleUpdate", "VehicleUpdateEvent", "Called when a vehicle goes through an update cycle"));
+		listener_Vehicle.add(new ListenerContainer(ListenerType.Vehicle, "Type.VEHICLE_UPDATE", "onVehicleUpdate", "VehicleUpdateEvent", "Called when a vehicle goes through an update cycle"));
 	}
 	
 	private void fillListener_Inventory(){
