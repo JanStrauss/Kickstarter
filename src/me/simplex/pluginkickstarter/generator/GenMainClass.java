@@ -73,9 +73,27 @@ public class GenMainClass extends Generator {
 		ret=ret+"\n";
 		ret=ret+"		log(\"loading \"+description.getFullName());\n";
 		ret=ret+"\n";
+		
 		// Config
 		if (main.getData().isGen_configuration() && main.getData().getConfigNodes().size() > 0) {
 			ret=ret+"		configuration = setupConfiguration();\n";
+			
+			for (ConfigurationNodeContainer c : main.getData().getConfigNodes()) {
+				switch (c.getType()) {
+					case BOOLEAN_LIST: 
+						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Boolean>;\n";
+						break;
+					case DOUBLE_LIST: 
+						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Double>;\n";
+						break;
+					case INT_LIST:
+						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Integer>;\n";
+						break;
+					case STRING_LIST:
+						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<String>;\n";
+						break;
+				}
+			}
 		}
 		
 		// Listeners
@@ -186,14 +204,14 @@ public class GenMainClass extends Generator {
 	
 	private String buildCfgGetString(ConfigurationNodeContainer c){
 		switch (c.getType()) {
-		case BOOLEAN: return "		"+buildConfigVarName(c)+" = cfg.getBoolean(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
-		case BOOLEAN_LIST: return buildListInit(c);
-		case DOUBLE: return "		"+buildConfigVarName(c)+" = cfg.getDouble(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
-		case DOUBLE_LIST: return buildListInit(c);
-		case INT: return "		"+buildConfigVarName(c)+" = cfg.getInt(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
-		case INT_LIST: return buildListInit(c);
-		case STRING: return "		"+buildConfigVarName(c)+" = cfg.getString(\""+c.getNode()+"\", \""+c.getDefaultValue()+"\");\n";
-		case STRING_LIST: return buildListInit(c);
+			case BOOLEAN: return "		"+buildConfigVarName(c)+" = cfg.getBoolean(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
+			case BOOLEAN_LIST: return buildListInit(c);
+			case DOUBLE: return "		"+buildConfigVarName(c)+" = cfg.getDouble(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
+			case DOUBLE_LIST: return buildListInit(c);
+			case INT: return "		"+buildConfigVarName(c)+" = cfg.getInt(\""+c.getNode()+"\", "+c.getDefaultValue()+");\n";
+			case INT_LIST: return buildListInit(c);
+			case STRING: return "		"+buildConfigVarName(c)+" = cfg.getString(\""+c.getNode()+"\", \""+c.getDefaultValue()+"\");\n";
+			case STRING_LIST: return buildListInit(c);
 		}
 		return "";
 	}
