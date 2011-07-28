@@ -40,7 +40,6 @@ public class GenMainClass extends Generator {
 		ret=ret+"	private String prefix;\n";
 		// Config
 		if (main.getData().isGen_configuration()) {
-			ret=ret+"	private Configuration configuration;\n";
 			for (ConfigurationNodeContainer c : main.getData().getConfigNodes()) {
 				switch (c.getType()) {
 					case BOOLEAN: 		ret=ret+"	private boolean "+buildConfigVarName(c)+";\n"; break;
@@ -76,7 +75,7 @@ public class GenMainClass extends Generator {
 		
 		// Config
 		if (main.getData().isGen_configuration() && main.getData().getConfigNodes().size() > 0) {
-			ret=ret+"		configuration = setupConfiguration();\n";
+			ret=ret+"		setupConfiguration();\n";
 			
 			for (ConfigurationNodeContainer c : main.getData().getConfigNodes()) {
 				switch (c.getType()) {
@@ -185,7 +184,7 @@ public class GenMainClass extends Generator {
 	public String buildSetupConfig(){
 		String ret="";
 		if (main.getData().isGen_configuration()) {
-			ret=ret+"	private Configuration setupConfiguration(){\n";
+			ret=ret+"	private void setupConfiguration(){\n";
 			ret=ret+"		Configuration cfg = getConfiguration();\n";
 			ret=ret+"		\n";
 			ret=ret+"		cfg.setHeader(\"#"+main.getData().getCfgfileheader()+"\");\n";
@@ -195,7 +194,6 @@ public class GenMainClass extends Generator {
 			}
 			ret=ret+"		\n";
 			ret=ret+"		cfg.save();\n";
-			ret=ret+"		return cfg;\n";
 			ret=ret+"	}\n";
 		}
 
