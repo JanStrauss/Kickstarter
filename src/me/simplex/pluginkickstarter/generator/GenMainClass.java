@@ -81,16 +81,16 @@ public class GenMainClass extends Generator {
 			for (ConfigurationNodeContainer c : main.getData().getConfigNodes()) {
 				switch (c.getType()) {
 					case BOOLEAN_LIST: 
-						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Boolean>;\n";
+						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Boolean>();\n";
 						break;
 					case DOUBLE_LIST: 
-						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Double>;\n";
+						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Double>();\n";
 						break;
 					case INT_LIST:
-						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Integer>;\n";
+						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<Integer>();\n";
 						break;
 					case STRING_LIST:
-						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<String>;\n";
+						ret=ret+"		"+buildConfigVarName(c)+" = new ArrayList<String>();\n";
 						break;
 				}
 			}
@@ -126,10 +126,10 @@ public class GenMainClass extends Generator {
 				switch (task.getType()) {
 					case AsyncTask: 			ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this));\n";break;
 					case AsyncDelayedTask: 		ret=ret+  "		getServer().getScheduler().scheduleAsyncDelayedTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this), 20*"+task.getPeriod()+");\n";break;
-					case AsyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this)), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
+					case AsyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
 					case SyncTask:				ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this));\n";break;
 					case SyncDelayedTask:		ret=ret+  "		getServer().getScheduler().scheduleSyncDelayedTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this), 20*"+task.getPeriod()+");\n";break;
-					case SyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this)), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
+					case SyncRepeatingTask: 	ret=ret+  "		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Task_"+StringToClassName(task.getTaskname())+"(this), 20*"+task.getPeriod()+", 20*"+task.getPeriod()+");\n";break;
 					default: break;
 				}
 			}
