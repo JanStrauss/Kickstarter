@@ -162,6 +162,10 @@ public class GUI_PnPluginInformation extends JPanel {
 		}
 	}
 	
+	public void updateConfigMsg(){
+		GUI.getMain().getData().setCfgfileheader(tfConfigHeaderline.getText());
+	}
+	
 	private JPanel getPnEvents() {
 		if (pnEvents == null) {
 			pnEvents = new JPanel();

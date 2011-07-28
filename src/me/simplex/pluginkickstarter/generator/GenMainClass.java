@@ -36,7 +36,8 @@ public class GenMainClass extends Generator {
 		//General
 		ret=ret+"	private Logger log;\n";
 		ret=ret+"	private PluginDescriptionFile description;\n";
-		
+		ret=ret+"\n";
+		ret=ret+"	private String prefix;\n";
 		// Config
 		if (main.getData().isGen_configuration()) {
 			ret=ret+"	private Configuration configuration;\n";
@@ -68,8 +69,9 @@ public class GenMainClass extends Generator {
 		//general
 		ret=ret+"		log = Logger.getLogger(\"Minecraft\");\n";
 		ret=ret+"		description = getDescription();\n";	
+		ret=ret+"		prefix = \"[\"+description.getName()+\"] \";";
 		
-		ret=ret+"		log.info(\"loading \"+description.getFullName());\n";
+		ret=ret+"		log(\"loading \"+description.getFullName());\n";
 		// Config
 		if (main.getData().isGen_configuration() && main.getData().getConfigNodes().size() > 0) {
 			ret=ret+"		configuration = setupConfiguration();\n";
@@ -158,7 +160,7 @@ public class GenMainClass extends Generator {
 	}
 	
 	public String buildDisable(){
-		return 	"		log.info(\"disabled \"+description.getFullName());\n";
+		return 	"		log(\"disabled \"+description.getFullName());\n";
 	}
 	
 	public String buildSetupConfig(){
@@ -282,6 +284,14 @@ public class GenMainClass extends Generator {
 				}
 			}	
 		}
+		return ret;
+	}
+	
+	public String buildLogMethod(){
+		String ret="";
+		ret=ret+"	public void log(String message){\n";
+		ret=ret+"		log.info(prefix+message);\n";
+		ret=ret+"	}\n";	
 		return ret;
 	}
 

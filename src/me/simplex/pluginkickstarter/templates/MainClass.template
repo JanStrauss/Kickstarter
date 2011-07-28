@@ -28,7 +28,8 @@ $schedule_tasks
 	public void onDisable(){
 $disable
 	}
-	
+$logger
+
 $setupConfig
 	
 $configGetter

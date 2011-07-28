@@ -231,12 +231,12 @@ public class GUI_Main_Window extends JFrame {
 					case Step2: // 2 to 3
 						status = Selected.Step3;
 						getBtNextStep().setText("Exit");
-						lbStatus.setText("Step 3 of 3: Confirm output and save plugin project");
+						lbStatus.setText("Step 3 of 3: Check output and save plugin project");
 						pnExport.updateExportOverview();
 						getPnContent().removeAll();
 						getPnContent().add(pnExport);
 						getPnContent().repaint();
-						
+						pnPlugin.updateConfigMsg();
 						break;
 					case Step3: // 3 to end
 						System.out.println("end");

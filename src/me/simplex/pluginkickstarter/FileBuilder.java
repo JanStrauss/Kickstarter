@@ -70,6 +70,7 @@ public class FileBuilder {
 		content = content.replace("$disable", 				gen.buildDisable());
 		content = content.replace("$setupConfig", 			gen.buildSetupConfig());
 		content = content.replace("$configGetter", 			gen.buildConfigGetter());
+		content = content.replace("$logger", 				gen.buildLogMethod());
 		
 		return new FileContainer(Generator.StringToClassName(main.getData().getPluginname())+".java", gen.buildFilepath(TemplateType.MainClass), content);
 	}
