@@ -10,7 +10,7 @@ public class GenPlugin extends Generator {
 	}
 	
 	public String buildMainClass(){
-		return "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+"."+main.getData().getPluginname();
+		return main.getData().getPackage()+Generator.StringToClassName(main.getData().getPluginname());
 	}
 	
 	public String buildVersion(){

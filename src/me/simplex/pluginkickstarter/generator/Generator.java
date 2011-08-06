@@ -31,16 +31,16 @@ public abstract class Generator {
 	public String buildPackage(TemplateType template , boolean isPackageDeclare){
 		String ret;
 		if (template.equals(TemplateType.Command)) {
-			ret = "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".commands";
+			ret = main.getData().getPackage()+".commands";
 		}
 		else if(template.equals(TemplateType.Task)) {
-			ret =  "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".tasks";
+			ret = main.getData().getPackage()+".tasks";
 		}
 		else if(template.equals(TemplateType.Listener)){
-			ret =  "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+".listeners";
+			ret = main.getData().getPackage()+".listeners";
 		}
 		else {
-			ret =  "me."+main.getData().getAuthor().toLowerCase()+"."+main.getData().getPluginname().toLowerCase()+"";
+			ret = main.getData().getPackage();
 		}
 		if (isPackageDeclare) {
 			ret=ret+";\n";

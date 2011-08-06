@@ -260,6 +260,9 @@ public class GUI_Main_Window extends JFrame {
 			}
 			System.exit(0);
 		}
+		else {
+			System.exit(0);
+		}
 	}
 	private JLabel getLbStatus() {
 		if (lbStatus == null) {

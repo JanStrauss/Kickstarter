@@ -24,7 +24,7 @@ public class FileCreater {
 			createFile(c, dir);
 			System.out.println("done");
 			main.getGUI().addToLog("done", true);
-		}
+		}  
 		main.getGUI().addToLog("done exporting files, took "+(System.currentTimeMillis()-current)+"ms.",true);
 		
 		if (showFolder) {

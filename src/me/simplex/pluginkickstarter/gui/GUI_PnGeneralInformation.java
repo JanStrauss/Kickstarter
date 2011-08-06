@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -52,6 +53,8 @@ public class GUI_PnGeneralInformation extends JPanel {
 	private JLabel lbSoftdepends;
 	private JTextField tfSoftdepends;
 	private JPanel panel_1;
+	private JLabel lbPackage;
+	private JTextField tfPackage;
 	
 	public GUI_PnGeneralInformation(GUI_Main_Window gui) {
 		this.GUI = gui;
@@ -77,7 +80,7 @@ public class GUI_PnGeneralInformation extends JPanel {
 		s.setVersion(getTfVersion().getText());
 		s.setSoftdepends(getTfSoftdepends().getText());
 		s.setDepends(getTfDepends().getText());
-		
+		s.setPackage(getTfPackage().getText());
 	}
 	
 	private JTextField getTfPluginname() {
@@ -98,17 +101,17 @@ public class GUI_PnGeneralInformation extends JPanel {
 				
 				@Override
 				public void removeUpdate(DocumentEvent e) {
-					checkData();
+					checkData(false);
 				}
 				
 				@Override
 				public void insertUpdate(DocumentEvent e) {
-					checkData();
+					checkData(false);
 				}
 				
 				@Override
 				public void changedUpdate(DocumentEvent e) {
-					checkData();
+					checkData(false);
 				}
 				
 			});
@@ -134,17 +137,17 @@ public class GUI_PnGeneralInformation extends JPanel {
 				
 				@Override
 				public void removeUpdate(DocumentEvent e) {
-					checkData();
+					checkData(false);
 				}
 				
 				@Override
 				public void insertUpdate(DocumentEvent e) {
-					checkData();
+					checkData(false);
 				}
 				
 				@Override
 				public void changedUpdate(DocumentEvent e) {
-					checkData();
+					checkData(false);
 				}
 				
 			});
@@ -153,12 +156,24 @@ public class GUI_PnGeneralInformation extends JPanel {
 		return tfAuthor;
 	}
 	
-	private void checkData(){
-		if (getTfAuthor().getText().trim().length() > 0 && getTfPluginname().getText().trim().length() > 0) {
+	private void checkData(boolean TFpackage){
+		if (getTfAuthor().getText().trim().length() > 0 && getTfPluginname().getText().trim().length() > 0 && getTfPackage().getText().trim().length() > 0) {
 			GUI.getBtNextStep().setEnabled(true);
 		}
 		else {
 			GUI.getBtNextStep().setEnabled(false);
+		}
+		
+		if (!TFpackage) {
+			if (!getTfPackage().hasFocus() && (getTfAuthor().hasFocus() || getTfPluginname().hasFocus())) {
+				SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					tfPackage.setText("me."+getTfAuthor().getText().toLowerCase()+"."+getTfPluginname().getText().toLowerCase());
+					System.out.println("derp");
+				}
+				});
+			}
 		}
 	}
 	
@@ -239,9 +254,9 @@ public class GUI_PnGeneralInformation extends JPanel {
 			pnLeft.setBounds(10, 10, 380, 300);
 			GridBagLayout gbl_pnLeft = new GridBagLayout();
 			gbl_pnLeft.columnWidths = new int[]{0, 0, 0};
-			gbl_pnLeft.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+			gbl_pnLeft.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 			gbl_pnLeft.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-			gbl_pnLeft.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_pnLeft.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 			pnLeft.setLayout(gbl_pnLeft);
 			GridBagConstraints gbc_lblPluginname = new GridBagConstraints();
 			gbc_lblPluginname.anchor = GridBagConstraints.WEST;
@@ -267,64 +282,76 @@ public class GUI_PnGeneralInformation extends JPanel {
 			gbc_tfAuthor.gridx = 1;
 			gbc_tfAuthor.gridy = 1;
 			pnLeft.add(getTfAuthor(), gbc_tfAuthor);
+			GridBagConstraints gbc_lbPackage = new GridBagConstraints();
+			gbc_lbPackage.anchor = GridBagConstraints.WEST;
+			gbc_lbPackage.insets = new Insets(0, 0, 5, 5);
+			gbc_lbPackage.gridx = 0;
+			gbc_lbPackage.gridy = 2;
+			pnLeft.add(getLbPackage(), gbc_lbPackage);
+			GridBagConstraints gbc_tfPackage = new GridBagConstraints();
+			gbc_tfPackage.insets = new Insets(0, 0, 5, 0);
+			gbc_tfPackage.fill = GridBagConstraints.HORIZONTAL;
+			gbc_tfPackage.gridx = 1;
+			gbc_tfPackage.gridy = 2;
+			pnLeft.add(getTfPackage(), gbc_tfPackage);
 			GridBagConstraints gbc_lbWebsite = new GridBagConstraints();
 			gbc_lbWebsite.anchor = GridBagConstraints.WEST;
 			gbc_lbWebsite.insets = new Insets(0, 0, 5, 5);
 			gbc_lbWebsite.gridx = 0;
-			gbc_lbWebsite.gridy = 2;
+			gbc_lbWebsite.gridy = 3;
 			pnLeft.add(getLbWebsite(), gbc_lbWebsite);
 			GridBagConstraints gbc_tfWebsite = new GridBagConstraints();
 			gbc_tfWebsite.fill = GridBagConstraints.HORIZONTAL;
 			gbc_tfWebsite.insets = new Insets(0, 0, 5, 0);
 			gbc_tfWebsite.gridx = 1;
-			gbc_tfWebsite.gridy = 2;
+			gbc_tfWebsite.gridy = 3;
 			pnLeft.add(getTfWebsite(), gbc_tfWebsite);
 			GridBagConstraints gbc_lbVersion = new GridBagConstraints();
 			gbc_lbVersion.anchor = GridBagConstraints.WEST;
 			gbc_lbVersion.insets = new Insets(0, 0, 5, 5);
 			gbc_lbVersion.gridx = 0;
-			gbc_lbVersion.gridy = 3;
+			gbc_lbVersion.gridy = 4;
 			pnLeft.add(getLbVersion(), gbc_lbVersion);
 			GridBagConstraints gbc_tfVersion = new GridBagConstraints();
 			gbc_tfVersion.fill = GridBagConstraints.HORIZONTAL;
 			gbc_tfVersion.insets = new Insets(0, 0, 5, 0);
 			gbc_tfVersion.gridx = 1;
-			gbc_tfVersion.gridy = 3;
+			gbc_tfVersion.gridy = 4;
 			pnLeft.add(getTfVersion(), gbc_tfVersion);
 			GridBagConstraints gbc_lbDesc = new GridBagConstraints();
 			gbc_lbDesc.anchor = GridBagConstraints.NORTHWEST;
 			gbc_lbDesc.insets = new Insets(0, 0, 5, 5);
 			gbc_lbDesc.gridx = 0;
-			gbc_lbDesc.gridy = 4;
+			gbc_lbDesc.gridy = 5;
 			pnLeft.add(getLabel_1(), gbc_lbDesc);
 			GridBagConstraints gbc_spDesc = new GridBagConstraints();
 			gbc_spDesc.insets = new Insets(0, 0, 5, 0);
 			gbc_spDesc.fill = GridBagConstraints.BOTH;
 			gbc_spDesc.gridx = 1;
-			gbc_spDesc.gridy = 4;
+			gbc_spDesc.gridy = 5;
 			pnLeft.add(getSpDesc(), gbc_spDesc);
 			GridBagConstraints gbc_lbDepends = new GridBagConstraints();
 			gbc_lbDepends.anchor = GridBagConstraints.WEST;
 			gbc_lbDepends.insets = new Insets(0, 0, 5, 5);
 			gbc_lbDepends.gridx = 0;
-			gbc_lbDepends.gridy = 5;
+			gbc_lbDepends.gridy = 6;
 			pnLeft.add(getLbDepends(), gbc_lbDepends);
 			GridBagConstraints gbc_tfDepends = new GridBagConstraints();
 			gbc_tfDepends.insets = new Insets(0, 0, 5, 0);
 			gbc_tfDepends.fill = GridBagConstraints.HORIZONTAL;
 			gbc_tfDepends.gridx = 1;
-			gbc_tfDepends.gridy = 5;
+			gbc_tfDepends.gridy = 6;
 			pnLeft.add(getTfDepends(), gbc_tfDepends);
 			GridBagConstraints gbc_lbSoftdepends = new GridBagConstraints();
 			gbc_lbSoftdepends.anchor = GridBagConstraints.WEST;
 			gbc_lbSoftdepends.insets = new Insets(0, 0, 0, 5);
 			gbc_lbSoftdepends.gridx = 0;
-			gbc_lbSoftdepends.gridy = 6;
+			gbc_lbSoftdepends.gridy = 7;
 			pnLeft.add(getLbSoftdepends(), gbc_lbSoftdepends);
 			GridBagConstraints gbc_tfSoftdepends = new GridBagConstraints();
 			gbc_tfSoftdepends.fill = GridBagConstraints.HORIZONTAL;
 			gbc_tfSoftdepends.gridx = 1;
-			gbc_tfSoftdepends.gridy = 6;
+			gbc_tfSoftdepends.gridy = 7;
 			pnLeft.add(getTfSoftdepends(), gbc_tfSoftdepends);
 		}
 		return pnLeft;
@@ -451,5 +478,48 @@ public class GUI_PnGeneralInformation extends JPanel {
 			panel_1.setBounds(400, 165, 380, 145);
 		}
 		return panel_1;
+	}
+	private JLabel getLbPackage() {
+		if (lbPackage == null) {
+			lbPackage = new JLabel("Package:");
+		}
+		return lbPackage;
+	}
+	private JTextField getTfPackage() {
+		if (tfPackage == null) {
+			tfPackage = new JTextField();
+			tfPackage.setColumns(10);
+			tfPackage.setDocument(new PlainDocument(){
+				private static final long serialVersionUID = 1L;
+				@Override
+				public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+					str = str.replace(",", "");
+					str = str.replace(" ", "");
+					str = str.replace(";", "");
+					str = str.replace("!", "");
+					super.insertString(offs, str, a);
+				}
+			});
+			tfPackage.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					checkData(true);
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					checkData(true);
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					checkData(true);
+				}
+				
+			});
+			tfPackage.setText("me."+getTfAuthor().getText().toLowerCase()+"."+getTfPluginname().getText().toLowerCase());
+		}
+		return tfPackage;
 	}
 }

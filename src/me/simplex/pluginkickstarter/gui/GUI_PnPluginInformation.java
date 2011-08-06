@@ -203,8 +203,8 @@ public class GUI_PnPluginInformation extends JPanel {
 			tpEvents.addTab("Entity events", null, getPnEntityEvents(), null);
 			tpEvents.addTab("Inventory events", null, getPnInventoryEvents(), null);
 			tpEvents.addTab("Player events", null, getPnPlayerEvents(), null);
-			tpEvents.addTab("Server events", null, getPnVehicleEvents(), null);
-			tpEvents.addTab("Vehicle events", null, getPnServerEvents(), null);
+			tpEvents.addTab("Vehicle events", null, getPnVehicleEvents(), null);
+			tpEvents.addTab("Server events", null, getPnServerEvents(), null);
 			tpEvents.addTab("Weather events", null, getPnWeatherEvents(), null);
 			tpEvents.addTab("World events", null, getPnWorldEvents(), null);
 		}

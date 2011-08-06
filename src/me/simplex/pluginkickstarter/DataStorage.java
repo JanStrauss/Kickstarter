@@ -11,6 +11,7 @@ import me.simplex.pluginkickstarter.storage.TaskContainer;
 public class DataStorage {
 	private String pluginname;
 	private String author;
+	private String package_;
 	private String description;
 	private String website;
 	private String version;
@@ -222,6 +223,20 @@ public class DataStorage {
 
 	public void setGen_tasks(boolean genTasks) {
 		gen_tasks = genTasks;
+	}
+
+	/**
+	 * @param package_ the package_ to set
+	 */
+	public void setPackage(String package_) {
+		this.package_ = package_;
+	}
+
+	/**
+	 * @return the package_
+	 */
+	public String getPackage() {
+		return package_;
 	}
 	
 	
