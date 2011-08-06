@@ -9,7 +9,6 @@ import me.simplex.pluginkickstarter.storage.ListenerContainer;
 import me.simplex.pluginkickstarter.storage.TaskContainer;
 import me.simplex.pluginkickstarter.util.ConfigNodeDataType;
 import me.simplex.pluginkickstarter.util.ListenerType;
-import me.simplex.pluginkickstarter.util.TemplateType;
 
 public class GenMainClass extends Generator {
 	ArrayList<ListenerType> types_to_handle;
@@ -155,13 +154,13 @@ public class GenMainClass extends Generator {
 		}
 		//Command Imports
 		for (CommandContainer c : main.getData().getCommands()) {
-			ret=ret+"import me."+ main.getData().getAuthor().toLowerCase()+"."+ main.getData().getPluginname().toLowerCase()+".commands.CommandExecutor_"+StringToClassName(c.getCommand())+";\n";
+			ret=ret+"import "+main.getData().getPackage()+".commands.CommandExecutor_"+StringToClassName(c.getCommand())+";\n";
 		}
 		
 		//Task Imports
 		for (TaskContainer task : main.getData().getTasks()) {
 			if (task.isRegisterAtOnEnable()) {
-				ret=ret+"import me."+ main.getData().getAuthor().toLowerCase()+"."+ main.getData().getPluginname().toLowerCase()+".tasks.Task_"+StringToClassName(task.getTaskname())+";\n";
+				ret=ret+"import "+main.getData().getPackage()+".tasks.Task_"+StringToClassName(task.getTaskname())+";\n";
 			}
 		}
 		
@@ -170,7 +169,7 @@ public class GenMainClass extends Generator {
 			ret=ret+"import org.bukkit.event.Event.Priority;\n";
 			ret=ret+"import org.bukkit.event.Event.Type;\n";		
 			for (ListenerType t : types_to_handle) {
-				ret=ret+"import "+buildPackage(TemplateType.Listener, false).toLowerCase()+".Listener_"+StringToClassName(t.toString())+";\n";
+				ret=ret+"import "+main.getData().getPackage()+"listener.Listener_"+StringToClassName(t.toString())+";\n";
 			}
 		}
 		

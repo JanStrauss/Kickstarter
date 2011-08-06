@@ -20,7 +20,6 @@ public class TaskContainer {
 		return period;
 	}
 
-
 	public long getDelay() {
 		return delay;
 	}

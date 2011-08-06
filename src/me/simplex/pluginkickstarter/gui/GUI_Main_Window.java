@@ -242,7 +242,6 @@ public class GUI_Main_Window extends JFrame {
 						pnPlugin.updateConfigMsg();
 						break;
 					case Step3: // 3 to end
-						System.out.println("end");
 						checkBuildAndExit();
 						break;
 					}
@@ -271,9 +270,7 @@ public class GUI_Main_Window extends JFrame {
 		}
 		return lbStatus;
 	}
-	
 
-	
 	private JButton getBtLastStep() {
 		if (btLastStep == null) {
 			btLastStep = new JButton("Back");
