@@ -169,7 +169,7 @@ public class GenMainClass extends Generator {
 			ret=ret+"import org.bukkit.event.Event.Priority;\n";
 			ret=ret+"import org.bukkit.event.Event.Type;\n";		
 			for (ListenerType t : types_to_handle) {
-				ret=ret+"import "+main.getData().getPackage()+".listener.Listener_"+StringToClassName(t.toString())+";\n";
+				ret=ret+"import "+main.getData().getPackage()+".listeners.Listener_"+StringToClassName(t.toString())+";\n";
 			}
 		}
 		
