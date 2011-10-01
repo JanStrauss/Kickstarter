@@ -2,6 +2,10 @@ package me.simplex.pluginkickstarter.storage;
 
 import java.util.ArrayList;
 
+import org.bukkit.event.entity.EndermanPickupEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.server.MapInitializeEvent;
+
 import me.simplex.pluginkickstarter.util.ListenerType;
 
 public class ListenerData {
@@ -60,6 +64,8 @@ public class ListenerData {
 		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_BED_LEAVE", "onPlayerBedLeave", "PlayerBedLeaveEvent", "Called when a player leaves a bed"));
 		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_PORTAL", "onPlayerPortal", "PlayerPortalEvent", "Called when a player is teleporting in a portal (after the animation)"));
 		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_FISH", "onPlayerFish", "PlayerFishEvent", "Called when a player is fishing"));
+		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_VELOCITY", "onPlayerVelocity", "PlayerVelocityEvent", "Called before a player gets a velocity vector sent, which will \"push\" the player in a certain direction"));
+		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_GAME_MODE_CHANGE", "onPlayerGameModeChange", "PlayerGameModeChangeEvent", "Called when a player's game mode is changed"));
 	}
 	
 	private void fillListener_Block(){
@@ -74,7 +80,6 @@ public class ListenerData {
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.SIGN_CHANGE", "onSignChange", "SignChangeEvent", "Called when a sign is changed by a player"));
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_BURN", "onBlockBurn", "BlockBurnEvent", "Called when a block is destroyed as a result of being burnt by fire"));
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_BREAK", "onBlockBreak", "BlockBreakEvent", "Called when a block is broken by a player"));
-		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.SNOW_FORM", "onSnowForm", "SnowFormEvent", "Called when a world is attempting to place a block during a snowfall DEPRECATED! use onBlockForm()"));
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_FORM", "onBlockForm", "BlockFormEvent", "Called when a block is formed or spreads based on world conditions"));
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_SPREAD", "onBlockSpread", "BlockSpreadEvent", "Called when a block spreads based on world conditions"));
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_FADE", "onBlockFade", "BlockFadeEvent", "Called when a block fades, melts or disappears based on world conditions"));
@@ -101,6 +106,9 @@ public class ListenerData {
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_TAME", "onEntityTame", "EntityTameEvent", "Called when an entity is tamed (currently only applies to Wolves)"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_REGAIN_HEALTH", "onEntityRegainHealth", "EntityRegainHealthEvent", "Called when an entity regains health (currently only applies to Players)"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.PROJECTILE_HIT", "onProjectileHit", "ProjectileHitEvent", "Called when a project hits an object"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.FOOD_LEVEL_CHANGE", "onFoodLevelChange", "FoodLevelChangeEvent", "Called when a human entity's food level changes"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENDERMAN_PICKUP", "onEndermanPickup", "EndermanPickupEvent", "Called when an Enderman picks a block up"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENDERMAN_PLACE", "onEndermanPlace", "EndermanPlaceEvent", "Called when an Enderman places a block"));
 	}
 	
 	private void fillListener_World(){
@@ -142,6 +150,7 @@ public class ListenerData {
 		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.PLUGIN_ENABLE", "onPluginEnable", "PluginEnableEvent", "Called when a plugin is enabled"));
 		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.PLUGIN_DISABLE", "onPluginDisable", "PluginDisableEvent", "Called when a plugin is disabled"));
 		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.SERVER_COMMAND", "onServerCommand", "ServerCommandEvent", "Called when a server command is used"));
+		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.MAP_INITIALIZE", "onMapInitialize", "MapInitializeEvent", "Called when a map item is initialized (created or loaded into memory)"));
 	}
 	
 	public ArrayList<ListenerContainer> getDataByType(ListenerType type){
