@@ -36,7 +36,7 @@ public class GenMainClass extends Generator {
 		ret=ret+"\n";
 		ret=ret+"	private String prefix;\n";
 		// Config
-		if (main.getData().isGen_configuration()) {
+		if (main.getData().isGen_configuration() && main.getData().getConfigNodes().size() > 0) {
 			ret += "	private Config config;\n";
 		}
 		
@@ -120,7 +120,7 @@ public class GenMainClass extends Generator {
 		ret=ret+"import org.bukkit.plugin.PluginDescriptionFile;\n";
 		
 		//Config Imports
-		if (main.getData().isGen_configuration()) {
+		if (main.getData().isGen_configuration() && main.getData().getConfigNodes().size() > 0) {
 			ret += "import " + main.getData().getPackage() + ".configuration.Config;\n";
 		}
 		//Command Imports

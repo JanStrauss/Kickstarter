@@ -31,16 +31,7 @@ public class GenListeners extends Generator {
 	public String buildImports() {
 		String ret = "";
 			for (ListenerContainer c : listeners) {
-				if (c.getName().startsWith("onPaintingBreak")) {
-					ret=ret+"import org.bukkit.event.painting.PaintingBreakEvent;\n";
-
-				}
-				else if (c.getName().startsWith("onPaintingPlace")) {
-					ret=ret+"import org.bukkit.event.painting.PaintingPlaceEvent;\n";
-				}
-				else {
-					ret=ret+"import org.bukkit.event."+c.getFile().toString().toLowerCase()+"."+c.getEvent()+";\n";
-				}
+				ret=ret+"import org.bukkit.event."+c.getFile().toString().toLowerCase()+"."+c.getEvent()+";\n";
 			}
 		return ret;
 	}

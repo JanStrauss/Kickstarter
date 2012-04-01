@@ -44,7 +44,7 @@ public class GenConfiguration extends Generator{
 	
 	public String buildDefaults(){
 		String ret = "		FileConfiguration config = plugin.getConfig();\n";
-		ret += "		config.options().header(" + main.getData().getCfgfileheader() + ");\n\n";
+		ret += "		config.options().header(\"" + main.getData().getCfgfileheader() + "\");\n\n";
 		
 		for(ConfigurationNodeContainer node : configNode){
 			String stringAdding = getStringAddings(node);

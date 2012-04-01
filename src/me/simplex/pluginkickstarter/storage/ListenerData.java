@@ -13,16 +13,20 @@ public class ListenerData {
 	private ArrayList<ListenerContainer> listener_Vehicle;
 	private ArrayList<ListenerContainer> listener_Inventory;
 	private ArrayList<ListenerContainer> listener_Server;
+	private ArrayList<ListenerContainer> listener_Painting;
+	private ArrayList<ListenerContainer> listener_Enchantment;
 
 	public ListenerData() {
-		listener_Block 		= new ArrayList<ListenerContainer>();
-		listener_Player 	= new ArrayList<ListenerContainer>();
-		listener_Entity 	= new ArrayList<ListenerContainer>();
-		listener_World 		= new ArrayList<ListenerContainer>();
-		listener_Weather 	= new ArrayList<ListenerContainer>();
-		listener_Vehicle 	= new ArrayList<ListenerContainer>();
-		listener_Inventory 	= new ArrayList<ListenerContainer>();
-		listener_Server 	= new ArrayList<ListenerContainer>();
+		listener_Block 			= new ArrayList<ListenerContainer>();
+		listener_Player 		= new ArrayList<ListenerContainer>();
+		listener_Entity 		= new ArrayList<ListenerContainer>();
+		listener_World 			= new ArrayList<ListenerContainer>();
+		listener_Weather 		= new ArrayList<ListenerContainer>();
+		listener_Vehicle 		= new ArrayList<ListenerContainer>();
+		listener_Inventory 		= new ArrayList<ListenerContainer>();
+		listener_Server 		= new ArrayList<ListenerContainer>();
+		listener_Painting		= new ArrayList<ListenerContainer>();
+		listener_Enchantment	= new ArrayList<ListenerContainer>();
 		
 		fillListener_Player();
 		fillListener_Block();
@@ -32,6 +36,8 @@ public class ListenerData {
 		fillListener_Vehicle();
 		fillListener_Inventory();
 		fillListener_Server();
+		fillListener_Painting();
+		fillListener_Enchantment();
 	}
 	
 	private void fillListener_Player(){
@@ -62,7 +68,12 @@ public class ListenerData {
 		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_FISH", "onPlayerFish", "PlayerFishEvent", "Called when a player is fishing"));
 		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_VELOCITY", "onPlayerVelocity", "PlayerVelocityEvent", "Called before a player gets a velocity vector sent, which will \"push\" the player in a certain direction"));
 		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_GAME_MODE_CHANGE", "onPlayerGameModeChange", "PlayerGameModeChangeEvent", "Called when a player's game mode is changed"));
-	}
+		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_CHANGED_WORLD", "onPlayerChangedWorld", "PlayerChangedWorldEvent", "Called when a player changes the world"));
+		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_EXP_CHANGE", "onPlayerExpChange", "PlayerExpChangeEvent", "Called when a players experience changes naturally"));
+		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_LEVEL_CHANGE", "onPlayerLevelChange", "PlayerLevelChangeEvent", "Called when a players level changes"));
+		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_SHEAR_ENTITY", "onPlayerShearEntity", "PlayerShearEntityEvent", "Called when a player shears an entity"));
+		listener_Player.add(new ListenerContainer(ListenerType.Player, "Type.PLAYER_TOGGLE_SPRINT", "onPlayerToggleSprint", "PlayerToggleSprintEvent", "Called when a player toggles their sprinting state"));
+	} 
 	
 	private void fillListener_Block(){
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_DAMAGE", "onBlockDamage", "BlockDamageEvent", "Called when a block is damaged by a player"));
@@ -82,6 +93,13 @@ public class ListenerData {
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_DISPENSE", "onBlockDispense", "BlockDispenseEvent", "Called when an item is dispensed from a block"));
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_PISTON_RETRACT", "onBlockPistonRetract", "BlockPistonRetractEvent", "Called when a piston retracts"));
 		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_PISTON_EXTEND", "onBlockPistonExtend", "BlockPistonExtendEvent", "Called when a piston extends"));
+		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_GROW", "onBlockGrow", "BlockGrowEvent", "Called when a block grows naturally in the world"));
+		listener_Block.add(new ListenerContainer(ListenerType.Block, "Type.BLOCK_ENTITY_BLOCK_FORM", "onEntityBlockForm", "EntityBlockFormEvent", "Called when a block is formed by entities"));
+	}
+	
+	private void fillListener_Enchantment(){
+		listener_Enchantment.add(new ListenerContainer(ListenerType.Enchantment, "Type.ENCHANT_ITEM", "onEnchantItem", "EnchantItemEvent", "Called when an ItemStack is successfully enchanted (currently at enchantment table)"));
+		listener_Enchantment.add(new ListenerContainer(ListenerType.Enchantment, "Type.PREPARE_ITEM_ENCHANT", "onPrepareItemEnchant", "PrepareItemEnchantEvent", "Called when an ItemStack is inserted in an enchantment table - can be called multiple times"));
 	}
 	
 	private void fillListener_Entity(){
@@ -104,8 +122,29 @@ public class ListenerData {
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.PROJECTILE_HIT", "onProjectileHit", "ProjectileHitEvent", "Called when a project hits an object"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.FOOD_LEVEL_CHANGE", "onFoodLevelChange", "FoodLevelChangeEvent", "Called when a human entity's food level changes"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_CHANGE_BLOCK", "onEntityChangeBlock", "EntityChangeBlockEvent", "Called when an Enderman or Sheep changes a Block"));
-		//listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENDERMAN_PICKUP", "onEndermanPickup", "EndermanPickupEvent", "Called when an Enderman picks a block up"));
-		//listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENDERMAN_PLACE", "onEndermanPlace", "EndermanPlaceEvent", "Called when an Enderman places a block"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_BREAK_DOOR", "onEntityBreakDoor", "EntityBreakDoorEvent", "Called when an Entity breaks a door"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_COMBUST_BY_BLOCK", "onEntityCombustByBlock", "EntityCombustByBlockEvent", "Called when an Entity is set on fire by a block"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_COMBUST_BY_ENTITY", "onEntityCombustByEntity", "EntityCombustByEntityEvent", "Called when an Entity is set on fire by a Entity"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_CREATE_PORTAL", "onEntityCreatePortal", "EntityCreatePortalEvent", "Called when a Living Entity creates a portal in a world."));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_DAMAGE_BY_BLOCK", "onEntityDamageByBlock", "EntityDamageByBlockEvent", "Called when an entity is damaged by a block"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_DAMAGE_BY_ENTITY", "onEntityDamageByEntity", "EntityDamageByEntityEvent", "Called when an entity is damaged by an entity"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_SHOOT_BOW","onEntityShootBow","EntityShootBowEvent", "Called when a LivingEntity shoots a bow firing an arrow"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_TARGET_LIVING_ENTITY", "onEntityTargetLivingEntity", "EntityTargetLivingEntityEvent", "Called when an Entity targets a LivingEntity and can only target LivingEntity's."));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_TELEPORT", "onEntityTeleport", "EntityTeleportEvent", "Called when a non-player entity (such as an Enderman) tries to teleport from one location to another."));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.EXP_BOTTLE", "onExpBottle", "ExpBottleEvent", "Called when a ThrownExpBottle hits and releases experience."));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ITEN_DESPAWN","onItemDespawn", "ItemDespawnEvent", "Called when an Item despawns"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.PLAYER_DEATH", "onPlayerDeath", "PlayerDeathEvent", "Thrown whenever a Player dies"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.POTION_SPLASH", "onPotionSplash", "PotionSplashEvent", "Called when a splash potion hits an area"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.PROJECTILE_LAUNCH", "onProjectileLaunch", "ProjectileLaunchEvent", "Called when a projectile is launched"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.SHEEP_DYE_WOOL", "onSheepDyeWool", "SheepDyeWoolEvent", "Called when a sheep's wool is dyed"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.SHEEP_REGROW_WOOL", "onSheepRegrowWool", "SheepRegrowWoolEvent", "Called when a sheep regrows its wool"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.SLIME_SPLIT", "onSlimeSplit", "SlimeSplitEvent", "Called when a Slime splits into smaller Slimes upon death"));
+	}
+	
+	private void fillListener_Painting(){
+		listener_Painting.add(new ListenerContainer(ListenerType.Painting, "Type.PAINTING_BREAK", "onPaintingBreak", "PaintingBreakEvent", "Called when a painting breaks"));
+		listener_Painting.add(new ListenerContainer(ListenerType.Painting, "Type.PAINTING_BREAK_BY_ENTITY", "onPaintingBreakByEntity", "PaintingBreakByEntityEvent", "Called when a painting breaks"));
+		listener_Painting.add(new ListenerContainer(ListenerType.Painting, "Type.PAINTING_PLACE", "onPaintingPlace", "PaintingPlaceEvent", "Called when a painting is placed"));
 	}
 	
 	private void fillListener_World(){
@@ -118,6 +157,7 @@ public class ListenerData {
 		listener_World.add(new ListenerContainer(ListenerType.World, "Type.WORLD_INIT", "onWorldInit", "WorldInitEvent", "Called when a World is initializing"));
 		listener_World.add(new ListenerContainer(ListenerType.World, "Type.WORLD_LOAD", "onWorldLoad", "WorldLoadEvent", "Called when a World is loaded"));
 		listener_World.add(new ListenerContainer(ListenerType.World, "Type.WORLD_UNLOAD", "onWorldUnload", "WorldUnloadEvent", "Called when a World is unloaded"));
+		listener_World.add(new ListenerContainer(ListenerType.World, "Type.WORLD_GROW", "onStructureGrowEvent", "StructureGrowEvent", "Called when a structure grows"));
 	}
 	
 	private void fillListener_Weather(){
@@ -141,6 +181,11 @@ public class ListenerData {
 	private void fillListener_Inventory(){
 		listener_Inventory.add(new ListenerContainer(ListenerType.Inventory, "Type.FURNACE_SMELT", "onFurnaceSmelt", "FurnaceSmeltEvent", "Called when an ItemStack is successfully smelted in a furnace"));
 		listener_Inventory.add(new ListenerContainer(ListenerType.Inventory, "Type.FURNACE_BURN", "onFurnaceBurn", "FurnaceBurnEvent", "Called when an ItemStack is successfully burned as fuel in a furnace"));
+		listener_Inventory.add(new ListenerContainer(ListenerType.Inventory, "Type.BREW", "onBrew", "BrewEvent", "Called when an Item is brewes"));
+		listener_Inventory.add(new ListenerContainer(ListenerType.Inventory, "Type.CRAFT_ITEM", "onCraftItem", "CraftItemEvent", "Called when an Item is crafted"));
+		listener_Inventory.add(new ListenerContainer(ListenerType.Inventory, "Type.INVENTORY_CLICK", "onInventoryClick", "InventoryClickEvent", "Called when a Player clicks on the Inventory"));
+		listener_Inventory.add(new ListenerContainer(ListenerType.Inventory, "Type.INVENTORY_CLOSE", "onInventoryClose", "InventoryCloseEvent", "Called when a Player closes his Inventory"));
+		listener_Inventory.add(new ListenerContainer(ListenerType.Inventory, "Type.INVENTORY_OPEN", "onInventoryOpenEvent", "InventoryOpenEvent", "Called when a Player opens his Inventory"));
 	}
 	
 	private void fillListener_Server(){
@@ -148,18 +193,23 @@ public class ListenerData {
 		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.PLUGIN_DISABLE", "onPluginDisable", "PluginDisableEvent", "Called when a plugin is disabled"));
 		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.SERVER_COMMAND", "onServerCommand", "ServerCommandEvent", "Called when a server command is used"));
 		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.MAP_INITIALIZE", "onMapInitialize", "MapInitializeEvent", "Called when a map item is initialized (created or loaded into memory)"));
+		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.REMOTE_SERVER_COMMAND", "onRemoveServerCommand", "RemoteServerCommandEvent", "Called when a remote server alls a command"));
+		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.SERVICE_REGISTER", "onServiceRegister", "ServiceRegisterEvent", "Called when a service is registered"));
+		listener_Server.add(new ListenerContainer(ListenerType.Server, "Type.SERVICE_UNREGISTER", "onServiceUnregister", "ServiceUnregisterEvent", "Called when a service is unregistered"));
 	}
 	
 	public ArrayList<ListenerContainer> getDataByType(ListenerType type){
 		switch (type) {
-		case Block:		return listener_Block;
-		case Entity:	return listener_Entity;
-		case Inventory:	return listener_Inventory;
-		case Player:	return listener_Player;
-		case Server:	return listener_Server;
-		case Vehicle:	return listener_Vehicle;
-		case Weather:	return listener_Weather;
-		case World:		return listener_World;
+		case Block:			return listener_Block;
+		case Entity:		return listener_Entity;
+		case Inventory:		return listener_Inventory;
+		case Player:		return listener_Player;
+		case Server:		return listener_Server;
+		case Vehicle:		return listener_Vehicle;
+		case Weather:		return listener_Weather;
+		case World:			return listener_World;
+		case Painting:		return listener_Painting;
+		case Enchantment: 	return listener_Enchantment;
 		}
 		return null;
 	}
