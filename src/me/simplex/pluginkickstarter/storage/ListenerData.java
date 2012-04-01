@@ -103,8 +103,9 @@ public class ListenerData {
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_REGAIN_HEALTH", "onEntityRegainHealth", "EntityRegainHealthEvent", "Called when an entity regains health (currently only applies to Players)"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.PROJECTILE_HIT", "onProjectileHit", "ProjectileHitEvent", "Called when a project hits an object"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.FOOD_LEVEL_CHANGE", "onFoodLevelChange", "FoodLevelChangeEvent", "Called when a human entity's food level changes"));
-		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENDERMAN_PICKUP", "onEndermanPickup", "EndermanPickupEvent", "Called when an Enderman picks a block up"));
-		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENDERMAN_PLACE", "onEndermanPlace", "EndermanPlaceEvent", "Called when an Enderman places a block"));
+		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENTITY_CHANGE_BLOCK", "onEntityChangeBlock", "EntityChangeBlockEvent", "Called when an Enderman or Sheep changes a Block"));
+		//listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENDERMAN_PICKUP", "onEndermanPickup", "EndermanPickupEvent", "Called when an Enderman picks a block up"));
+		//listener_Entity.add(new ListenerContainer(ListenerType.Entity, "Type.ENDERMAN_PLACE", "onEndermanPlace", "EndermanPlaceEvent", "Called when an Enderman places a block"));
 	}
 	
 	private void fillListener_World(){

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import me.simplex.pluginkickstarter.generator.GenCommand;
+import me.simplex.pluginkickstarter.generator.GenConfiguration;
 import me.simplex.pluginkickstarter.generator.GenListeners;
 import me.simplex.pluginkickstarter.generator.GenPlugin;
 import me.simplex.pluginkickstarter.generator.GenMainClass;
@@ -154,5 +155,33 @@ public class FileBuilder {
 		content = content.replace("$package", 				gen.buildPackage(TemplateType.Listener,true));
 		
 		return new FileContainer(gen.buildFileName(), gen.buildFilepath(TemplateType.Listener), content);
+	}
+	
+	public FileContainer build_Config_File(){
+		if(main.getData().getConfigNodes().size() > 0)
+			return build_Config_File_rly();
+		else
+			return null;
+	}
+	
+	private FileContainer build_Config_File_rly(){
+		
+		GenConfiguration gen = new GenConfiguration(main);
+		String content = loadTemplateFile(TemplateType.Configuration);
+		
+		content = content.replace("$package", 				gen.buildPackage(TemplateType.Configuration,true));
+		content = content.replace("$author", 				gen.buildAuthor());
+		content = content.replace("$website", 				gen.buildWebsite());
+		content = content.replace("$pluginname", 			gen.buildPluginName());
+		content = content.replace("$classname", 			gen.buildClassname());
+		content = content.replace("$classname", 			gen.buildClassname());
+		content = content.replace("$mainclassimport", 		gen.buildMainClassImport());
+		content = content.replace("$mainclasstype", 		gen.buildMainClassType());
+		content = content.replace("$config_vars", 			gen.buildVars());
+		content = content.replace("$config_default", 		gen.buildDefaults());
+		content = content.replace("$config_reload", 		gen.buildReload());
+		content = content.replace("$config_getter", 		gen.buildGetter());
+		
+		return new FileContainer(gen.buildFileName(), gen.buildFilepath(TemplateType.Configuration), content);
 	}
 }
