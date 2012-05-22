@@ -113,8 +113,6 @@ public class ListenerData {
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "onEntityTarget", "EntityTargetEvent", "Called when a creature targets another entity"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "onEntityInteract", "EntityInteractEvent", "Called when an entity interacts with an object"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "onEntityPortalEnter", "EntityPortalEnterEvent", "Called when an entity enters a portal"));
-		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "onPaintingPlace", "PaintingPlaceEvent", "Called when a painting is placed"));
-		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "onPaintingBreak", "PaintingBreakEvent", "Called when a painting is broken"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "onPigZap", "PigZapEvent", "Called when a Pig is struck by lightning"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "onCreeperPower", "CreeperPowerEvent", "Called when a Creeper is struck by lightning"));
 		listener_Entity.add(new ListenerContainer(ListenerType.Entity, "onEntityTame", "EntityTameEvent", "Called when an entity is tamed (currently only applies to Wolves)"));

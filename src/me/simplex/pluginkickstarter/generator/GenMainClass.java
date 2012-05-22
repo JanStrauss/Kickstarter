@@ -164,8 +164,8 @@ public class GenMainClass extends Generator {
 		if(main.getData().getConfigNodes().size() == 0) return "";
 		
 		String ret ="	public Config interactConfig(){\n";
-		ret += "		return config;\n";
-		ret += "	}\n";
+		ret += 		"		return config;\n";
+		ret += 		"	}\n";
 		
 		/*if (main.getData().isGen_configuration()) {
 			for (ConfigurationNodeContainer c : main.getData().getConfigNodes()) {
